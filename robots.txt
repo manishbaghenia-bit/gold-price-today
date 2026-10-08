@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gold-price-today-eight.vercel.app/sitemap.xml
