@@ -1,60 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Mannu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Full WP - Mannu</title>
 <style>
-body{background:#f5f5f5;font-family:Arial;padding:15px;margin:0}
-.box{max-width:500px;background:#fff;margin:30px auto;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
-input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;font-size:15px}
-button{width:100%;padding:12px;background:#ff9800;color:#fff;border:0;border-radius:8px;font-weight:bold;font-size:16px}
+body{background:#f0f2f5;font-family:system-ui,Arial;margin:0;padding:10px}
+.box{max-width:700px;background:#fff;margin:20px auto;padding:20px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-size:15px}
+label{font-weight:600;margin-top:12px;display:block;font-size:14px;color:#333}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.toolbar button{width:auto;padding:6px 12px;background:#eee;color:#000;border:1px solid #ccc;border-radius:6px;font-size:13px;cursor:pointer}
+.btn-main{width:100%;padding:13px;background:#ff9800;color:#fff;border:0;border-radius:8px;font-weight:bold;font-size:16px;margin-top:10px;cursor:pointer}
+.btn-green{background:#25D366}
 .hide{display:none}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
 </style>
 </head>
 <body>
+
 <div class="box" id="loginBox">
 <h2 style="text-align:center">🔐 Admin Login</h2>
-<input id="uid" placeholder="ID likho">
+<input id="uid" placeholder="ID">
 <input id="upass" type="password" placeholder="Password">
-<button onclick="doLogin()">Login</button>
+<button class="btn-main" onclick="doLogin()">Login</button>
 </div>
 
 <div class="box hide" id="panelBox">
-<h2 style="text-align:center">📝 New Article</h2>
+<h2 style="text-align:center">📝 WordPress Style Editor</h2>
+
+<label>GitHub Token (Direct Publish ke liye)</label>
+<input id="gtoken" placeholder="ghp_xxxx wala token yahan paste karo">
+
+<label>Featured Image URL</label>
+<input id="fimg" placeholder="https://... image ka link yahan daalo">
+
+<div class="row">
+<div>
+<label>Category</label>
+<select id="cat">
+<option>Sona-Chandi</option>
+<option>Gold Price</option>
+<option>Silver Price</option>
+<option>News</option>
+<option>Market</option>
+</select>
+</div>
+<div>
+<label>Author</label>
 <input id="author" value="Manish Kumar">
-<input id="title" placeholder="Title - jaise Aaj Sone Ka Bhav">
-<textarea id="content" rows="8" placeholder="Article yahan likho..."></textarea>
-<input id="slug" placeholder="File naam - jaise sone-ka-bhav.html">
-<button onclick="makeCode()">Code Banao & Copy Karo</button>
-<textarea id="output" rows="10" class="hide" style="margin-top:15px"></textarea>
-<p id="msg" style="text-align:center;color:green"></p>
+</div>
+</div>
+
+<label>Post Title</label>
+<input id="title" placeholder="Aaj Sone Ka Bhav" oninput="makeSlug()">
+
+<label>SEO Description (Google me dikhega)</label>
+<input id="seo" placeholder="Aaj ka sone ka bhav kya hai... 150 char">
+
+<label>Tags (comma se alag)</label>
+<input id="tags" placeholder="gold price, aaj ka bhav, delhi">
+
+<label>File Name (auto banega)</label>
+<input id="slug" placeholder="aaj-sone-ka-bhav.html">
+
+<label>Article Content</label>
+<div class="toolbar">
+<button onclick="wrap('<h2>','</h2>')">H2</button>
+<button onclick="wrap('<b>','</b>')"><b>B</b></button>
+<button onclick="wrap('<i>','</i>')"><i>I</i></button>
+<button onclick="wrap('<ul><li>','</li></ul>')">List</button>
+<button onclick="addImg()">🖼️ Image</button>
+<button onclick="wrap('<a href=\'#\'>','</a>')">Link</button>
+</div>
+<textarea id="content" rows="14" placeholder="Yahan pura article likho..."></textarea>
+
+<button class="btn-main btn-green" onclick="publish()">🚀 Direct Publish Karo (WordPress jaisa)</button>
+<button class="btn-main" onclick="makeCode()">📋 Code Copy Karo (Manual wala)</button>
+
+<textarea id="output" rows="8" class="hide" style="margin-top:15px"></textarea>
+<p id="msg" style="text-align:center;font-weight:bold;margin-top:12px"></p>
 </div>
 
 <script>
+let tokenStore = localStorage.getItem('gh_token') || '';
+if(tokenStore) document.getElementById('gtoken').value = tokenStore;
+
 function doLogin(){
-  let id=document.getElementById("uid").value.trim();
-  let pass=document.getElementById("upass").value.trim();
-  if(id==="mannu gola" && pass==="baghenia@7409"){
-    document.getElementById("loginBox").classList.add("hide");
-    document.getElementById("panelBox").classList.remove("hide");
-  }else{
-    alert("Galat ID Password!");
-  }
+ let id=document.getElementById("uid").value.trim();
+ let pass=document.getElementById("upass").value.trim();
+ if(id==="mannu gola" && pass==="baghenia@7409"){
+  document.getElementById("loginBox").classList.add("hide");
+  document.getElementById("panelBox").classList.remove("hide");
+ }else alert("Galat ID/Pass");
 }
-function makeCode(){
-  let t=document.getElementById("title").value;
-  let c=document.getElementById("content").value.replace(/\n/g,"<br>");
-  let a=document.getElementById("author").value;
-  let s=document.getElementById("slug").value;
-  if(!t||!c||!s){alert("Title, Content, File naam sab bharo");return;}
-  let html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${t}</title></head><body style="font-family:Arial;max-width:800px;margin:auto;padding:20px"><h1>${t}</h1><p><small>By ${a} | ${new Date().toLocaleDateString()}</small></p><div style="line-height:1.7">${c}</div><br><a href="/">← Home</a></body></html>`;
-  let out=document.getElementById("output");
-  out.classList.remove("hide");
-  out.value=html;
-  navigator.clipboard.writeText(html);
-  document.getElementById("msg").innerText="✅ Copy ho gaya! Ab blog folder me paste kar do";
-}
-</script>
-</body>
-</html>
+function makeSlug(){
+ let t=document.getElementById("title").value;
+ let s=t.toLowerCase().replace(/
