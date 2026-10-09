@@ -3,63 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Login</title>
+<title>Admin - Mannu</title>
 <style>
-body{background:#f2f2f2;font-family:Arial;margin:0;padding:20px}
-.box{max-width:500px;background:white;margin:40px auto;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
-input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
-button{width:100%;padding:12px;background:#ff9800;color:white;border:none;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer}
-button:hover{background:#e68900}
-.hidden{display:none}
-h2{text-align:center}
+body{background:#f5f5f5;font-family:Arial;padding:15px;margin:0}
+.box{max-width:500px;background:#fff;margin:30px auto;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;font-size:15px}
+button{width:100%;padding:12px;background:#ff9800;color:#fff;border:0;border-radius:8px;font-weight:bold;font-size:16px}
+.hide{display:none}
 </style>
 </head>
 <body>
+<div class="box" id="loginBox">
+<h2 style="text-align:center">🔐 Admin Login</h2>
+<input id="uid" placeholder="ID likho">
+<input id="upass" type="password" placeholder="Password">
+<button onclick="doLogin()">Login</button>
+</div>
 
-<div class="box" id="a">
-<h2>🔐 Login Karo</h2>
-<input id="i" placeholder="ID likho">
-<input id="p" type="password" placeholder="Password likho">
-<button onclick="l()">Login</button>
-
-<div class="box hidden" id="b">
-<h2>📝 Article Likho - Welcome Mannu!</h2>
+<div class="box hide" id="panelBox">
+<h2 style="text-align:center">📝 New Article</h2>
 <input id="author" value="Manish Kumar">
-<input id="t" placeholder="Article ka Title likho">
-<textarea id="d" rows="7" placeholder="Yahan pura article likho..."></textarea>
-<input id="s" placeholder="File ka naam: jaise sone-ka-bhav.html">
-<button onclick="g()">Code Banao & Copy Karo</button>
-<textarea id="o" rows="12" class="hidden"></textarea>
-<p><small>Code banne ke baad GitHub me <b>blog/</b> folder me jaake nayi file banao aur paste kardo.</small></p>
+<input id="title" placeholder="Title - jaise Aaj Sone Ka Bhav">
+<textarea id="content" rows="8" placeholder="Article yahan likho..."></textarea>
+<input id="slug" placeholder="File naam - jaise sone-ka-bhav.html">
+<button onclick="makeCode()">Code Banao & Copy Karo</button>
+<textarea id="output" rows="10" class="hide" style="margin-top:15px"></textarea>
+<p id="msg" style="text-align:center;color:green"></p>
 </div>
 
 <script>
-let users=[
- {id:"mannu gola", pass:"baghenia@7409", role:"admin"},
- {id:"admin", pass:"admin123", role:"admin"},
- {id:"writer1", pass:"writer123", role:"writer"}
-];
-
-function l(){
-let id=document.getElementById("i").value;
-let ps=document.getElementById("p").value;
-let f=users.find(x=>x.id===id && x.pass===ps);
-if(!f){alert("❌ Galat ID ya Password!");return;}
-document.getElementById("a").classList.add("hidden");
-document.getElementById("b").classList.remove("hidden");
+function doLogin(){
+  let id=document.getElementById("uid").value.trim();
+  let pass=document.getElementById("upass").value.trim();
+  if(id==="mannu gola" && pass==="baghenia@7409"){
+    document.getElementById("loginBox").classList.add("hide");
+    document.getElementById("panelBox").classList.remove("hide");
+  }else{
+    alert("Galat ID Password!");
+  }
 }
-
-function g(){
-let title=document.getElementById("t").value;
-let desc=document.getElementById("d").value.replace(/\n/g,"<br>");
-let author=document.getElementById("author").value;
-let slug=document.getElementById("s").value;
-if(!title){alert("Title likho");return;}
-let html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title><meta name="viewport" content="width=device-width,initial-scale=1.0"></head><body style="font-family:Arial;max-width:800px;margin:auto;padding:20px"><h1>${title}</h1><p><small>By ${author} | ${new Date().toLocaleDateString()}</small></p><div>${desc}</div><br><a href="/">← Home Pe Jao</a></body></html>`;
-document.getElementById("o").classList.remove("hidden");
-document.getElementById("o").value=html;
-navigator.clipboard.writeText(html);
-alert("✅ Code Copy ho gaya! Ab GitHub me blog/"+slug+" naam se file bana ke paste kardo");
+function makeCode(){
+  let t=document.getElementById("title").value;
+  let c=document.getElementById("content").value.replace(/\n/g,"<br>");
+  let a=document.getElementById("author").value;
+  let s=document.getElementById("slug").value;
+  if(!t||!c||!s){alert("Title, Content, File naam sab bharo");return;}
+  let html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${t}</title></head><body style="font-family:Arial;max-width:800px;margin:auto;padding:20px"><h1>${t}</h1><p><small>By ${a} | ${new Date().toLocaleDateString()}</small></p><div style="line-height:1.7">${c}</div><br><a href="/">← Home</a></body></html>`;
+  let out=document.getElementById("output");
+  out.classList.remove("hide");
+  out.value=html;
+  navigator.clipboard.writeText(html);
+  document.getElementById("msg").innerText="✅ Copy ho gaya! Ab blog folder me paste kar do";
 }
 </script>
 </body>
