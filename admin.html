@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+<style>
+body{background:#f2f2f2;font-family:Arial;margin:0;padding:20px}
+.box{max-width:500px;background:white;margin:40px auto;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
+button{width:100%;padding:12px;background:#ff9800;color:white;border:none;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer}
+button:hover{background:#e68900}
+.hidden{display:none}
+h2{text-align:center}
+</style>
+</head>
+<body>
+
+<div class="box" id="a">
+<h2>🔐 Login Karo</h2>
+<input id="i" placeholder="ID likho">
+<input id="p" type="password" placeholder="Password likho">
+<button onclick="l()">Login</button>
+<p style="text-align:center;color:gray"><small>Tumhari ID: <b>mannu gola</b><br>Pass: <b>baghenia@7409</b></small></p>
+</div>
+
+<div class="box hidden" id="b">
+<h2>📝 Article Likho - Welcome Mannu!</h2>
+<input id="author" value="Manish Kumar">
+<input id="t" placeholder="Article ka Title likho">
+<textarea id="d" rows="7" placeholder="Yahan pura article likho..."></textarea>
+<input id="s" placeholder="File ka naam: jaise sone-ka-bhav.html">
+<button onclick="g()">Code Banao & Copy Karo</button>
+<textarea id="o" rows="12" class="hidden"></textarea>
+<p><small>Code banne ke baad GitHub me <b>blog/</b> folder me jaake nayi file banao aur paste kardo.</small></p>
+</div>
+
+<script>
+let users=[
+ {id:"mannu gola", pass:"baghenia@7409", role:"admin"},
+ {id:"admin", pass:"admin123", role:"admin"},
+ {id:"writer1", pass:"writer123", role:"writer"}
+];
+
+function l(){
+let id=document.getElementById("i").value;
+let ps=document.getElementById("p").value;
+let f=users.find(x=>x.id===id && x.pass===ps);
+if(!f){alert("❌ Galat ID ya Password!");return;}
+document.getElementById("a").classList.add("hidden");
+document.getElementById("b").classList.remove("hidden");
+}
+
+function g(){
+let title=document.getElementById("t").value;
+let desc=document.getElementById("d").value.replace(/\n/g,"<br>");
+let author=document.getElementById("author").value;
+let slug=document.getElementById("s").value;
+if(!title){alert("Title likho");return;}
+let html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title><meta name="viewport" content="width=device-width,initial-scale=1.0"></head><body style="font-family:Arial;max-width:800px;margin:auto;padding:20px"><h1>${title}</h1><p><small>By ${author} | ${new Date().toLocaleDateString()}</small></p><div>${desc}</div><br><a href="/">← Home Pe Jao</a></body></html>`;
+document.getElementById("o").classList.remove("hidden");
+document.getElementById("o").value=html;
+navigator.clipboard.writeText(html);
+alert("✅ Code Copy ho gaya! Ab GitHub me blog/"+slug+" naam se file bana ke paste kardo");
+}
+</script>
+</body>
+</html>
