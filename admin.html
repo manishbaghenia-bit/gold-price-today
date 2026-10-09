@@ -1,100 +1,12 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin - Full WP - Mannu</title>
-<style>
-body{background:#f0f2f5;font-family:system-ui,Arial;margin:0;padding:10px}
-.box{max-width:700px;background:#fff;margin:20px auto;padding:20px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-size:15px}
-label{font-weight:600;margin-top:12px;display:block;font-size:14px;color:#333}
-.toolbar{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.toolbar button{width:auto;padding:6px 12px;background:#eee;color:#000;border:1px solid #ccc;border-radius:6px;font-size:13px;cursor:pointer}
-.btn-main{width:100%;padding:13px;background:#ff9800;color:#fff;border:0;border-radius:8px;font-weight:bold;font-size:16px;margin-top:10px;cursor:pointer}
-.btn-green{background:#25D366}
-.hide{display:none}
-.row{display:flex;gap:10px}
-.row>div{flex:1}
-</style>
-</head>
-<body>
-
-<div class="box" id="loginBox">
-<h2 style="text-align:center">🔐 Admin Login</h2>
-<input id="uid" placeholder="ID">
-<input id="upass" type="password" placeholder="Password">
-<button class="btn-main" onclick="doLogin()">Login</button>
-</div>
-
-<div class="box hide" id="panelBox">
-<h2 style="text-align:center">📝 WordPress Style Editor</h2>
-
-<label>GitHub Token (Direct Publish ke liye)</label>
-<input id="gtoken" placeholder="ghp_xxxx wala token yahan paste karo">
-
-<label>Featured Image URL</label>
-<input id="fimg" placeholder="https://... image ka link yahan daalo">
-
-<div class="row">
-<div>
-<label>Category</label>
-<select id="cat">
-<option>Sona-Chandi</option>
-<option>Gold Price</option>
-<option>Silver Price</option>
-<option>News</option>
-<option>Market</option>
-</select>
-</div>
-<div>
-<label>Author</label>
-<input id="author" value="Manish Kumar">
-</div>
-</div>
-
-<label>Post Title</label>
-<input id="title" placeholder="Aaj Sone Ka Bhav" oninput="makeSlug()">
-
-<label>SEO Description (Google me dikhega)</label>
-<input id="seo" placeholder="Aaj ka sone ka bhav kya hai... 150 char">
-
-<label>Tags (comma se alag)</label>
-<input id="tags" placeholder="gold price, aaj ka bhav, delhi">
-
-<label>File Name (auto banega)</label>
-<input id="slug" placeholder="aaj-sone-ka-bhav.html">
-
-<label>Article Content</label>
-<div class="toolbar">
-<button onclick="wrap('<h2>','</h2>')">H2</button>
-<button onclick="wrap('<b>','</b>')"><b>B</b></button>
-<button onclick="wrap('<i>','</i>')"><i>I</i></button>
-<button onclick="wrap('<ul><li>','</li></ul>')">List</button>
-<button onclick="addImg()">🖼️ Image</button>
-<button onclick="wrap('<a href=\'#\'>','</a>')">Link</button>
-</div>
-<textarea id="content" rows="14" placeholder="Yahan pura article likho..."></textarea>
-
-<button class="btn-main btn-green" onclick="publish()">🚀 Direct Publish Karo (WordPress jaisa)</button>
-<button class="btn-main" onclick="makeCode()">📋 Code Copy Karo (Manual wala)</button>
-
-<textarea id="output" rows="8" class="hide" style="margin-top:15px"></textarea>
-<p id="msg" style="text-align:center;font-weight:bold;margin-top:12px"></p>
-</div>
-
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin</title><style>body{background:#f0f2f5;font-family:Arial;margin:0;padding:15px}.box{max-width:700px;background:#fff;margin:20px auto;padding:20px;border-radius:12px}input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}label{font-weight:bold;font-size:14px;margin-top:10px;display:block}button{padding:10px 14px;border:0;border-radius:8px;cursor:pointer}.btn{width:100%;padding:13px;background:#ff9800;color:#fff;font-weight:bold;margin-top:10px}.green{background:#25D366}.hide{display:none}.tool button{width:auto;background:#eee;color:#000;border:1px solid #ccc;margin:3px}</style></head><body>
+<div class="box" id="L"><h2 style="text-align:center">🔐 Admin Login</h2><input id="uid" placeholder="ID = mannu gola"><input id="upass" type="password" placeholder="Pass = baghenia@7409"><button class="btn" onclick="login()">Login</button><p id="err" style="color:red;text-align:center"></p></div>
+<div class="box hide" id="P"><h2 style="text-align:center">📝 WordPress Editor</h2><label>GitHub Token (ghp_ wala)</label><input id="gtoken" placeholder="Token yahan paste karo"><label>Image URL</label><input id="fimg" placeholder="https://..."><label>Category</label><select id="cat"><option>Sona-Chandi</option><option>Gold Price</option><option>Silver</option><option>News</option></select><label>Author</label><input id="author" value="Manish Kumar"><label>Title</label><input id="title" oninput="slugMake()" placeholder="Title likho"><label>SEO Description</label><input id="seo" placeholder="SEO desc"><label>Tags</label><input id="tags" placeholder="gold price, delhi"><label>File Name</label><input id="slug" placeholder="file-name.html"><label>Content</label><div class="tool"><button onclick="ins('<h2>','</h2>')">H2</button><button onclick="ins('<b>','</b>')">B</button><button onclick="ins('<br><img src=&quot;'+prompt('Img URL')+'&quot; style=&quot;width:100%&quot;><br>','')">IMG</button></div><textarea id="content" rows="10"></textarea><button class="btn green" onclick="publish()">🚀 DIRECT PUBLISH</button><button class="btn" onclick="copyCode()">📋 Copy Code</button><textarea id="out" rows="6" class="hide"></textarea><p id="msg" style="text-align:center;font-weight:bold"></p></div>
 <script>
-let tokenStore = localStorage.getItem('gh_token') || '';
-if(tokenStore) document.getElementById('gtoken').value = tokenStore;
-
-function doLogin(){
- let id=document.getElementById("uid").value.trim();
- let pass=document.getElementById("upass").value.trim();
- if(id==="mannu gola" && pass==="baghenia@7409"){
-  document.getElementById("loginBox").classList.add("hide");
-  document.getElementById("panelBox").classList.remove("hide");
- }else alert("Galat ID/Pass");
-}
-function makeSlug(){
- let t=document.getElementById("title").value;
- let s=t.toLowerCase().replace(/
+var t=localStorage.getItem('gh_token'); if(t) document.getElementById('gtoken').value=t;
+function login(){var a=document.getElementById('uid').value.trim();var b=document.getElementById('upass').value.trim();if(a=='mannu gola'&&b=='baghenia@7409'){document.getElementById('L').classList.add('hide');document.getElementById('P').classList.remove('hide');}else{document.getElementById('err').innerText='Galat ID/Pass! ID: mannu gola | Pass: baghenia@7409';}}
+function slugMake(){var s=document.getElementById('title').value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');document.getElementById('slug').value=s+'.html';}
+function ins(a,b){var x=document.getElementById('content');var s=x.selectionStart;var e=x.selectionEnd;var v=x.value;x.value=v.substring(0,s)+a+v.substring(s,e)+b+v.substring(e);}
+function getHtml(){var t=document.getElementById('title').value;var c=document.getElementById('content').value.replace(/\n/g,'<br>');var au=document.getElementById('author').value;var ca=document.getElementById('cat').value;var se=document.getElementById('seo').value;var ta=document.getElementById('tags').value;var fi=document.getElementById('fimg').value;var im=fi?'<img src="'+fi+'" style="width:100%;border-radius:10px;margin:10px 0">':'';return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+t+'</title><meta name="description" content="'+se+'"><meta name="keywords" content="'+ta+'"><style>body{max-width:800px;margin:auto;padding:20px;font-family:Arial;line-height:1.7}</style></head><body><a href="/">Home</a><h1>'+t+'</h1><p style="color:gray">'+ca+' | By '+au+' | '+new Date().toLocaleDateString()+'</p>'+im+'<div>'+c+'</div><hr><p>By '+au+'</p></body></html>';}
+function copyCode(){var h=getHtml();var o=document.getElementById('out');o.classList.remove('hide');o.value=h;navigator.clipboard.writeText(h);document.getElementById('msg').innerText='Code Copy Ho Gaya!';}
+async function publish(){var token=document.getElementById('gtoken').value.trim();if(!token){alert('Token dalo');return;}localStorage.setItem('gh_token',token);var slug=document.getElementById('slug').value.trim();if(!slug.endsWith('.html'))slug+='.html';var html=getHtml();document.getElementById('msg').innerText='Publishing...';var path='blog/'+slug;var url='https://api.github.com/repos/mannu-gola/gold-price-today/contents/'+path;var res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'post '+slug,content:btoa(unescape(encodeURIComponent(html)))})});if(res.ok){document.getElementById('msg').innerText='🎉 LIVE! 2 min me dikhega';alert('Ho Gaya Publish!');}else{var txt=await res.text();document.getElementById('msg').innerText='Error: File pehle se hai? Naam badlo';alert(txt);}}
+</script></body></html>
