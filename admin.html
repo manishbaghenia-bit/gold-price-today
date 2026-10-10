@@ -1,54 +1,46 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Final - WP + Writer + Pass</title><style>body{background:#f0f2f5;font-family:Arial;margin:0;padding:15px}.box{max-width:750px;background:#fff;margin:20px auto;padding:20px;border-radius:12px}input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}label{font-weight:bold;font-size:14px;margin-top:10px;display:block}.btn{width:100%;padding:14px;color:#fff;font-weight:bold;margin-top:10px;border:0;border-radius:8px;cursor:pointer}.green{background:#25D366}.blue{background:#2196F3}.black{background:#000}.orange{background:#ff9800}.hide{display:none}.dash{border:2px dashed #ff9800;padding:15px;border-radius:12px;margin:15px 0;background:#fff8ed}</style></head><body>
-<div class="box" id="L"><h2 style="text-align:center">🔐 Login</h2><input id="uid" placeholder="ID - mannu gola"><input id="upass" type="password" placeholder="Password"><button class="btn orange" onclick="login()">Login</button><p id="err" style="color:red;text-align:center"></p></div>
-
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Login Fix</title><style>body{background:#f0f2f5;font-family:Arial;margin:0;padding:15px}.box{max-width:750px;background:#fff;margin:20px auto;padding:20px;border-radius:12px}input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}label{font-weight:bold;font-size:14px;margin-top:10px;display:block}.btn{width:100%;padding:14px;color:#fff;font-weight:bold;margin-top:10px;border:0;border-radius:8px;cursor:pointer}.green{background:#25D366}.blue{background:#2196F3}.black{background:#000}.orange{background:#ff9800}.hide{display:none}.dash{border:2px dashed #ff9800;padding:15px;border-radius:12px;margin:15px 0;background:#fff8ed}</style></head><body>
+<div class="box" id="L"><h2 style="text-align:center">🔐 Login</h2><input id="uid" placeholder="ID"><input id="upass" type="password" placeholder="Password"><button class="btn orange" onclick="login()">Login</button><p id="err" style="color:red;text-align:center"></p></div>
 <div class="box hide" id="P">
 <h2 id="welcome" style="text-align:center"></h2><center><a href="#" onclick="location.reload()">Logout</a></center>
-
 <div id="adminBox" class="hide dash">
-<h3>👑 Writer Banao (Bina Code Ke)</h3>
-<label>GitHub Token (ghp_...)</label><input id="gtoken" type="password" placeholder="Token yahan dalo">
-<label>Writer Ka Naam / ID</label><input id="wname" placeholder="Jaise Raju, Amit">
-<label>Writer Ka Password (Khud set karo)</label><input id="wpass" type="text" placeholder="Jaise Raju@123 - jo dena hai">
-<button class="btn black" onclick="createWriter()">✨ Writer ID Banao & Auto Save</button>
-<p id="wout" style="background:#e8f5e9;padding:10px;border-radius:8px;word-break:break-all"></p><div id="writerList"></div>
-<hr><button class="btn orange" onclick="loadPending()">📥 Pending Posts Dekho (Writer ne bheje)</button><div id="pendingList"></div>
+<h3>👑 Writer Banao</h3><label>GitHub Token</label><input id="gtoken" type="password" placeholder="ghp_..."><label>Writer ID</label><input id="wname" placeholder="raju_writer"><label>Password</label><input id="wpass" type="text" placeholder="Raju@123"><button class="btn black" onclick="createWriter()">✨ Writer Banao</button><p id="wout" style="background:#e8f5e9;padding:10px;border-radius:8px;word-break:break-all"></p><div id="writerList"></div><hr><button class="btn orange" onclick="loadPending()">📥 Pending Dekho</button><div id="pendingList"></div>
 </div>
-
 <h3 style="text-align:center">📝 WordPress Editor</h3>
-<label>Image URL</label><input id="fimg" placeholder="https://...">
-<label>Category</label><select id="cat"><option>Sona-Chandi</option><option>Gold Price</option><option>Silver Price</option><option>News</option><option>Tips</option></select>
-<label>Author</label><input id="author" value="Manish Kumar">
-<label>Title</label><input id="title" oninput="slugMake()" placeholder="Title likho">
-<label>SEO Description</label><input id="seo" placeholder="SEO desc">
-<label>Tags</label><input id="tags" placeholder="gold price, delhi" value="gold price, delhi">
-<label>File Name</label><input id="slug" placeholder="file-name.html">
-<label>Content</label><textarea id="content" rows="12" placeholder="Post ka content yahan likho..."></textarea>
-
-<button id="pubBtn" class="btn green hide" onclick="publishDirect()">🚀 DIRECT PUBLISH - Admin Only</button>
-<button id="writerBtn" class="btn blue hide" onclick="sendPending()">📩 Approval Ke Liye Bhejo - Writer</button>
-<p id="msg" style="text-align:center;font-weight:bold"></p>
-</div>
-
+<label>Image URL</label><input id="fimg"><label>Category</label><select id="cat"><option>Sona-Chandi</option><option>Gold Price</option><option>Silver Price</option><option>News</option></select><label>Author</label><input id="author" value="Manish Kumar"><label>Title</label><input id="title" oninput="slugMake()"><label>SEO Description</label><input id="seo"><label>Tags</label><input id="tags"><label>File Name</label><input id="slug"><label>Content</label><textarea id="content" rows="10"></textarea>
+<button id="pubBtn" class="btn green hide" onclick="publishDirect()">🚀 DIRECT PUBLISH</button>
+<button id="writerBtn" class="btn blue hide" onclick="sendPending()">📩 Approval Bhejo</button><p id="msg" style="text-align:center;font-weight:bold"></p></div>
 <script>
-let writersCache={}, writersSha=null, currentUser=null, currentRole=null;
-const ADMIN={id:"mannu gola", pass:"baghenia@7409"};
-async function loadWriters(){try{let r=await fetch(`https://api.github.com/repos/mannu-gola/gold-price-today/contents/writers.json?ts=${Date.now()}`); if(r.ok){let j=await r.json(); writersSha=j.sha; writersCache=JSON.parse(atob(j.content)||'{}');}}catch(e){writersCache={};}}
+let writersCache={},writersSha=null,currentUser=null,currentRole=null;
+const ADMIN_ID="mannu gola", ADMIN_PASS="baghenia@7409";
+async function loadWriters(){try{let r=await fetch(`https://raw.githubusercontent.com/mannu-gola/gold-price-today/main/writers.json?ts=${Date.now()}`); if(r.ok){let txt=await r.text(); try{writersCache=JSON.parse(txt);}catch(e){writersCache={}} }}catch(e){} try{let r2=await fetch(`https://api.github.com/repos/mannu-gola/gold-price-today/contents/writers.json?ts=${Date.now()}`); if(r2.ok){let j=await r2.json(); writersSha=j.sha;}}catch(e){}}
 async function login(){
+ let a=document.getElementById('uid').value.trim(), b=document.getElementById('upass').value.trim();
+ // ADMIN CHECK FIRST - Bina GitHub ke turant login
+ if(a.toLowerCase()===ADMIN_ID.toLowerCase() && b===ADMIN_PASS){
+   currentUser=ADMIN_ID; currentRole='admin';
+   document.getElementById('L').classList.add('hide'); document.getElementById('P').classList.remove('hide');
+   document.getElementById('welcome').innerText=`👑 Admin: ${currentUser}`;
+   document.getElementById('adminBox').classList.remove('hide'); document.getElementById('pubBtn').classList.remove('hide');
+   document.getElementById('err').innerText='';
+   let t=localStorage.getItem('gh_token'); if(t) document.getElementById('gtoken').value=t;
+   await loadWriters(); listWriters(); return;
+ }
+ // Writer check
  await loadWriters();
- let a=document.getElementById('uid').value.trim(); let b=document.getElementById('upass').value.trim();
- if(a===ADMIN.id && b===ADMIN.pass){currentUser=a; currentRole='admin';}
- else if(writersCache[a] && writersCache[a]===b){currentUser=a; currentRole='writer';}
- else{document.getElementById('err').innerText='Galat ID/Password'; return;}
- document.getElementById('L').classList.add('hide'); document.getElementById('P').classList.remove('hide');
- document.getElementById('welcome').innerText=currentRole=='admin'?`👑 Admin: ${a}`:`✍️ Writer: ${a}`;
- if(currentRole=='admin'){document.getElementById('adminBox').classList.remove('hide'); document.getElementById('pubBtn').classList.remove('hide'); listWriters();}
- else{document.getElementById('writerBtn').classList.remove('hide');}
- let t=localStorage.getItem('gh_token'); if(t) document.getElementById('gtoken').value=t;
+ if(writersCache[a] && writersCache[a]===b){
+   currentUser=a; currentRole='writer';
+   document.getElementById('L').classList.add('hide'); document.getElementById('P').classList.remove('hide');
+   document.getElementById('welcome').innerText=`✍️ Writer: ${a}`;
+   document.getElementById('writerBtn').classList.remove('hide');
+ }else{
+   document.getElementById('err').innerText='Galat ID/Password! ID me space ka dhyan do - mannu gola';
+ }
 }
 function slugMake(){let s=document.getElementById('title').value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); document.getElementById('slug').value=s+'.html';}
-function getHtml(){
- let t=document.getElementById('title').value, ca=document.getElementById('cat').value, au=document.getElementById('author').value||currentUser, se=document.getElementById('seo').value, ta=document.getElementById('tags').value, fi=document.getElementById('fimg').value, c=document.getElementById('content').value.replace(/\n/g,'<br>');
- let im=fi?`<img src="${fi}" style="width:100%;border-radius:10px;margin:10px 0">`:'';
- return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${t}</title><meta name="description" content="${se}"><meta name="keywords" content="${ta}"><style>body{max-width:800px;margin:auto;padding:20px;font-family:Arial;line-height:1.7}</style></head><body><a href="/">← Home</a><h1>${t}</h1><p style="color:gray">${ca} | By ${au} | ${new Date().toLocaleDateString()} | ${ta}</p>${im}<div>${c}</div><hr><p>${se}</p></body></html>`;
-}
-function listWriters(){let h='<b>Existing Writers:</b><br>'; for(let k in writersCache){h+=`👤 ${k} | Pass: ${writersCache[k]}<br>`;} document.getElementById('writerList').
+function getHtml(){let t=document.getElementById('title').value, ca=document.getElementById('cat').value, au=document.getElementById('author').value||currentUser, se=document.getElementById('seo').value, ta=document.getElementById('tags').value, fi=document.getElementById('fimg').value, c=document.getElementById('content').value.replace(/\n/g,'<br>'); let im=fi?`<img src="${fi}" style="width:100%;border-radius:10px">`:''; return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${t}</title></head><body><h1>${t}</h1><p>${ca} | By ${au}</p>${im}<div>${c}</div></body></html>`;}
+function listWriters(){let h='<b>Writers:</b><br>'; for(let k in writersCache){h+=`👤 ${k} | ${writersCache[k]}<br>`;} document.getElementById('writerList').innerHTML=h;}
+async function createWriter(){let token=document.getElementById('gtoken').value.trim(); if(!token){alert('Token dalo');return;} localStorage.setItem('gh_token',token); let id=document.getElementById('wname').value.trim(), pass=document.getElementById('wpass').value.trim(); if(!id||!pass){alert('ID + Pass likho');return;} await loadWriters(); writersCache[id]=pass; let content=btoa(unescape(encodeURIComponent(JSON.stringify(writersCache,null,2)))); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/writers.json`; let body={message:`Add ${id}`, content:content}; if(writersSha) body.sha=writersSha; document.getElementById('wout').innerText='Saving...'; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify(body)}); if(res.ok){document.getElementById('wout').innerHTML=`✅ Ban Gaya!<br>ID: <b>${id}</b><br>Pass: <b>${pass}</b>`; listWriters();}else{document.getElementById('wout').innerText='Token Error';}}
+async function publishDirect(){let token=document.getElementById('gtoken').value.trim(); let slug=document.getElementById('slug').value.trim(); if(!slug.endsWith('.html'))slug+='.html'; let html=getHtml(); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/blog/${slug}`; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'Admin publish '+slug, content:btoa(unescape(encodeURIComponent(html)))})}); document.getElementById('msg').innerText=res.ok?'🎉 LIVE!':'Error';}
+async function sendPending(){let token=document.getElementById('gtoken').value.trim(); let slug=document.getElementById('slug').value.trim(); if(!slug.endsWith('.html'))slug+='.html'; let html=getHtml(); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/pending/${slug}`; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:`Writer ${currentUser}`, content:btoa(unescape(encodeURIComponent(html)))})}); document.getElementById('msg').innerText=res.ok?'✅ Bhej diya!':'Error';}
+async function loadPending(){let token=document.getElementById('gtoken').value.trim(); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/pending`; let res=await fetch(url,{headers:{'Authorization':'token '+token}}); let data=await res.json(); let h=''; data.forEach(f=>{if(f.name!=='.gitkeep')h+=`<p>📄 ${f.name}</p>`}); document.getElementById('pendingList').innerHTML=h||'Koi pending nahi';}
+</script></body></html>
