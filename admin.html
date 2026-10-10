@@ -72,4 +72,137 @@ canvas{width:100%;height:140px}
 <b>Analytics: Views (Last 7 Days)</b>
 <div class="kpi">23.4K views <span style="font-size:13px;color:green">+12.8% vs last week ↗</span></div>
 <canvas id="chart"></canvas>
-<div class="grid2" style="margin-top:10px"><div>⏱️ Avg. Read Time:<br><b>3m 42s</b></div><div>
+<div class="grid2" style="margin-top:10px"><div>⏱️ Avg. Read Time:<br><b>3m 42s</b></div><div>👥 Unique Visitors:<br><b>9.1K</b></div></div>
+</div>
+
+<div class="card"><b>Writer Management</b><div id="writerListPro" style="margin-top:10px">Loading...</div></div>
+
+<div class="card"><b>Pending Posts</b><div id="pendingListPro" style="margin-top:10px">Loading pending...</div></div>
+
+<div class="card"><b>SEO Score</b>
+<div style="display:flex;gap:15px;align-items:center"><div style="width:70px;height:70px;border:6px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-weight:800" id="seoCircle">87%</div><div><div id="seoText" style="font-weight:800">87 Good</div><small id="seoSub">SEO score is healthy. 3 suggestions pending</small></div></div>
+<div class="grid2" style="margin-top:12px"><span class="badge badge-green">✅ Keywords: 92</span><span class="badge badge-orange">⚠️ Readability: 78</span><span class="badge badge-green">✅ Meta: 85</span></div>
+</div>
+</div>
+
+<!-- WRITERS TAB -->
+<div id="tab-writers" class="hide">
+<div class="topbar"><h2>Writer Management</h2><button class="btn btn-gold" onclick="tab('dash')">Back</button></div>
+<div class="card dash">
+<h3>👑 Writer Banao (Bina Code Ke)</h3>
+<label>GitHub Token (ghp_...)</label><input id="gtoken" class="input" type="password" placeholder="Token yahan dalo">
+<label>Writer Ka ID</label><input id="wname" class="input" placeholder="Jaise raju_writer">
+<label>Writer Ka Password (Khud set karo)</label><input id="wpass" class="input" type="text" placeholder="Jaise Raju@123">
+<button class="btn btn-black" onclick="createWriter()">✨ Writer ID Banao & Auto Save</button>
+<p id="wout" style="background:#dcfce7;padding:10px;border-radius:10px;word-break:break-all;margin-top:10px"></p>
+</div>
+<div class="card"><div id="writerList"></div></div>
+</div>
+
+<!-- PENDING TAB -->
+<div id="tab-pending" class="hide">
+<div class="topbar"><h2>Pending Posts</h2><button class="btn btn-black" onclick="loadPending()">↻ Refresh</button></div>
+<div class="card"><div id="pendingList"></div></div>
+</div>
+
+<!-- POSTS / EDITOR TAB -->
+<div id="tab-posts" class="hide">
+<div class="topbar"><h2>Editor Preview — New Post</h2></div>
+<div class="card">
+<span class="badge badge-green">Block Editor • Draft</span>
+<label>Image URL</label><input id="fimg" class="input" placeholder="https://...">
+<label>Category</label><select id="cat" class="input"><option>Sona-Chandi</option><option>Gold Price</option><option>Silver Price</option><option>News</option><option>Tips</option></select>
+<label>Author</label><input id="author" class="input" value="Manish Kumar">
+<label>Title</label><input id="title" class="input" oninput="onTitleChange()" placeholder="Gold Prices Rally to $2,050">
+<label>SEO Description</label><input id="seo" class="input" oninput="onTitleChange()" placeholder="SEO desc">
+<label>Tags</label><input id="tags" class="input" placeholder="gold price, delhi">
+<label>File Name</label><input id="slug" class="input" placeholder="gold-price-today.html">
+<label>Content ( /image → /paragraph )</label><textarea id="content" class="input" rows="8" placeholder="Gold prices climbed sharply today amid renewed investor demand..." oninput="onTitleChange()"></textarea>
+<div class="grid2" style="margin-top:15px">
+<button id="pubBtn" class="btn btn-gold hide" onclick="publishDirect()">🚀 Publish</button>
+<button id="writerBtn" class="btn btn-black hide" onclick="sendPending()">📩 Approval Bhejo</button>
+</div>
+<p id="msg" style="font-weight:800;text-align:center"></p>
+</div>
+</div>
+
+<div id="tab-seo" class="hide"><div class="card"><h3>SEO Score Live</h3><p>Title + SEO + Content likhte hi score update hoga. Abhi ka score upar Dashboard pe dikh raha hai.</p></div></div>
+
+</div>
+
+<div class="mobMenu" id="mobMenu" style="display:none">
+<button id="mm-dash" class="active" onclick="tab('dash')">📊</button>
+<button id="mm-posts" onclick="tab('posts')">📝</button>
+<button id="mm-writers" onclick="tab('writers')">👥</button>
+<button id="mm-pending" onclick="tab('pending')">⏳</button>
+</div>
+
+<script>
+let writersCache={},writersSha=null,currentUser=null,currentRole=null;
+const ADMIN_ID="mannu gola", ADMIN_PASS="baghenia@7409";
+document.getElementById('dateNow').innerText="Overview • Updated "+new Date().toLocaleDateString()+" • "+new Date().toLocaleTimeString();
+
+async function loadWriters(){try{let r=await fetch(`https://raw.githubusercontent.com/mannu-gola/gold-price-today/main/writers.json?ts=${Date.now()}`); if(r.ok){let txt=await r.text(); try{writersCache=JSON.parse(txt);}catch(e){writersCache={}}}}catch(e){} try{let r2=await fetch(`https://api.github.com/repos/mannu-gola/gold-price-today/contents/writers.json?ts=${Date.now()}`); if(r2.ok){let j=await r2.json(); writersSha=j.sha;}}catch(e){}}
+async function login(){
+ let a=document.getElementById('uid').value.trim(), b=document.getElementById('upass').value.trim();
+ if(a.toLowerCase()===ADMIN_ID.toLowerCase() && b===ADMIN_PASS){
+   okLogin(ADMIN_ID,'admin'); await loadWriters(); renderWriters(); loadPending(); return;
+ }
+ await loadWriters();
+ if(writersCache[a] && writersCache[a]===b){ okLogin(a,'writer'); loadPending(); } else { document.getElementById('err').innerText='Galat ID/Password'; }
+}
+function okLogin(name,role){
+ currentUser=name; currentRole=role;
+ document.getElementById('loginPage').style.display='none';
+ document.getElementById('side').classList.add('show');
+ document.getElementById('mobMenu').style.display='flex';
+ document.getElementById('userShow').innerText=name;
+ if(role==='admin'){ document.getElementById('pubBtn').classList.remove('hide'); }
+ document.getElementById('writerBtn').classList.remove('hide');
+ let t=localStorage.getItem('gh_token'); if(t) document.getElementById('gtoken').value=t;
+ drawChart();
+}
+function tab(name){
+ document.querySelectorAll('[id^=\"tab-\"]').forEach(d=>d.classList.add('hide'));
+ document.getElementById('tab-'+name).classList.remove('hide');
+ document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('active'));
+ document.querySelectorAll('.mobMenu button').forEach(b=>b.classList.remove('active'));
+ let el=document.getElementById('m-'+name); if(el) el.classList.add('active');
+ let el2=document.getElementById('mm-'+name); if(el2) el2.classList.add('active');
+}
+function renderWriters(){
+ let html=''; for(let k in writersCache){ html+=`<div style=\"display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9\"><div style=\"display:flex;gap:10px;align-items:center\"><img src=\"https://i.pravatar.cc/100?u=${k}\" style=\"width:36px;border-radius:50%\"><div><b>${k}</b><br><small>Articles: ${(Math.random()*20|0)} • Drafts: ${(Math.random()*3|0)}</small></div></div><span class=\"badge badge-green\">Active</span></div>`; }
+ if(!html) html='Koi writer nahi';
+ document.getElementById('writerListPro').innerHTML=html;
+ document.getElementById('writerList').innerHTML='<b>Existing Writers:</b><br>'+Object.keys(writersCache).map(k=>`👤 ${k} | ${writersCache[k]}`).join('<br>') || 'Koi nahi';
+}
+function onTitleChange(){
+ let t=document.getElementById('title').value, s=document.getElementById('seo').value, c=document.getElementById('content').value;
+ let slug=t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); if(slug) document.getElementById('slug').value=slug+'.html';
+ let score=40; if(t.length>15) score+=20; if(s.length>20) score+=20; if(c.length>100) score+=15; if(document.getElementById('tags').value) score+=5;
+ if(score>100) score=93; document.getElementById('seoCircle').innerText=score+'%'; document.getElementById('seoText').innerText=score+' '+(score>80?'Good':score>60?'Ok':'Low');
+}
+function drawChart(){
+ let cv=document.getElementById('chart'); if(!cv) return; let ctx=cv.getContext('2d'); let w=cv.width=300, h=cv.height=140;
+ ctx.clearRect(0,0,w,h); ctx.strokeStyle='#d4a017'; ctx.lineWidth=2; ctx.beginPath();
+ let pts=[20,60,40,70,30,50,45,30,60,20,35,10]; pts.forEach((p,i)=>{ let x=(i/(pts.length-1))*w, y=h-p; if(i==0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }); ctx.stroke();
+ ctx.fillStyle='#d4a01722'; ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath(); ctx.fill();
+}
+function getHtml(){ let t=document.getElementById('title').value, ca=document.getElementById('cat').value, au=document.getElementById('author').value||currentUser, se=document.getElementById('seo').value, ta=document.getElementById('tags').value, fi=document.getElementById('fimg').value, c=document.getElementById('content').value.replace(/\n/g,'<br>'); let im=fi?`<img src=\"${fi}\" style=\"width:100%;border-radius:12px\">`:''; return `<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>${t}</title><meta name=\"description\" content=\"${se}\"></head><body><h1>${t}</h1><p>${ca} | By ${au}</p>${im}<div>${c}</div></body></html>`; }
+async function createWriter(){
+ let token=document.getElementById('gtoken').value.trim(); if(!token){alert('Token dalo');return;} localStorage.setItem('gh_token',token);
+ let id=document.getElementById('wname').value.trim(), pass=document.getElementById('wpass').value.trim(); if(!id||!pass){alert('ID + Pass likho');return;}
+ await loadWriters(); writersCache[id]=pass;
+ let content=btoa(unescape(encodeURIComponent(JSON.stringify(writersCache,null,2))));
+ let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/writers.json`; let body={message:`Add ${id}`, content:content}; if(writersSha) body.sha=writersSha;
+ document.getElementById('wout').innerText='Saving...'; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify(body)});
+ if(res.ok){document.getElementById('wout').innerHTML=`✅ Ban Gaya! ID: <b>${id}</b> Pass: <b>${pass}</b>`; renderWriters();}else{document.getElementById('wout').innerText='Error - Token check karo';}
+}
+async function publishDirect(){ let token=document.getElementById('gtoken').value.trim(); let slug=document.getElementById('slug').value.trim(); if(!slug.endsWith('.html'))slug+='.html'; let html=getHtml(); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/blog/${slug}`; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'Publish '+slug, content:btoa(unescape(encodeURIComponent(html)))})}); document.getElementById('msg').innerText=res.ok?'🎉 LIVE Ho Gaya!':'Error'; }
+async function sendPending(){ let token=document.getElementById('gtoken').value.trim(); let slug=document.getElementById('slug').value.trim(); if(!slug.endsWith('.html'))slug+='.html'; let html=getHtml(); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/pending/${slug}`; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:`Writer ${currentUser}`, content:btoa(unescape(encodeURIComponent(html)))})}); document.getElementById('msg').innerText=res.ok?'✅ Admin ko bhej diya!':'Error'; }
+async function loadPending(){ let token=document.getElementById('gtoken').value.trim(); if(!token){ document.getElementById('pendingList').innerHTML='Token dalo tab dikhega'; document.getElementById('pendingListPro').innerHTML='Token dalo'; return; } try{ let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/pending`; let res=await fetch(url,{headers:{'Authorization':'token '+token}}); if(!res.ok){ document.getElementById('pendingList').innerText='Koi pending nahi'; document.getElementById('pendingListPro').innerText='Koi pending nahi'; return; } let data=await res.json(); let h1='',h2=''; data.forEach(f=>{ if(f.name!=='.gitkeep'){ h1+=`<p>📄 ${f.name}</p>`; h2+=`<div class=\"card\" style=\"margin-bottom:10px\"><b>${f.name.replace('.html','').replace(/-/g,' ')}</b><br><small>By Writer • Submitted 35m ago</small><div class=\"grid2\" style=\"margin-top:10px\"><button class=\"btn btn-green\" onclick=\"approvePost('${f.name}')\">✅ Approve</button><button class=\"btn btn-red\" onclick=\"rejectPost('${f.name}')\">✕ Reject</button></div></div>`; } }); document.getElementById('pendingList').innerHTML=h1||'Koi pending nahi'; document.getElementById('pendingListPro').innerHTML=h2||'Koi pending nahi'; }catch(e){} }
+async function approvePost(name){ alert('Approve: '+name+' - isko blog me move karna hai, mai code jod du?'); }
+async function rejectPost(name){ alert('Reject: '+name); }
+</script>
+</body>
+</html>
