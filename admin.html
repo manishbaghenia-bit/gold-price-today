@@ -1,13 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white p-6">
+<h1 class="text-2xl font-bold">Gold Price Admin</h1>
+<p class="mt-4">Real Views: <span id="viewCount" class="text-yellow-400 font-bold text-xl">0</span></p>
+<p class="mt-2 text-gray-400">Total Visitors (Real)</p>
+
 <script>
-// REAL COUNTER - No more dummy
 async function showRealViews(){
   try {
-    const r = await fetch('https://api.countapi.xyz/get/gold-price-today-eight-2026/visits');
+    const r = await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits');
     const d = await r.json();
-    document.getElementById('viewCount').innerText = d.value || 0;
-  } catch {
-    document.getElementById('viewCount').innerText = "0 - API connect ho raha hai";
+    document.getElementById('viewCount').innerText = d.count || 0;
+  } catch(e){
+    document.getElementById('viewCount').innerText = "Error";
   }
 }
 showRealViews();
 </script>
+</body>
+</html>
