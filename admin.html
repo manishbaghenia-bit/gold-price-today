@@ -1,46 +1,75 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Login Fix</title><style>body{background:#f0f2f5;font-family:Arial;margin:0;padding:15px}.box{max-width:750px;background:#fff;margin:20px auto;padding:20px;border-radius:12px}input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}label{font-weight:bold;font-size:14px;margin-top:10px;display:block}.btn{width:100%;padding:14px;color:#fff;font-weight:bold;margin-top:10px;border:0;border-radius:8px;cursor:pointer}.green{background:#25D366}.blue{background:#2196F3}.black{background:#000}.orange{background:#ff9800}.hide{display:none}.dash{border:2px dashed #ff9800;padding:15px;border-radius:12px;margin:15px 0;background:#fff8ed}</style></head><body>
-<div class="box" id="L"><h2 style="text-align:center">🔐 Login</h2><input id="uid" placeholder="ID"><input id="upass" type="password" placeholder="Password"><button class="btn orange" onclick="login()">Login</button><p id="err" style="color:red;text-align:center"></p></div>
-<div class="box hide" id="P">
-<h2 id="welcome" style="text-align:center"></h2><center><a href="#" onclick="location.reload()">Logout</a></center>
-<div id="adminBox" class="hide dash">
-<h3>👑 Writer Banao</h3><label>GitHub Token</label><input id="gtoken" type="password" placeholder="ghp_..."><label>Writer ID</label><input id="wname" placeholder="raju_writer"><label>Password</label><input id="wpass" type="text" placeholder="Raju@123"><button class="btn black" onclick="createWriter()">✨ Writer Banao</button><p id="wout" style="background:#e8f5e9;padding:10px;border-radius:8px;word-break:break-all"></p><div id="writerList"></div><hr><button class="btn orange" onclick="loadPending()">📥 Pending Dekho</button><div id="pendingList"></div>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gold Price News - PRO Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#d4a017;--black:#0f172a;--dark:#1e293b}
+*{box-sizing:border-box;font-family:Inter,Arial}
+body{margin:0;background:#f1f5f9;display:flex;min-height:100vh}
+#loginPage{position:fixed;inset:0;background:#0f172a;display:flex;align-items:center;justify-content:center;z-index:99}
+.loginBox{background:#fff;padding:30px;border-radius:16px;width:90%;max-width:380px;text-align:center}
+.loginBox input{width:100%;padding:14px;margin:10px 0;border:1px solid #ddd;border-radius:10px}
+.btn{padding:12px 18px;border:0;border-radius:10px;font-weight:700;cursor:pointer}
+.btn-gold{background:var(--gold);color:#000;width:100%}
+.btn-green{background:#16a34a;color:#fff}.btn-red{background:#fff;border:1px solid #ef4444;color:#ef4444}
+.btn-black{background:#000;color:#fff;width:100%}
+/* Sidebar */
+.sidebar{width:260px;background:var(--black);color:#fff;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;display:none;flex-direction:column}
+.sidebar.show{display:flex}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:25px}
+.logo b{color:var(--gold);line-height:1.1}
+.menu a{display:flex;gap:10px;padding:12px 14px;border-radius:10px;color:#cbd5e1;text-decoration:none;margin:4px 0;cursor:pointer}
+.menu a.active,.menu a:hover{background:#d4a01722;color:var(--gold)}
+.main{margin-left:0;flex:1;padding:15px;padding-bottom:80px;width:100%}
+@media(min-width:900px){.sidebar{position:sticky;top:0;height:100vh}.main{margin-left:0}}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 4px 20px #00000008}
+.kpi{font-size:28px;font-weight:800}
+.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.badge-green{background:#dcfce7;color:#166534}.badge-orange{background:#ffedd5;color:#9a3412}
+.input{width:100%;padding:13px;border:1px solid #e2e8f0;border-radius:12px;margin:8px 0}
+label{font-weight:700;font-size:13px;margin-top:12px;display:block}
+.dash{border:2px dashed #d4a017;background:#fffbeb}
+.hide{display:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+canvas{width:100%;height:140px}
+.mobMenu{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#0f172a;border-radius:30px;display:flex;gap:5px;padding:8px;z-index:20}
+.mobMenu button{background:transparent;color:#fff;border:0;padding:10px 14px;border-radius:20px}
+.mobMenu button.active{background:var(--gold);color:#000}
+</style>
+</head>
+<body>
+
+<div id="loginPage"><div class="loginBox">
+<h2>🔐 PRO Admin Login</h2>
+<input id="uid" placeholder="ID"><input id="upass" type="password" placeholder="Password">
+<button class="btn btn-gold" onclick="login()">Login</button>
+<p id="err" style="color:red"></p>
+</div></div>
+
+<div class="sidebar" id="side">
+<div class="logo"><div style="width:38px;height:38px;background:var(--gold);border-radius:50%;display:grid;place-items:center">🐂</div><b>GOLD PRICE<br>NEWS<br><span style="font-size:10px;color:#94a3b8;font-weight:400">ADMIN CMS — PRO</span></b></div>
+<div class="menu">
+<a id="m-dash" class="active" onclick="tab('dash')">📊 Dashboard</a>
+<a id="m-posts" onclick="tab('posts')">📝 Posts</a>
+<a id="m-writers" onclick="tab('writers')">👥 Writers</a>
+<a id="m-pending" onclick="tab('pending')">⏳ Pending</a>
+<a id="m-seo" onclick="tab('seo')">🔍 SEO</a>
 </div>
-<h3 style="text-align:center">📝 WordPress Editor</h3>
-<label>Image URL</label><input id="fimg"><label>Category</label><select id="cat"><option>Sona-Chandi</option><option>Gold Price</option><option>Silver Price</option><option>News</option></select><label>Author</label><input id="author" value="Manish Kumar"><label>Title</label><input id="title" oninput="slugMake()"><label>SEO Description</label><input id="seo"><label>Tags</label><input id="tags"><label>File Name</label><input id="slug"><label>Content</label><textarea id="content" rows="10"></textarea>
-<button id="pubBtn" class="btn green hide" onclick="publishDirect()">🚀 DIRECT PUBLISH</button>
-<button id="writerBtn" class="btn blue hide" onclick="sendPending()">📩 Approval Bhejo</button><p id="msg" style="text-align:center;font-weight:bold"></p></div>
-<script>
-let writersCache={},writersSha=null,currentUser=null,currentRole=null;
-const ADMIN_ID="mannu gola", ADMIN_PASS="baghenia@7409";
-async function loadWriters(){try{let r=await fetch(`https://raw.githubusercontent.com/mannu-gola/gold-price-today/main/writers.json?ts=${Date.now()}`); if(r.ok){let txt=await r.text(); try{writersCache=JSON.parse(txt);}catch(e){writersCache={}} }}catch(e){} try{let r2=await fetch(`https://api.github.com/repos/mannu-gola/gold-price-today/contents/writers.json?ts=${Date.now()}`); if(r2.ok){let j=await r2.json(); writersSha=j.sha;}}catch(e){}}
-async function login(){
- let a=document.getElementById('uid').value.trim(), b=document.getElementById('upass').value.trim();
- // ADMIN CHECK FIRST - Bina GitHub ke turant login
- if(a.toLowerCase()===ADMIN_ID.toLowerCase() && b===ADMIN_PASS){
-   currentUser=ADMIN_ID; currentRole='admin';
-   document.getElementById('L').classList.add('hide'); document.getElementById('P').classList.remove('hide');
-   document.getElementById('welcome').innerText=`👑 Admin: ${currentUser}`;
-   document.getElementById('adminBox').classList.remove('hide'); document.getElementById('pubBtn').classList.remove('hide');
-   document.getElementById('err').innerText='';
-   let t=localStorage.getItem('gh_token'); if(t) document.getElementById('gtoken').value=t;
-   await loadWriters(); listWriters(); return;
- }
- // Writer check
- await loadWriters();
- if(writersCache[a] && writersCache[a]===b){
-   currentUser=a; currentRole='writer';
-   document.getElementById('L').classList.add('hide'); document.getElementById('P').classList.remove('hide');
-   document.getElementById('welcome').innerText=`✍️ Writer: ${a}`;
-   document.getElementById('writerBtn').classList.remove('hide');
- }else{
-   document.getElementById('err').innerText='Galat ID/Password! ID me space ka dhyan do - mannu gola';
- }
-}
-function slugMake(){let s=document.getElementById('title').value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); document.getElementById('slug').value=s+'.html';}
-function getHtml(){let t=document.getElementById('title').value, ca=document.getElementById('cat').value, au=document.getElementById('author').value||currentUser, se=document.getElementById('seo').value, ta=document.getElementById('tags').value, fi=document.getElementById('fimg').value, c=document.getElementById('content').value.replace(/\n/g,'<br>'); let im=fi?`<img src="${fi}" style="width:100%;border-radius:10px">`:''; return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${t}</title></head><body><h1>${t}</h1><p>${ca} | By ${au}</p>${im}<div>${c}</div></body></html>`;}
-function listWriters(){let h='<b>Writers:</b><br>'; for(let k in writersCache){h+=`👤 ${k} | ${writersCache[k]}<br>`;} document.getElementById('writerList').innerHTML=h;}
-async function createWriter(){let token=document.getElementById('gtoken').value.trim(); if(!token){alert('Token dalo');return;} localStorage.setItem('gh_token',token); let id=document.getElementById('wname').value.trim(), pass=document.getElementById('wpass').value.trim(); if(!id||!pass){alert('ID + Pass likho');return;} await loadWriters(); writersCache[id]=pass; let content=btoa(unescape(encodeURIComponent(JSON.stringify(writersCache,null,2)))); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/writers.json`; let body={message:`Add ${id}`, content:content}; if(writersSha) body.sha=writersSha; document.getElementById('wout').innerText='Saving...'; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify(body)}); if(res.ok){document.getElementById('wout').innerHTML=`✅ Ban Gaya!<br>ID: <b>${id}</b><br>Pass: <b>${pass}</b>`; listWriters();}else{document.getElementById('wout').innerText='Token Error';}}
-async function publishDirect(){let token=document.getElementById('gtoken').value.trim(); let slug=document.getElementById('slug').value.trim(); if(!slug.endsWith('.html'))slug+='.html'; let html=getHtml(); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/blog/${slug}`; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:'Admin publish '+slug, content:btoa(unescape(encodeURIComponent(html)))})}); document.getElementById('msg').innerText=res.ok?'🎉 LIVE!':'Error';}
-async function sendPending(){let token=document.getElementById('gtoken').value.trim(); let slug=document.getElementById('slug').value.trim(); if(!slug.endsWith('.html'))slug+='.html'; let html=getHtml(); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/pending/${slug}`; let res=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Content-Type':'application/json'},body:JSON.stringify({message:`Writer ${currentUser}`, content:btoa(unescape(encodeURIComponent(html)))})}); document.getElementById('msg').innerText=res.ok?'✅ Bhej diya!':'Error';}
-async function loadPending(){let token=document.getElementById('gtoken').value.trim(); let url=`https://api.github.com/repos/mannu-gola/gold-price-today/contents/pending`; let res=await fetch(url,{headers:{'Authorization':'token '+token}}); let data=await res.json(); let h=''; data.forEach(f=>{if(f.name!=='.gitkeep')h+=`<p>📄 ${f.name}</p>`}); document.getElementById('pendingList').innerHTML=h||'Koi pending nahi';}
-</script></body></html>
+<div style="margin-top:auto;padding-top:15px;border-top:1px solid #1e293b;display:flex;gap:10px;align-items:center">
+<img src="https://i.pravatar.cc/100" style="width:36px;border-radius:50%"><div><div id="userShow" style="font-size:13px;font-weight:700"></div><small style="color:#94a3b8">Editor — Admin</small></div><span onclick="location.reload()" style="margin-left:auto;cursor:pointer">⎋</span>
+</div>
+</div>
+
+<div class="main" id="mainContent">
+
+<!-- DASHBOARD -->
+<div id="tab-dash">
+<div class="topbar"><h2 style="margin:0">Dashboard</h2><small id="dateNow"></small></div>
+<div class="card">
+<b>Analytics: Views (Last 7 Days)</b>
+<div class="kpi">23.4K views <span style="font-size:13px;color:green">+12.8% vs last week ↗</span></div>
+<canvas id="chart"></canvas>
+<div class="grid2" style="margin-top:10px"><div>⏱️ Avg. Read Time:<br><b>3m 42s</b></div><div>
