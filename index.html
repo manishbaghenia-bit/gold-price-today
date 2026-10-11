@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold Price Today</title>
+<title>Gold Price Today - Live</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
 body{background:#f0f2f5;padding-bottom:80px}
@@ -20,15 +20,27 @@ body{background:#f0f2f5;padding-bottom:80px}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;border-top:1px solid #ddd;padding:8px 0;z-index:999}
 .bottom-nav a{text-decoration:none;color:#666;text-align:center;font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center}
 .bottom-nav a.active{color:#e11d48}
+.live-dot{width:8px;height:8px;background:#00ff00;border-radius:50%;display:inline-block;animation:blink 1s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 </style>
 </head>
 <body>
-<div class="top">LIVE IBJA RATE</div>
+<div class="top"><span class="live-dot"></span> LIVE IBJA RATE • Auto Update Every 30 Min</div>
 <div class="head"><div class="logo">💰 GOLD PRICE <span>TODAY</span></div><a href="admin.html" style="background:#000;color:#fff;padding:6px 14px;border-radius:20px;font-weight:700;font-size:12px;text-decoration:none">+ ADMIN</a></div>
 <div class="nav"><a class="active">Sona-Chandi</a><a>Gold 24K</a><a>Silver</a><a>News</a></div>
+
 <div class="price">
-<div class="card gold"><div style="font-size:12px;font-weight:600">🪙 सोना 24K - 10 ग्राम</div><div class="rate">₹1,28,450</div><div style="color:green;font-weight:700;font-size:12px">▲ +₹720</div></div>
-<div class="card silver"><div style="font-size:12px;font-weight:600">⚪ चांदी - 1 किलो</div><div class="rate">₹1,56,200</div><div style="color:green;font-weight:700;font-size:12px">▲ +₹1,250</div></div>
+<div class="card gold">
+<div style="font-size:12px;font-weight:600">🪙 सोना 24K - 10 ग्राम</div>
+<div class="rate" id="goldRate">₹1,28,450</div>
+<div style="color:green;font-weight:700;font-size:12px" id="goldChange">▲ LIVE</div>
+<div style="font-size:10px;color:#555;margin-top:4px" id="goldTime">Updating...</div>
+</div>
+<div class="card silver">
+<div style="font-size:12px;font-weight:600">⚪ चांदी - 1 किलो</div>
+<div class="rate" id="silverRate">₹1,56,200</div>
+<div style="color:green;font-weight:700;font-size:12px" id="silverChange">▲ LIVE</div>
+<div style="font-size:10px;color:#555;margin-top:4px" id="silverTime">Updating...</div>
+</div>
 </div>
 
 <div class="sec"><span>सोना-चांदी की ताज़ा खबरें</span><a href="admin.html" style="font-size:12px;color:#e11d48;text-decoration:none">+ Add News</a></div>
@@ -43,23 +55,12 @@ body{background:#f0f2f5;padding-bottom:80px}
 </div>
 
 <script>
-const defaultNews = [
-{title:"सोना 700 रुपये उछला, निवेशकों की बढ़ी दिलचस्पी", cat:"GOLD NEWS • 4 MIN PHELE", icon:"🪙", bg:"linear-gradient(135deg,#fff9c4,#ffcc33)"},
-{title:"चांदी 1500 रुपये मजबूत, औद्योगिक मांग से सहारा", cat:"SILVER NEWS • 28 MIN PHELE", icon:"⚪", bg:"linear-gradient(135deg,#eef2f7,#b8c6d6)"}
-];
-function loadNews(){
- let saved = JSON.parse(localStorage.getItem('myGoldNews') || '[]');
- let all = [...saved.reverse(), ...defaultNews];
- let html = all.map(n=>{
-   if(n.img){
-     return `<div class="news"><img src="${n.img}" style="width:105px;height:80px;border-radius:10px;object-fit:cover"><div><h3 style="font-size:14px;font-weight:700">${n.title}</h3><small style="color:#e11d48;font-weight:700">${n.cat}</small></div></div>`;
-   }else{
-     return `<div class="news"><div class="news-img" style="background:${n.bg}">${n.icon}</div><div><h3 style="font-size:14px;font-weight:700">${n.title}</h3><small style="color:#e11d48;font-weight:700">${n.cat}</small></div></div>`;
-   }
- }).join('');
- document.getElementById('newsList').innerHTML=html;
-}
-loadNews();
-</script>
-</body>
-</html>
+// --- LIVE PRICE LOGIC ---
+async function updateLivePrice(){
+ try{
+   // Free API - Gold price in USD per ounce
+   const res = await fetch('https://api.gold-api.com/price/XAU');
+   const data = await res.json();
+   const goldUsdPerOunce = data.price;
+   
+   // USD to INR ~ 84
