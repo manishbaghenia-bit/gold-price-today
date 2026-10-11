@@ -1,25 +1,251 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Admin Panel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Price - Pro Admin</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-black text-white p-6">
-<h1 class="text-2xl font-bold">Gold Price Admin</h1>
-<p class="mt-4">Real Views: <span id="viewCount" class="text-yellow-400 font-bold text-xl">0</span></p>
-<p class="mt-2 text-gray-400">Total Visitors (Real)</p>
+<body class="bg-[#0a0a0a] text-white min-h-screen">
+
+<!-- LOGIN BOX -->
+<div id="loginBox" class="flex items-center justify-center min-h-screen p-4">
+  <div class="bg-[#1a1a1a] p-8 rounded-2xl w-full max-w-sm border border-gray-800">
+    <h1 class="text-2xl font-bold text-center mb-2">Gold Price Admin</h1>
+    <p class="text-gray-400 text-center text-sm mb-6">Pro Panel Login</p>
+    <input id="username" type="text" placeholder="Username" value="admin" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-gray-700 mb-3 outline-none focus:border-yellow-400">
+    <input id="password" type="password" placeholder="Password" value="" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-gray-700 mb-3 outline-none focus:border-yellow-400">
+    <button onclick="doLogin()" class="w-full bg-yellow-400 text-black p-3 rounded-lg font-bold hover:bg-yellow-300">Login</button>
+    <p id="loginErr" class="text-red-400 text-sm mt-3 hidden text-center">Galat ID / Password!</p>
+    <p class="text-[11px] text-gray-500 mt-4 text-center">Purana ID: admin | Pass: gold123</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="hidden flex min-h-screen">
+  <!-- Sidebar -->
+  <div class="w-64 bg-[#111] border-r border-gray-800 p-5 hidden md:block">
+    <h2 class="font-bold text-yellow-400 text-lg">Gold Admin Pro</h2>
+    <div class="mt-8 space-y-2">
+      <button onclick="showTab('dashboard')" class="w-full text-left p-3 rounded bg-yellow-400 text-black font-bold"><i class="fa fa-chart-line mr-2"></i> Dashboard</button>
+      <button onclick="showTab('allposts')" class="w-full text-left p-3 rounded hover:bg-[#222]"><i class="fa fa-newspaper mr-2"></i> All Posts</button>
+      <button onclick="showTab('addpost')" class="w-full text-left p-3 rounded hover:bg-[#222]"><i class="fa fa-plus mr-2"></i> Add New Post</button>
+      <button onclick="showTab('drafts')" class="w-full text-left p-3 rounded hover:bg-[#222]"><i class="fa fa-file-lines mr-2"></i> Drafts</button>
+      <button onclick="showTab('writers')" class="w-full text-left p-3 rounded hover:bg-[#222]"><i class="fa fa-users mr-2"></i> Writers</button>
+      <button onclick="doLogout()" class="w-full text-left p-3 rounded text-red-400 mt-10"><i class="fa fa-right-from-bracket mr-2"></i> Logout</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-4 md:p-8">
+    <!-- Dashboard -->
+    <div id="tab-dashboard">
+      <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
+          <p class="text-gray-400 text-sm">Real Views</p>
+          <h2 id="viewCount" class="text-3xl font-bold text-yellow-400 mt-1">0</h2>
+          <p class="text-[11px] text-gray-500 mt-1">Total Visitors (Real)</p>
+        </div>
+        <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
+          <p class="text-gray-400 text-sm">Total Posts</p>
+          <h2 id="totalPosts" class="text-3xl font-bold mt-1">0</h2>
+        </div>
+        <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
+          <p class="text-gray-400 text-sm">Drafts</p>
+          <h2 id="totalDrafts" class="text-3xl font-bold mt-1">0</h2>
+        </div>
+        <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
+          <p class="text-gray-400 text-sm">Writers</p>
+          <h2 id="totalWriters" class="text-3xl font-bold mt-1">0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- All Posts -->
+    <div id="tab-allposts" class="hidden">
+      <h1 class="text-2xl font-bold mb-6">All Posts <button onclick="showTab('addpost')" class="ml-3 text-sm bg-yellow-400 text-black px-3 py-1 rounded">+ New</button></h1>
+      <div id="allPostsList" class="space-y-3"></div>
+    </div>
+
+    <!-- Add Post -->
+    <div id="tab-addpost" class="hidden">
+      <h1 class="text-2xl font-bold mb-6" id="postFormTitle">Add New Post</h1>
+      <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 max-w-3xl">
+        <input type="hidden" id="editPostId">
+        <input id="postTitle" type="text" placeholder="Post Title" class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-3 outline-none">
+        <textarea id="postContent" rows="8" placeholder="Post Content..." class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-3 outline-none"></textarea>
+        <div class="flex gap-3">
+          <button onclick="savePost('published')" class="bg-yellow-400 text-black px-6 py-3 rounded font-bold">Publish</button>
+          <button onclick="savePost('draft')" class="bg-gray-700 px-6 py-3 rounded font-bold">Save as Draft</button>
+          <button onclick="cancelEdit()" id="cancelBtn" class="hidden bg-red-900 px-6 py-3 rounded">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drafts -->
+    <div id="tab-drafts" class="hidden">
+      <h1 class="text-2xl font-bold mb-6">Draft Posts</h1>
+      <div id="draftsList" class="space-y-3"></div>
+    </div>
+
+    <!-- Writers -->
+    <div id="tab-writers" class="hidden">
+      <h1 class="text-2xl font-bold mb-6">Writers Management</h1>
+      <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 max-w-xl mb-6">
+        <h3 class="font-bold mb-3">Add New Writer</h3>
+        <input id="writerName" type="text" placeholder="Writer Name" class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-2 outline-none">
+        <input id="writerEmail" type="text" placeholder="Writer Email" class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-2 outline-none">
+        <input id="writerPass" type="text" placeholder="Set Password" class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-3 outline-none">
+        <button onclick="addWriter()" class="bg-yellow-400 text-black px-6 py-2 rounded font-bold">Add Writer</button>
+      </div>
+      <div id="writersList" class="space-y-2"></div>
+    </div>
+  </div>
+</div>
 
 <script>
-async function showRealViews(){
-  try {
+// --- LOGIN SYSTEM - Purana ID/Pass same hai ---
+const USERS_KEY = "gold_users";
+const POSTS_KEY = "gold_posts";
+let defaultUsers = [
+  {username:"admin", password:"gold123", role:"admin", name:"Main Admin"}
+];
+if(!localStorage.getItem(USERS_KEY)){ localStorage.setItem(USERS_KEY, JSON.stringify(defaultUsers)); }
+
+function doLogin(){
+  let u = document.getElementById('username').value.trim();
+  let p = document.getElementById('password').value.trim();
+  let users = JSON.parse(localStorage.getItem(USERS_KEY));
+  let found = users.find(x => x.username===u && x.password===p);
+  if(found){
+    localStorage.setItem('isAdminLogged','yes');
+    localStorage.setItem('currentUser', JSON.stringify(found));
+    showPanel();
+  } else {
+    document.getElementById('loginErr').classList.remove('hidden');
+  }
+}
+function doLogout(){ localStorage.removeItem('isAdminLogged'); location.reload(); }
+function showPanel(){
+  document.getElementById('loginBox').classList.add('hidden');
+  document.getElementById('adminPanel').classList.remove('hidden');
+  loadDashboard();
+  loadPosts();
+  loadWriters();
+  loadRealCounter();
+}
+if(localStorage.getItem('isAdminLogged')==='yes'){ showPanel(); }
+
+// --- REAL COUNTER ---
+async function loadRealCounter(){
+  try{
     const r = await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits');
     const d = await r.json();
     document.getElementById('viewCount').innerText = d.count || 0;
-  } catch(e){
-    document.getElementById('viewCount').innerText = "Error";
-  }
+  }catch(e){ document.getElementById('viewCount').innerText = "0"; }
 }
-showRealViews();
+
+// --- TABS ---
+function showTab(tab){
+  ['dashboard','allposts','addpost','drafts','writers'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.add('hidden');
+  });
+  document.getElementById('tab-'+tab).classList.remove('hidden');
+  if(tab==='dashboard') loadDashboard();
+  if(tab==='allposts') loadPosts();
+  if(tab==='drafts') loadDrafts();
+}
+
+// --- POSTS SYSTEM ---
+function getPosts(){ return JSON.parse(localStorage.getItem(POSTS_KEY) || "[]"); }
+function savePost(status){
+  let title = document.getElementById('postTitle').value.trim();
+  let content = document.getElementById('postContent').value.trim();
+  let editId = document.getElementById('editPostId').value;
+  if(!title) return alert("Title daal babu!");
+  let posts = getPosts();
+  if(editId){
+    let idx = posts.findIndex(p=>p.id==editId);
+    posts[idx].title=title; posts[idx].content=content; posts[idx].status=status; posts[idx].date=new Date().toLocaleString();
+  } else {
+    posts.unshift({id:Date.now(), title, content, status, date:new Date().toLocaleString(), author: JSON.parse(localStorage.getItem('currentUser')).name});
+  }
+  localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+  document.getElementById('postTitle').value=""; document.getElementById('postContent').value=""; document.getElementById('editPostId').value="";
+  document.getElementById('cancelBtn').classList.add('hidden'); document.getElementById('postFormTitle').innerText="Add New Post";
+  alert(status==='draft'? "Draft me save ho gaya!" : "Post Publish ho gayi!");
+  loadPosts(); showTab('allposts'); loadDashboard();
+}
+function loadPosts(){
+  let posts = getPosts().filter(p=>p.status==='published');
+  let html = posts.length? "" : "<p class='text-gray-500'>Koi post nahi hai</p>";
+  posts.forEach(p=>{
+    html+=`<div class='bg-[#1a1a1a] p-4 rounded-xl border border-gray-800 flex justify-between items-center'><div><h3 class='font-bold'>${p.title}</h3><p class='text-xs text-gray-500'>${p.date} • ${p.author}</p></div><div class='flex gap-2'><button onclick='editPost(${p.id})' class='bg-gray-700 px-3 py-1 rounded text-sm'>Edit</button><button onclick='deletePost(${p.id})' class='bg-red-900 px-3 py-1 rounded text-sm'>Delete</button></div></div>`;
+  });
+  document.getElementById('allPostsList').innerHTML=html;
+  loadDrafts(); loadDashboard();
+}
+function loadDrafts(){
+  let posts = getPosts().filter(p=>p.status==='draft');
+  let html = posts.length? "" : "<p class='text-gray-500'>Koi draft nahi</p>";
+  posts.forEach(p=>{
+    html+=`<div class='bg-[#1a1a1a] p-4 rounded-xl border border-gray-800 flex justify-between items-center'><div><h3 class='font-bold'>${p.title}</h3><p class='text-xs text-gray-500'>${p.date}</p></div><div class='flex gap-2'><button onclick='editPost(${p.id})' class='bg-yellow-400 text-black px-3 py-1 rounded text-sm'>Edit</button><button onclick='publishDraft(${p.id})' class='bg-green-700 px-3 py-1 rounded text-sm'>Publish</button><button onclick='deletePost(${p.id})' class='bg-red-900 px-3 py-1 rounded text-sm'>Delete</button></div></div>`;
+  });
+  document.getElementById('draftsList').innerHTML=html;
+}
+function editPost(id){
+  let p = getPosts().find(x=>x.id==id);
+  document.getElementById('postTitle').value=p.title;
+  document.getElementById('postContent').value=p.content;
+  document.getElementById('editPostId').value=p.id;
+  document.getElementById('postFormTitle').innerText="Edit Post";
+  document.getElementById('cancelBtn').classList.remove('hidden');
+  showTab('addpost');
+}
+function deletePost(id){
+  if(!confirm("Delete karna hai?")) return;
+  let posts = getPosts().filter(p=>p.id!=id);
+  localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+  loadPosts(); loadDrafts(); loadDashboard();
+}
+function publishDraft(id){
+  let posts = getPosts(); let idx = posts.findIndex(p=>p.id==id); posts[idx].status='published';
+  localStorage.setItem(POSTS_KEY, JSON.stringify(posts)); loadPosts();
+}
+function cancelEdit(){ document.getElementById('editPostId').value=""; document.getElementById('postTitle').value=""; document.getElementById('postContent').value=""; document.getElementById('cancelBtn').classList.add('hidden'); }
+function loadDashboard(){
+  let posts = getPosts();
+  document.getElementById('totalPosts').innerText = posts.filter(p=>p.status==='published').length;
+  document.getElementById('totalDrafts').innerText = posts.filter(p=>p.status==='draft').length;
+  let users = JSON.parse(localStorage.getItem(USERS_KEY)); document.getElementById('totalWriters').innerText = users.filter(u=>u.role==='writer').length;
+}
+
+// --- WRITERS ---
+function addWriter(){
+  let name = document.getElementById('writerName').value.trim();
+  let email = document.getElementById('writerEmail').value.trim();
+  let pass = document.getElementById('writerPass').value.trim();
+  if(!name ||!email ||!pass) return alert("Saari details bhar!");
+  let users = JSON.parse(localStorage.getItem(USERS_KEY));
+  users.push({username: email.split('@')[0], password: pass, role: "writer", name, email});
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  document.getElementById('writerName').value=""; document.getElementById('writerEmail').value=""; document.getElementById('writerPass').value="";
+  loadWriters(); loadDashboard(); alert("Writer add ho gaya!");
+}
+function loadWriters(){
+  let users = JSON.parse(localStorage.getItem(USERS_KEY)).filter(u=>u.role==='writer');
+  let html = users.length? "" : "<p class='text-gray-500'>Koi writer nahi</p>";
+  users.forEach((u,i)=>{
+    html+=`<div class='bg-[#1a1a1a] p-3 rounded border border-gray-800 flex justify-between'><div><b>${u.name}</b> <span class='text-xs text-gray-500'>(${u.email})</span></div><button onclick='removeWriter(${i})' class='text-red-400 text-sm'>Remove</button></div>`;
+  });
+  document.getElementById('writersList').innerHTML=html;
+}
+function removeWriter(idx){
+  let all = JSON.parse(localStorage.getItem(USERS_KEY)); let writers = all.filter(u=>u.role==='writer'); let toRemove = writers[idx];
+  let updated = all.filter(u=>u.username!==toRemove.username || u.role!=='writer'); localStorage.setItem(USERS_KEY, JSON.stringify(updated)); loadWriters(); loadDashboard();
+}
 </script>
 </body>
 </html>
