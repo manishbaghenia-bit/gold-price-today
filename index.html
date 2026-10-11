@@ -1,92 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold Price Today - Live Gold Rate in India</title>
-<meta name="description" content="Check Live Gold Price Today in India - 24K, 22K Gold Rate with Real-time Updates">
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>Aaj Ka Sone Ka Bhav - 11 Oct 2026</title>
+<style>
+body{font-family:Arial,sans-serif;background:#fff8e1;margin:0;padding:15px}
+.box{max-width:500px;margin:auto;background:white;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.1);overflow:hidden}
+.header{background:linear-gradient(45deg,#ff9800,#ff5722);color:white;padding:20px;text-align:center}
+.header h1{margin:0;font-size:24px}
+.header p{margin:5px 0 0;opacity:0.9}
+.price-list{padding:15px}
+.price{border:2px solid #ffe0b2;border-radius:10px;padding:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.price b{color:#e65100}
+.price span{font-size:20px;font-weight:bold}
+.city-table{width:100%;border-collapse:collapse;margin-top:10px}
+.city-table th,.city-table td{border:1px solid #ddd;padding:8px;text-align:center}
+.city-table th{background:#ff9800;color:white}
+.footer{text-align:center;padding:10px;font-size:12px;color:gray}
+</style>
 </head>
-<body class="bg-[#0a0a0a] text-white">
-
-<!-- Header -->
-<header class="bg-[#111] border-b border-gray-800 p-4 sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto flex justify-between items-center">
-    <h1 class="text-xl font-bold text-yellow-400"><i class="fa-solid fa-coins mr-2"></i>Gold Price Today</h1>
-    <div class="flex items-center gap-4">
-      <span class="text-xs text-gray-400">Live Views: <b id="liveViews" class="text-yellow-400">0</b></span>
-      <a href="/admin.html" class="text-xs bg-gray-800 px-3 py-1 rounded">Admin</a>
-    </div>
+<body>
+<div class="box">
+  <div class="header">
+    <h1>Aaj Ka Sone Ka Bhav</h1>
+    <p>11 October 2026 - Sunday</p>
   </div>
-</header>
-
-<div class="max-w-6xl mx-auto p-4 grid md:grid-cols-3 gap-6 mt-6">
-  <!-- Left - Gold Price -->
-  <div class="md:col-span-2 space-y-6">
-    <!-- Gold Rate Card -->
-    <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 text-black p-6 rounded-2xl">
-      <h2 class="text-2xl font-bold">Gold Price Today in India</h2>
-      <p class="text-sm opacity-80 mt-1" id="todayDate"></p>
-      <div class="grid grid-cols-2 gap-4 mt-6">
-        <div class="bg-black/10 p-4 rounded-xl">
-          <p class="text-sm">24K Gold (10g)</p>
-          <h3 class="text-2xl font-bold mt-1">₹ 72,450</h3>
-          <p class="text-xs mt-1"><i class="fa fa-arrow-up"></i> + ₹320 Today</p>
-        </div>
-        <div class="bg-black/10 p-4 rounded-xl">
-          <p class="text-sm">22K Gold (10g)</p>
-          <h3 class="text-2xl font-bold mt-1">₹ 66,420</h3>
-          <p class="text-xs mt-1"><i class="fa fa-arrow-up"></i> + ₹280 Today</p>
-        </div>
-      </div>
+  <div class="price-list">
+    <div class="price">
+      <div><b>24K Gold</b><br><small>99.9% Pure - 10 Gram</small></div>
+      <span>₹1,51,420</span>
     </div>
-
-    <!-- Dynamic Posts from Admin -->
-    <div id="postsContainer" class="space-y-4">
-      <h2 class="text-xl font-bold">Latest Gold News</h2>
-      <div id="postsList" class="space-y-4"></div>
+    <div class="price">
+      <div><b>22K Gold</b><br><small>Jewellery - 10 Gram</small></div>
+      <span>₹1,38,800</span>
     </div>
+    <div class="price">
+      <div><b>18K Gold</b><br><small>10 Gram</small></div>
+      <span>₹1,13,570</span>
+    </div>
+    
+    <h3 style="text-align:center;color:#e65100">City Wise Rate (10gm - 24K)</h3>
+    <table class="city-table">
+      <tr><th>City</th><th>24K</th><th>22K</th></tr>
+      <tr><td>Delhi</td><td>₹1,51,170</td><td>₹1,38,573</td></tr>
+      <tr><td>Mumbai</td><td>₹1,51,430</td><td>₹1,38,811</td></tr>
+      <tr><td>Kolkata</td><td>₹1,51,230</td><td>₹1,38,628</td></tr>
+      <tr><td>Chennai</td><td>₹1,51,870</td><td>₹1,39,214</td></tr>
+    </table>
   </div>
-
-  <!-- Right Sidebar -->
-  <div class="space-y-4">
-    <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
-      <h3 class="font-bold mb-3">Gold Price in Cities</h3>
-      <div class="space-y-2 text-sm">
-        <div class="flex justify-between"><span>Delhi</span><b>₹ 72,500</b></div>
-        <div class="flex justify-between"><span>Mumbai</span><b>₹ 72,450</b></div>
-        <div class="flex justify-between"><span>Jaipur</span><b>₹ 72,380</b></div>
-        <div class="flex justify-between"><span>Alwar</span><b class="text-yellow-400">₹ 72,300</b></div>
-      </div>
-    </div>
-    <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 text-center">
-      <p class="text-sm text-gray-400">Real Visitors</p>
-      <h2 id="sideViews" class="text-3xl font-bold text-yellow-400 mt-1">0</h2>
-    </div>
-  </div>
+  <div class="footer">Note: Price me 3% GST alag lagega | Auto updates daily</div>
 </div>
-
-<script>
-// Date
-document.getElementById('todayDate').innerText = new Date().toDateString();
-
-// Real Counter - Increase + Show
-async function updateRealCounter(){
-  try{
-    // Increase count
-    await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits/up');
-    // Get count
-    const r = await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits');
-    const d = await r.json();
-    document.getElementById('liveViews').innerText = d.count;
-    document.getElementById('sideViews').innerText = d.count;
-  }catch(e){
-    document.getElementById('liveViews').innerText = "Live";
-  }
-}
-updateRealCounter();
-
-// Load Posts from Admin (localStorage)
-function loadFrontPosts(){
-  let posts = JSON.parse
+</body>
+</html>
