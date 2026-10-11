@@ -1,172 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GOLD PRICE NEWS - ADMIN CMS PRO</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<style>body{background:#f1f5f9; font-family: Inter, sans-serif;}.sidebar{background:#0f172a;}.active{background:#1e293b; color:#fbbf24!important;}</style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Gold Price Today</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui}body{background:#f0f2f5;padding:14px}
+.box{background:#fff;padding:18px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.08);max-width:500px;margin:auto}
+input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #ddd;font-size:14px}
+button{background:#e11d48;color:#fff;font-weight:700;border:none;cursor:pointer}
+img#preview{width:100%;height:180px;object-fit:cover;border-radius:10px;margin-top:10px;display:none;background:#eee}
+.list .news{background:#fff;margin:10px 0;border-radius:10px;display:flex;gap:10px;padding:10px}
+</style>
 </head>
-<body class="flex">
-<!-- SIDEBAR SAME AS SCREENSHOT -->
-<div id="sidebar" class="sidebar w-[230px] fixed h-full p-3 hidden md:block z-30">
-  <div class="flex gap-2 items-center mb-6 mt-1">
-    <div class="w-7 h-7 bg-yellow-600 rounded-full flex items-center justify-center text-white text-[10px]"><i class="fa-solid fa-newspaper"></i></div>
-    <div><p class="text-yellow-500 font-black text-[11px] leading-none">GOLD PRICE<br>NEWS</p><p class="text-[8px] text-gray-400 mt-1">ADMIN CMS — PRO</p></div>
-  </div>
-  <div class="space-y-1">
-    <button onclick="openTab('dashboard')" id="btn-dashboard" class="active w-full text-left px-3 py-2 rounded-lg text-[13px] flex gap-2 items-center"><i class="fa-solid fa-chart-column w-4"></i> Dashboard</button>
-    <button onclick="openTab('posts')" id="btn-posts" class="w-full text-left px-3 py-2 rounded-lg text-[13px] text-gray-400 flex gap-2 items-center"><i class="fa-solid fa-file-lines w-4"></i> Posts</button>
-    <button onclick="openTab('writers')" id="btn-writers" class="w-full text-left px-3 py-2 rounded-lg text-[13px] text-gray-400 flex gap-2 items-center"><i class="fa-solid fa-user-group w-4"></i> Writers</button>
-    <button onclick="openTab('pending')" id="btn-pending" class="w-full text-left px-3 py-2 rounded-lg text-[13px] text-gray-400 flex gap-2 items-center"><i class="fa-solid fa-hourglass-half w-4"></i> Pending</button>
-    <button onclick="openTab('seo')" id="btn-seo" class="w-full text-left px-3 py-2 rounded-lg text-[13px] text-gray-400 flex gap-2 items-center"><i class="fa-solid fa-globe w-4"></i> SEO</button>
-  </div>
-</div>
+<body>
+<div class="box">
+<h2>⚙️ Admin Panel</h2>
+<p style="font-size:12px;color:#666">Yaha se news daalo, turant website pe dikhegi</p>
 
-<!-- MAIN -->
-<div class="flex-1 md:ml-[230px] p-3 md:p-4 pb-24">
-  <div class="flex justify-between items-center mb-3">
-    <h1 class="font-bold text-[18px] text-[#0f172a]">Dashboard</h1>
-    <p class="text-[10px] text-gray-500">Overview • Updated <span id="timeNow"></span></p>
-  </div>
+<input id="title" placeholder="News Title likho - Ex: Sona 1000 rupya mehnga">
+<select id="cat"><option>GOLD NEWS</option><option>SILVER NEWS</option><option>MARKET NEWS</option></select>
+<input type="file" id="file" accept="image/*">
+<img id="preview">
+<input type="hidden" id="imgData">
 
-  <!-- DASHBOARD CONTENT - EXACT SAME AS SCREENSHOT -->
-  <div id="view-dashboard">
-    <!-- Analytics Card -->
-    <div class="bg-white rounded-xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)] border border-gray-100 mb-3">
-      <p class="text-[12px] font-bold">Analytics: Views (Last 7 Days)</p>
-      <div class="flex items-center gap-2">
-        <h2 id="realCount" class="text-[20px] font-extrabold">23.4K views</h2>
-        <span class="text-[9px] text-green-600 font-bold">+12.8% vs last week ↗</span>
-      </div>
-      <div class="mt-3 h-[60px] w-full">
-        <svg viewBox="0 0 100 30" class="w-full h-full"><path d="M0,22 Q10,12 18,16 T35,8 T50,14 T65,12 T82,6 T100,18" fill="none" stroke="#c9a227" stroke-width="1.5"/><path d="M0,22 Q10,12 18,16 T35,8 T50,14 T65,12 T82,6 T100,18 L100,30 L0,30 Z" fill="#fef9c3" opacity="0.8"/></svg>
-      </div>
-      <div class="flex gap-12 mt-2">
-        <div><p class="text-[10px] text-gray-500">⏱ Avg. Read Time:</p><p class="font-bold text-[12px]">3m 42s</p></div>
-        <div><p class="text-[10px] text-gray-500">👥 Unique Visitors:</p><p id="uniqueCount" class="font-bold text-[12px]">9.1K</p></div>
-      </div>
-    </div>
+<button onclick="addNews()">+ Publish News</button>
+<a href="index.html" style="display:block;text-align:center;margin-top:10px;text-decoration:none;color:#000;font-weight:700">← Website Dekho</a>
 
-    <!-- Writer Management -->
-    <div class="bg-white rounded-xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)] border border-gray-100 mb-3">
-      <p class="text-[12px] font-bold">Writer Management</p>
-      <div id="writerDash" class="text-[12px] text-gray-600 mt-1">Koi writer nahi</div>
-    </div>
-
-    <!-- Pending Posts -->
-    <div class="bg-white rounded-xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)] border border-gray-100 mb-3">
-      <p class="text-[12px] font-bold">Pending Posts</p>
-      <div id="pendingDash" class="text-[12px] text-gray-600 mt-1">Token dalo</div>
-    </div>
-
-    <!-- NEW: All Posts (SEO ke upar) - Yahi manga tha tune -->
-    <div class="bg-white rounded-xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)] border border-gray-100 mb-3">
-      <div class="flex justify-between items-center">
-        <p class="text-[12px] font-bold">All Posts • Edit / Delete</p>
-        <button onclick="openAddPost()" class="bg-[#0f172a] text-white text-[10px] px-3 py-1.5 rounded-full">+ Add New Post</button>
-      </div>
-      <div id="allPostsDash" class="mt-3 space-y-2"></div>
-      <!-- Add/Edit Form -->
-      <div id="postForm" class="hidden mt-3 p-3 bg-gray-50 rounded-lg border">
-        <input type="hidden" id="editId">
-        <input id="pTitle" placeholder="Post Title" class="w-full border p-2 rounded text-[13px] mb-2">
-        <textarea id="pContent" rows="3" placeholder="Post Content..." class="w-full border p-2 rounded text-[13px] mb-2"></textarea>
-        <div class="flex gap-2">
-          <button onclick="savePost('published')" class="bg-yellow-500 text-black text-[11px] px-4 py-2 rounded font-bold">Publish</button>
-          <button onclick="savePost('draft')" class="bg-gray-200 text-[11px] px-4 py-2 rounded">Save Draft</button>
-          <button onclick="closeForm()" class="bg-red-100 text-red-600 text-[11px] px-3 py-2 rounded">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- SEO Score - Same as screenshot -->
-    <div class="bg-white rounded-xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.05)] border border-gray-100">
-      <p class="text-[12px] font-bold">SEO Score</p>
-      <div class="flex items-center gap-3 mt-2">
-        <div class="w-[48px] h-[48px] rounded-full border-[4px] border-yellow-500 flex items-center justify-center text-[12px] font-bold">87%</div>
-        <div><p class="font-bold text-[12px]">87 Good</p><p class="text-[10px] text-gray-500">SEO score is healthy. 3 suggestions pending</p></div>
-      </div>
-      <div class="mt-3 space-y-2">
-        <div class="flex gap-2"><span class="text-[10px] bg-green-100 text-green-700 px-3 py-1 rounded-full flex-1">✅ Keywords: 92</span><span class="text-[10px] bg-orange-100 text-orange-700 px-3 py-1 rounded-full flex-1">⚠️ Readability: 78</span></div>
-        <span class="text-[10px] bg-green-100 text-green-700 px-3 py-1 rounded-full inline-block">✅ Meta: 85</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- POSTS TAB -->
-  <div id="view-posts" class="hidden bg-white rounded-xl p-4 border"><div class="flex justify-between mb-3"><p class="font-bold text-[13px]">All Posts</p><button onclick="openAddPost();openTab('dashboard')" class="bg-[#0f172a] text-white text-[11px] px-3 py-1.5 rounded">+ New</button></div><div id="postsListFull"></div></div>
-
-  <!-- WRITERS TAB -->
-  <div id="view-writers" class="hidden">
-    <div class="bg-white rounded-xl p-4 border mb-3">
-      <p class="font-bold text-[13px] mb-3">Add Writer</p>
-      <input id="wName" placeholder="Name" class="w-full border p-2 rounded text-[12px] mb-2">
-      <input id="wEmail" placeholder="Email" class="w-full border p-2 rounded text-[12px] mb-2">
-      <input id="wPass" placeholder="Password" class="w-full border p-2 rounded text-[12px] mb-3">
-      <button onclick="addWriter()" class="bg-[#0f172a] text-white px-4 py-2 rounded text-[12px] w-full">Add Writer</button>
-    </div>
-    <div id="writersFull" class="space-y-2"></div>
-  </div>
-
-  <!-- PENDING TAB -->
-  <div id="view-pending" class="hidden bg-white rounded-xl p-4 border"><p class="font-bold text-[13px] mb-3">Pending / Draft</p><div id="pendingFull"></div></div>
-  <div id="view-seo" class="hidden bg-white rounded-xl p-4 border"><p class="font-bold">SEO 87% Good</p><p class="text-[12px] text-gray-500 mt-1">All good. Real views working.</p></div>
-</div>
-
-<!-- Bottom Floating Nav Same as screenshot -->
-<div class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-[#0f172a] rounded-full px-5 py-2.5 flex gap-6 items-center shadow-xl md:hidden">
-  <button onclick="openTab('dashboard')" id="b-dashboard" class="bg-yellow-500 w-7 h-7 rounded-full flex items-center justify-center text-black"><i class="fa-solid fa-chart-column text-[11px]"></i></button>
-  <button onclick="openTab('posts')" id="b-posts" class="text-gray-400"><i class="fa-solid fa-file-lines text-[12px]"></i></button>
-  <button onclick="openTab('writers')" id="b-writers" class="text-gray-400"><i class="fa-solid fa-user-group text-[12px]"></i></button>
-  <button onclick="openTab('pending')" id="b-pending" class="text-gray-400"><i class="fa-solid fa-hourglass-half text-[12px]"></i></button>
+<hr style="margin:16px 0">
+<h3>Tumhari Daali Hui News</h3>
+<div id="myList"></div>
+<button onclick="clearAll()" style="background:#000;margin-top:10px">Sab Delete Karo</button>
 </div>
 
 <script>
-document.getElementById('timeNow').innerText = new Date().toLocaleDateString('en-GB') + " • " + new Date().toLocaleTimeString();
-const POSTS_KEY="gold_posts"; const USERS_KEY="gold_users";
-// ID PASS - admin / mannu123
-let users=JSON.parse(localStorage.getItem(USERS_KEY)||"null");
-if(!users){ localStorage.setItem(USERS_KEY, JSON.stringify([{username:"admin",password:"mannu123",role:"admin",name:"Admin"}])); }
-else{ // force update to mannu123
-  let a=users.find(u=>u.username==="admin"); if(a){ a.password="mannu123"; localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+let imgBase64="";
+document.getElementById('file').addEventListener('change', e=>{
+ let reader=new FileReader();
+ reader.onload=()=>{
+   imgBase64=reader.result;
+   document.getElementById('preview').src=imgBase64;
+   document.getElementById('preview').style.display='block';
+ };
+ reader.readAsDataURL(e.target.files[0]);
+});
+
+function addNews(){
+ let t=document.getElementById('title').value;
+ if(!t){alert('Title likho');return;}
+ let n={title:t, cat:document.getElementById('cat').value+" • ABHI", img: imgBase64 || "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Gold_bars.jpg/400px-Gold_bars.jpg"};
+ let arr=JSON.parse(localStorage.getItem('myGoldNews')||'[]');
+ arr.push(n);
+ localStorage.setItem('myGoldNews', JSON.stringify(arr));
+ document.getElementById('title').value=""; alert('Publish ho gayi! Ab Home pe dekho');
+ showMy();
 }
 
-async function loadRealCounter(){
-  try{
-    let r=await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits');
-    let d=await r.json();
-    let count=d.count||0;
-    if(count>0){ document.getElementById('realCount').innerText= count.toLocaleString()+" views"; document.getElementById('uniqueCount').innerText= count.toLocaleString(); }
-  }catch(e){}
+function showMy(){
+ let arr=JSON.parse(localStorage.getItem('myGoldNews')||'[]');
+ document.getElementById('myList').innerHTML=arr.reverse().map((n,i)=>`
+ <div class="news"><img src="${n.img}" style="width:60px;height:50px;border-radius:6px;object-fit:cover"><div style="font-size:12px;font-weight:700">${n.title}</div></div>`).join('') || 'Koi news nahi';
 }
-loadRealCounter();
-function getPosts(){ return JSON.parse(localStorage.getItem(POSTS_KEY)||"[]"); }
-function openTab(t){
-  ['dashboard','posts','writers','pending','seo'].forEach(x=>{ document.getElementById('view-'+x).classList.add('hidden'); document.getElementById('btn-'+x)?.classList.remove('active'); document.getElementById('btn-'+x)?.classList.add('text-gray-400'); });
-  document.getElementById('view-'+t).classList.remove('hidden'); document.getElementById('btn-'+t)?.classList.add('active');
-  if(t==='posts') renderPosts(); if(t==='writers') renderWriters(); if(t==='pending') renderPending(); if(t==='dashboard'){ renderAllDash(); renderWritersDash(); renderPendingDash(); loadRealCounter(); }
-}
-function renderAllDash(){
-  let posts=getPosts(); let h=posts.length?"":"<p class='text-[11px] text-gray-400'>Koi post nahi, Add New Post dabao</p>";
-  posts.forEach(p=>{ h+=`<div class='flex justify-between items-center bg-gray-50 p-2.5 rounded-lg border'><div><p class='text-[12px] font-bold'>${p.title}</p><p class='text-[10px] text-gray-500'>${p.status} • ${p.date}</p></div><div class='flex gap-1'><button onclick='editPost(${p.id})' class='text-[10px] bg-[#0f172a] text-white px-2 py-1 rounded'>Edit</button><button onclick='deletePost(${p.id})' class='text-[10px] bg-red-500 text-white px-2 py-1 rounded'>Del</button></div></div>`; });
-  document.getElementById('allPostsDash').innerHTML=h;
-}
-function renderPosts(){ let posts=getPosts().filter(p=>p.status==='published'); let h=posts.length?"":"<p class='text-[12px] text-gray-500'>Koi post nahi</p>"; posts.forEach(p=>{ h+=`<div class='flex justify-between items-center p-3 border-b'><div><b class='text-[12px]'>${p.title}</b><p class='text-[10px] text-gray-500'>${p.date}</p></div><div class='flex gap-1'><button onclick='editPost(${p.id})' class='text-[10px] bg-black text-white px-2 py-1 rounded'>Edit</button><button onclick='deletePost(${p.id})' class='text-[10px] bg-red-500 text-white px-2 py-1 rounded'>Delete</button></div></div>`; }); document.getElementById('postsListFull').innerHTML=h; }
-function renderPending(){ let posts=getPosts().filter(p=>p.status==='draft'); let h=posts.length?"":"<p class='text-[12px] text-gray-500'>Token dalo</p>"; posts.forEach(p=>{ h+=`<div class='flex justify-between items-center p-3 border-b'><b class='text-[12px]'>${p.title}</b><div class='flex gap-1'><button onclick='editPost(${p.id})' class='text-[10px] bg-yellow-500 px-2 py-1 rounded'>Edit</button><button onclick='publishDraft(${p.id})' class='text-[10px] bg-green-600 text-white px-2 py-1 rounded'>Publish</button><button onclick='deletePost(${p.id})' class='text-[10px] bg-red-500 text-white px-2 py-1 rounded'>Del</button></div></div>`; }); document.getElementById('pendingFull').innerHTML=h; }
-function renderWriters(){ let all=JSON.parse(localStorage.getItem(USERS_KEY)); let writers=all.filter(u=>u.role==='writer'); let h=writers.length?"":"<p class='text-[12px] text-gray-500'>Koi writer nahi</p>"; writers.forEach((w,i)=>{ h+=`<div class='bg-white p-3 rounded-lg border flex justify-between'><span class='text-[12px]'><b>${w.name}</b> - ${w.email}</span><button onclick='removeWriter(${i})' class='text-[11px] text-red-500'>Remove</button></div>`; }); document.getElementById('writersFull').innerHTML=h; }
-function renderWritersDash(){ let all=JSON.parse(localStorage.getItem(USERS_KEY)); let writers=all.filter(u=>u.role==='writer'); document.getElementById('writerDash').innerText= writers.length? writers.map(w=>w.name).join(', ') : "Koi writer nahi"; }
-function renderPendingDash(){ let drafts=getPosts().filter(p=>p.status==='draft'); document.getElementById('pendingDash').innerText= drafts.length? drafts.length+" draft pending" : "Token dalo"; }
-function openAddPost(){ document.getElementById('postForm').classList.remove('hidden'); document.getElementById('pTitle').focus(); }
-function closeForm(){ document.getElementById('postForm').classList.add('hidden'); document.getElementById('editId').value=""; document.getElementById('pTitle').value=""; document.getElementById('pContent').value=""; }
-function savePost(status){ let t=document.getElementById('pTitle').value.trim(), c=document.getElementById('pContent').value.trim(), eid=document.getElementById('editId').value; if(!t) return alert("Title daal"); let posts=getPosts(); if(eid){ let i=posts.findIndex(p=>p.id==eid); posts[i].title=t; posts[i].content=c; posts[i].status=status; posts[i].date=new Date().toLocaleString(); } else { posts.unshift({id:Date.now(), title:t, content:c, status, date:new Date().toLocaleString(), author:"Admin"}); } localStorage.setItem(POSTS_KEY, JSON.stringify(posts)); closeForm(); renderAllDash(); renderPosts(); renderPendingDash(); renderPending(); }
-function editPost(id){ let p=getPosts().find(x=>x.id==id); document.getElementById('pTitle').value=p.title; document.getElementById('pContent').value=p.content; document.getElementById('editId').value=p.id; document.getElementById('postForm').classList.remove('hidden'); window.scrollTo(0,300); }
-function deletePost(id){ if(!confirm("Delete karna hai?")) return; localStorage.setItem(POSTS_KEY, JSON.stringify(getPosts().filter(p=>p.id!=id))); renderAllDash(); renderPosts(); renderPending(); renderPendingDash(); }
-function publishDraft(id){ let posts=getPosts(); let i=posts.findIndex(p=>p.id==id); posts[i].status='published'; localStorage.setItem(POSTS_KEY, JSON.stringify(posts)); renderAllDash(); renderPosts(); renderPending(); renderPendingDash(); }
-function addWriter(){ let n=document.getElementById('wName').value.trim(), e=document.getElementById('wEmail').value.trim(), p=document.getElementById('wPass').value.trim(); if(!n||!e||!p) return alert("Sab bhar"); let all=JSON.parse(localStorage.getItem(USERS_KEY)); all.push({username:e.split('@')[0], password:p, role:"writer", name:n, email:e}); localStorage.setItem(USERS_KEY, JSON.stringify(all)); document.getElementById('wName').value=""; document.getElementById('wEmail').value=""; document.getElementById('wPass').value=""; renderWriters(); renderWritersDash(); alert("Writer add ho gaya"); }
-function removeWriter(i){ let all=JSON.parse(localStorage.getItem(USERS_KEY)); let writers=all.filter(u=>u.role==='writer'); let target=writers[i]; localStorage.setItem(USERS_KEY, JSON.stringify(all.filter(u=>u.email!==target.email))); renderWriters(); renderWritersDash(); }
-renderAllDash(); renderWritersDash(); renderPendingDash();
+function clearAll(){ if(confirm('Pakka delete?')){localStorage.removeItem('myGoldNews'); showMy();}}
+showMy();
 </script>
 </body>
 </html>
