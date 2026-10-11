@@ -1,46 +1,13 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold Price Today - Live Sona Chandi Bhav</title>
-<meta name="description" content="Aaj ka Sona Chandi ka bhav - Live Gold Price Today">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#f0f2f5;padding-bottom:75px}
-.top{background:#000;color:#fff;text-align:center;padding:7px;font-size:11px}
-.head{background:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;position:sticky;top:0;z-index:10;box-shadow:0 1px 6px rgba(0,0,0,.1)}
-.logo{font-size:22px;font-weight:900} .logo span{color:#eab308}
-.nav{display:flex;gap:20px;background:#fff;padding:11px 16px;overflow:auto;white-space:nowrap;border-bottom:2px solid #111;position:sticky;top:53px;z-index:9}
-.nav a{color:#000;font-weight:700;text-decoration:none;font-size:14px;cursor:pointer;padding-bottom:4px}
-.nav a.active{color:#e11d48;border-bottom:2.5px solid #e11d48}
-.price{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
-.card{border-radius:16px;padding:16px}
-.gold{background:linear-gradient(135deg,#fff9c4,#ffcc33)} .silver{background:linear-gradient(135deg,#eef2f7,#b8c6d6)}
-.rate{font-size:26px;font-weight:900}
-.sec{background:#fff;margin:10px 14px;padding:11px;border-left:4px solid #e11d48;font-weight:800;display:flex;justify-content:space-between;align-items:center}
-.news{background:#fff;margin:10px 14px;border-radius:14px;display:flex;gap:10px;padding:10px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer}
-.news:active{transform:scale(0.98)}
-.news-img{width:95px;height:75px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;border-top:1px solid #ddd;padding:8px 0;z-index:999}
-.bottom-nav a{text-decoration:none;color:#666;text-align:center;font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;cursor:pointer}
-.bottom-nav a.active{color:#e11d48}
-.live-dot{width:8px;height:8px;background:#00ff42;border-radius:50%;display:inline-block;animation:blink 1s infinite;margin-right:5px}@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
-#newsModal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);display:none;z-index:1000;align-items:center;justify-content:center;padding:20px}
-.modal-box{background:#fff;border-radius:16px;padding:20px;max-width:400px;width:100%}
-</style>
-</head>
-<body>
-<div class="top"><span class="live-dot"></span>LIVE IBJA RATE • Auto Update</div>
-<div class="head"><div class="logo">💰 GOLD PRICE <span>TODAY</span></div><span style="font-size:12px;color:#16a34a;font-weight:800">● LIVE</span></div>
-<div class="nav">
-<a class="active" id="tab-all" onclick="filterNews('all',this)">Sona-Chandi</a>
-<a id="tab-gold" onclick="filterNews('gold',this)">Gold 24K</a>
-<a id="tab-silver" onclick="filterNews('silver',this)">Silver</a>
-<a id="tab-market" onclick="filterNews('market',this)">News</a>
-</div>
-
+<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gold Price Today</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}body{background:#f5f5f5;padding-bottom:80px}.top{background:#000;color:#fff;text-align:center;padding:8px;font-size:12px}.head{background:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 5px #0001}.logo{font-size:22px;font-weight:900}.logo span{color:#eab308}.nav{background:#fff;display:flex;gap:18px;padding:12px 16px;border-bottom:2px solid #000;overflow:auto}.nav a{font-weight:700;font-size:14px;white-space:nowrap}.nav a.active{color:#e11d48;border-bottom:3px solid #e11d48}.price{padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{border-radius:15px;padding:15px}.gold{background:linear-gradient(135deg,#fff9c4,#ffcc33)}.silver{background:linear-gradient(135deg,#e8eef5,#b9c6d8)}.rate{font-size:24px;font-weight:900}.news{background:#fff;margin:10px 12px;border-radius:12px;padding:10px;display:flex;gap:10px;align-items:center}.news-img{width:85px;height:70px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:30px}</style></head><body>
+<div class="top">🟢 LIVE IBJA RATE • Auto Update</div>
+<div class="head"><div class="logo">💰 GOLD PRICE <span>TODAY</span></div><div style="color:green;font-weight:800;font-size:12px">● LIVE</div></div>
+<div class="nav"><a class="active">Sona-Chandi</a><a>Gold 24K</a><a>Silver</a><a>News</a></div>
 <div class="price">
-<div class="card gold">
-<div style="font-size:12px;font-weight:700">🪙 सोना 24K - 10 ग्राम</div>
-<div class="rate" id="goldRate">₹1,28,776</div>
-<div style="color:#15803d;font-weight:800;font-size:13px">▲ ₹720 (LIVE)</div
+<div class="card gold"><div style="font-size:12px;font-weight:700">🪙 सोना 24K - 10 ग्राम</div><div class="rate">₹1,28,776</div><div style="color:green;font-weight:700;font-size:13px">▲ ₹720 (LIVE)</div></div>
+<div class="card silver"><div style="font-size:12px;font-weight:700">⚪ चांदी - 1 किलो</div><div class="rate">₹1,55,632</div><div style="color:green;font-weight:700;font-size:13px">▲ ₹1,250 (LIVE)</div></div>
+</div>
+<div style="background:#fff;margin:10px 12px;padding:10px;border-left:4px solid #e11d48;font-weight:800">सोना-चांदी की ताज़ा खबरें</div>
+<div class="news"><div class="news-img" style="background:linear-gradient(135deg,#fff9c4,#ffcc33)">🪙</div><div><b style="font-size:14px">सोना 700 रुपये उछला, निवेशकों की बढ़ी दिलचस्पी</b><br><small style="color:#e11d48;font-weight:700">GOLD NEWS • 4 MIN PHELE</small></div></div>
+<div class="news"><div class="news-img" style="background:linear-gradient(135deg,#e8eef5,#b9c6d8)">⚪</div><div><b style="font-size:14px">चांदी 1500 रुपये मजबूत, औद्योगिक मांग से सहारा</b><br><small style="color:#e11d48;font-weight:700">SILVER NEWS • 28 MIN PHELE</small></div></div>
+<div class="news"><div class="news-img" style="background:linear-gradient(135deg,#ffdbdb,#ff9a9a)">💍</div><div><b style="font-size:14px">शादियों का सीजन शुरू, सोना-चांदी में तेजी जारी</b><br><small style="color:#e11d48;font-weight:700">MARKET • 1 HOUR PHELE</small></div></div>
+</body></html>
