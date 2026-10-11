@@ -1,84 +1,92 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aaj Ka Sone Ka Bhav | Gold Price Today All State Live</title>
+<title>Gold Price Today - Live Gold Rate in India</title>
+<meta name="description" content="Check Live Gold Price Today in India - 24K, 22K Gold Rate with Real-time Updates">
 <script src="https://cdn.tailwindcss.com"></script>
-<script>fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits/up').catch(()=>{})</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-yellow-50">
+<body class="bg-[#0a0a0a] text-white">
 
-<header class="bg-yellow-900 text-white p-4">
-<div class="max-w-5xl mx-auto flex justify-between items-center">
-<h1 class="text-xl font-black">🏅 GoldPriceToday</h1>
-<div class="flex gap-2">
-<input id="searchInput" placeholder="City search..." class="px-3 py-1 rounded-full text-black text-sm w-28">
-<button onclick="searchGold()" class="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold">Search</button>
-</div>
-</div>
+<!-- Header -->
+<header class="bg-[#111] border-b border-gray-800 p-4 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold text-yellow-400"><i class="fa-solid fa-coins mr-2"></i>Gold Price Today</h1>
+    <div class="flex items-center gap-4">
+      <span class="text-xs text-gray-400">Live Views: <b id="liveViews" class="text-yellow-400">0</b></span>
+      <a href="/admin.html" class="text-xs bg-gray-800 px-3 py-1 rounded">Admin</a>
+    </div>
+  </div>
 </header>
 
-<div class="bg-yellow-900 text-center pb-6 pt-2 text-white">
-<h2 class="text-2xl font-bold">Aaj Ka Sone Ka Bhav - 12 Oct 2026</h2>
-<p class="text-yellow-200 text-sm">Live 24K, 22K Gold Price All Over India</p>
-</div>
+<div class="max-w-6xl mx-auto p-4 grid md:grid-cols-3 gap-6 mt-6">
+  <!-- Left - Gold Price -->
+  <div class="md:col-span-2 space-y-6">
+    <!-- Gold Rate Card -->
+    <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 text-black p-6 rounded-2xl">
+      <h2 class="text-2xl font-bold">Gold Price Today in India</h2>
+      <p class="text-sm opacity-80 mt-1" id="todayDate"></p>
+      <div class="grid grid-cols-2 gap-4 mt-6">
+        <div class="bg-black/10 p-4 rounded-xl">
+          <p class="text-sm">24K Gold (10g)</p>
+          <h3 class="text-2xl font-bold mt-1">₹ 72,450</h3>
+          <p class="text-xs mt-1"><i class="fa fa-arrow-up"></i> + ₹320 Today</p>
+        </div>
+        <div class="bg-black/10 p-4 rounded-xl">
+          <p class="text-sm">22K Gold (10g)</p>
+          <h3 class="text-2xl font-bold mt-1">₹ 66,420</h3>
+          <p class="text-xs mt-1"><i class="fa fa-arrow-up"></i> + ₹280 Today</p>
+        </div>
+      </div>
+    </div>
 
-<!-- MAIN PRICE -->
-<div class="max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-6 -mt-4 text-center">
-<p class="text-sm text-gray-500">Delhi - 24K Gold (10 Gram)</p>
-<h2 class="text-4xl font-black text-yellow-800">₹ 1,55,290</h2>
-<p class="text-green-600 font-bold text-sm">▲ ₹ 420 Uptrend</p>
-<p class="text-xs mt-2">22K: ₹1,42,350 | Silver: ₹92,500/kg</p>
-</div>
+    <!-- Dynamic Posts from Admin -->
+    <div id="postsContainer" class="space-y-4">
+      <h2 class="text-xl font-bold">Latest Gold News</h2>
+      <div id="postsList" class="space-y-4"></div>
+    </div>
+  </div>
 
-<!-- ALL STATE -->
-<div class="max-w-5xl mx-auto p-4 mt-6">
-<h3 class="font-bold text-lg">📍 All State Gold Price</h3>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-<a href="#" class="bg-white p-3 rounded-xl shadow text-center"><b>Delhi</b><br><span class="text-xs">₹1,55,290</span></a>
-<a href="#" class="bg-white p-3 rounded-xl shadow text-center"><b>Mumbai</b><br><span class="text-xs">₹1,55,150</span></a>
-<a href="#" class="bg-white p-3 rounded-xl shadow text-center"><b>Kolkata</b><br><span class="text-xs">₹1,55,400</span></a>
-<a href="#" class="bg-white p-3 rounded-xl shadow text-center"><b>Chennai</b><br><span class="text-xs">₹1,55,800</span></a>
-<a href="#" class="bg-white p-3 rounded-xl shadow text-center"><b>UP - Lucknow</b><br><span class="text-xs">₹1,55,290</span></a>
-<a href="#" class="bg-white p-3 rounded-xl shadow text-center"><b>Bihar - Patna</b><br><span class="text-xs">₹1,55,100</span></a>
-<a href="#" class="bg-white p-3 rounded-xl shadow text-center"><b>Rajasthan</b><br><span class="text-xs">₹1,55,300</span></a>
-<a href="#" class="bg-white p-3 rounded-xl shadow text-center"><b>Gujarat</b><br><span class="text-xs">₹1,55,200</span></a>
+  <!-- Right Sidebar -->
+  <div class="space-y-4">
+    <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
+      <h3 class="font-bold mb-3">Gold Price in Cities</h3>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between"><span>Delhi</span><b>₹ 72,500</b></div>
+        <div class="flex justify-between"><span>Mumbai</span><b>₹ 72,450</b></div>
+        <div class="flex justify-between"><span>Jaipur</span><b>₹ 72,380</b></div>
+        <div class="flex justify-between"><span>Alwar</span><b class="text-yellow-400">₹ 72,300</b></div>
+      </div>
+    </div>
+    <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 text-center">
+      <p class="text-sm text-gray-400">Real Visitors</p>
+      <h2 id="sideViews" class="text-3xl font-bold text-yellow-400 mt-1">0</h2>
+    </div>
+  </div>
 </div>
-</div>
-
-<!-- BLOG -->
-<div class="max-w-5xl mx-auto p-4">
-<h3 class="font-bold text-lg">📰 Latest News</h3>
-<div class="bg-white rounded-2xl shadow p-4 mt-3 flex justify-between items-center">
-<div>
-<h4 class="font-bold">Sone Ka Bhav Kyu Badh Raha Hai?</h4>
-<p class="text-xs text-gray-500">7 bade karan janiye...</p>
-</div>
-<a href="/blog/gold-price-rising.html" class="bg-black text-white px-4 py-2 rounded-full text-xs font-bold">Pura Padhe →</a>
-</div>
-<div class="text-center mt-4">
-<a href="/blog/" class="text-yellow-900 font-bold underline">Sabhi Posts Dekhe →</a>
-</div>
-</div>
-
-<!-- FOUNDER -->
-<div class="max-w-5xl mx-auto p-4 mt-2">
-<div class="bg-white rounded-2xl shadow p-5 text-center">
-<img src="https://ui-avatars.com/api/?name=Manish+Kumar&background=facc15&color=000" class="w-14 h-14 rounded-full mx-auto">
-<h4 class="font-bold mt-2">Founder: Manish Kumar</h4>
-<p class="text-xs text-gray-500">GoldPriceToday.in ke owner aur gold market expert. 5+ saal ka experience.</p>
-<p class="text-xs mt-1">Contact: goldpricetoday@gmail.com</p>
-</div>
-</div>
-
-<footer class="text-center text-xs text-gray-400 py-6">© 2026 GoldPriceToday.in | All Rights Reserved</footer>
 
 <script>
-function searchGold(){
-let city = document.getElementById('searchInput').value;
-if(city){ alert(city + " me gold price: ₹1,55,290 (Live)"); } else { alert("City naam likhe!"); }
+// Date
+document.getElementById('todayDate').innerText = new Date().toDateString();
+
+// Real Counter - Increase + Show
+async function updateRealCounter(){
+  try{
+    // Increase count
+    await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits/up');
+    // Get count
+    const r = await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits');
+    const d = await r.json();
+    document.getElementById('liveViews').innerText = d.count;
+    document.getElementById('sideViews').innerText = d.count;
+  }catch(e){
+    document.getElementById('liveViews').innerText = "Live";
+  }
 }
-</script>
-</body>
-</html>
+updateRealCounter();
+
+// Load Posts from Admin (localStorage)
+function loadFrontPosts(){
+  let posts = JSON.parse
