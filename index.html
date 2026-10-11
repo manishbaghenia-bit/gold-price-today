@@ -23,4 +23,18 @@ if(location.search.includes('admin=1')){
  } else {alert('Galat password!');}
 }
 </script>
+<script>
+if(location.search.includes('admin=1')){
+ let p=prompt('Password:');
+ if(p==='gold123'){
+  let ng=prompt('Naya GOLD price likho:','151420');
+  if(ng){localStorage.setItem('g',ng);document.querySelectorAll('.r')[0].innerText='₹'+Number(ng).toLocaleString('en-IN');alert('Gold Save Ho Gaya!');}
+  let ns=prompt('Naya SILVER price likho:','227137');
+  if(ns){localStorage.setItem('s',ns);document.querySelectorAll('.r')[1].innerText='₹'+Number(ns).toLocaleString('en-IN');}
+ } else {alert('Galat Password');}
+}
+let g=localStorage.getItem('g'),s=localStorage.getItem('s');
+if(g)document.querySelectorAll('.r')[0].innerText='₹'+Number(g).toLocaleString('en-IN');
+if(s)document.querySelectorAll('.r')[1].innerText='₹'+Number(s).toLocaleString('en-IN');
+</script>
 </body></html>
