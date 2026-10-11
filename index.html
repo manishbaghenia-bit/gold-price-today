@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold Price Today - Live Sona Chandi</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Price Today</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#f0f2f5;padding-bottom:80px}
+body{background:#f0f2f5;padding-bottom:80px;scroll-behavior:smooth}
 .top{background:#000;color:#fff;text-align:center;padding:7px;font-size:11px}
 .head{background:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;position:sticky;top:0;z-index:10;box-shadow:0 1px 6px rgba(0,0,0,.1)}
 .logo{font-size:22px;font-weight:900} .logo span{color:#eab308}
-.nav{display:flex;gap:20px;background:#fff;padding:11px 16px;overflow:auto;white-space:nowrap;border-bottom:2px solid #111}
-.nav a{color:#000;font-weight:700;text-decoration:none;font-size:14px}.nav a.active{color:#e11d48;border-bottom:2.5px solid #e11d48}
+.nav{display:flex;gap:20px;background:#fff;padding:11px 16px;overflow:auto;white-space:nowrap;border-bottom:2px solid #111;position:sticky;top:54px;z-index:9}
+.nav a{color:#000;font-weight:700;text-decoration:none;font-size:14px;cursor:pointer}.nav a.active{color:#e11d48;border-bottom:2.5px solid #e11d48}
 .price{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
-.card{border-radius:16px;padding:16px;position:relative}.gold{background:linear-gradient(135deg,#fff9c4,#ffcc33);border:1px solid #f0c000}.silver{background:linear-gradient(135deg,#eef2f7,#b8c6d6);border:1px solid #9aaec0}
-.rate{font-size:26px;font-weight:900;margin:6px 0}
-.sec{background:#fff;margin:10px 14px;padding:11px;border-left:4px solid #e11d48;font-weight:800}
-.news{background:#fff;margin:10px 14px;border-radius:14px;display:flex;gap:10px;padding:10px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card{border-radius:16px;padding:16px}.gold{background:linear-gradient(135deg,#fff9c4,#ffcc33)}.silver{background:linear-gradient(135deg,#eef2f7,#b8c6d6)}
+.rate{font-size:26px;font-weight:900}
+.sec{background:#fff;margin:10px 14px;padding:11px;border-left:4px solid #e11d48;font-weight:800;display:flex;justify-content:space-between;align-items:center}
+.news{background:#fff;margin:10px 14px;border-radius:14px;display:flex;gap:10px;padding:10px;align-items:center}
 .news img{width:105px;height:80px;border-radius:10px;object-fit:cover;background:#eee}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;border-top:1px solid #ddd;padding:8px 0;z-index:999}
 .bottom-nav a{text-decoration:none;color:#666;text-align:center;font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center}
@@ -24,28 +23,41 @@ body{background:#f0f2f5;padding-bottom:80px}
 </style>
 </head>
 <body>
-<div class="top">LIVE IBJA RATE • gold-price-today-eight.vercel.app</div>
-<div class="head"><div class="logo">💰 GOLD PRICE <span>TODAY</span></div><div style="background:#e11d48;color:#fff;padding:6px 14px;border-radius:20px;font-weight:700;font-size:12px">LIVE</div></div>
-<div class="nav"><a class="active" href="#">Sona-Chandi</a><a href="#">Gold 24K</a><a href="#">Gold 22K</a><a href="#">Silver</a><a href="#">News</a></div>
+<div class="top">LIVE IBJA RATE</div>
+<div class="head"><div class="logo">💰 GOLD PRICE <span>TODAY</span></div><a href="admin.html" style="background:#000;color:#fff;padding:6px 14px;border-radius:20px;font-weight:700;font-size:12px;text-decoration:none">+ ADMIN</a></div>
+<div class="nav"><a class="active">Sona-Chandi</a><a>Gold 24K</a><a>Silver</a><a>News</a></div>
 <div class="price">
-<div class="card gold"><div class="rate">₹1,28,450</div><div style="color:green;font-weight:700;font-size:12px">▲ +₹720</div></div>
-<div class="card silver"><div class="rate">₹1,56,200</div><div style="color:green;font-weight:700;font-size:12px">▲ +₹1,250</div></div>
+<div class="card gold"><div style="font-size:12px;font-weight:600">🪙 सोना 24K - 10 ग्राम</div><div class="rate">₹1,28,450</div><div style="color:green;font-weight:700;font-size:12px">▲ +₹720</div></div>
+<div class="card silver"><div style="font-size:12px;font-weight:600">⚪ चांदी - 1 किलो</div><div class="rate">₹1,56,200</div><div style="color:green;font-weight:700;font-size:12px">▲ +₹1,250</div></div>
 </div>
-<div class="sec">सोना-चांदी की ताज़ा खबरें</div>
-<div class="news">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Gold_bars.jpg/400px-Gold_bars.jpg">
-<div><h3>सोना 700 रुपये उछला, निवेशकों की बढ़ी दिलचस्पी</h3><small style="color:#e11d48;font-weight:700">GOLD NEWS • 4 MIN PHELE</small></div>
-</div>
-<div class="news">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Silver_bars.jpg/400px-Silver_bars.jpg">
-<div><h3>चांदी 1500 रुपये मजबूत, औद्योगिक मांग से सहारा</h3><small style="color:#e11d48;font-weight:700">SILVER NEWS • 28 MIN PHELE</small></div>
-</div>
+
+<div class="sec"><span>सोना-चांदी की ताज़ा खबरें</span><a href="admin.html" style="font-size:12px;color:#e11d48;text-decoration:none">+ Add News</a></div>
+<div id="newsList"></div>
+
 <div class="bottom-nav">
-<a class="active" href="#"><span style="font-size:20px">🏠</span>Home</a>
+<a class="active" href="index.html"><span style="font-size:20px">🏠</span>Home</a>
 <a href="#"><span style="font-size:20px">💰</span>Gold</a>
 <a href="#"><span style="font-size:20px">⚪</span>Silver</a>
 <a href="#"><span style="font-size:20px">📰</span>News</a>
-<a href="#"><span style="font-size:20px">☰</span>More</a>
+<a href="admin.html"><span style="font-size:20px">⚙️</span>Admin</a>
 </div>
+
+<script>
+const defaultNews = [
+{title:"सोना 700 रुपये उछला, निवेशकों की बढ़ी दिलचस्पी", cat:"GOLD NEWS • 4 MIN PHELE", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Gold_bars.jpg/400px-Gold_bars.jpg"},
+{title:"चांदी 1500 रुपये मजबूत, औद्योगिक मांग से सहारा", cat:"SILVER NEWS • 28 MIN PHELE", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Silver_bars.jpg/400px-Silver_bars.jpg"}
+];
+function loadNews(){
+ let saved = JSON.parse(localStorage.getItem('myGoldNews') || '[]');
+ let all = [...saved.reverse(), ...defaultNews];
+ let html = all.map(n=>`
+ <div class="news">
+ <img src="${n.img}" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Gold_bars.jpg/400px-Gold_bars.jpg'">
+ <div><h3 style="font-size:14px;font-weight:700">${n.title}</h3><small style="color:#e11d48;font-weight:700">${n.cat}</small></div>
+ </div>`).join('');
+ document.getElementById('newsList').innerHTML=html;
+}
+loadNews();
+</script>
 </body>
 </html>
