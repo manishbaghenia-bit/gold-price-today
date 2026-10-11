@@ -1,40 +1,21 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gold Price Today</title><style>body{margin:0;font-family:sans-serif;background:#f2f2f2} .h{background:#fff;padding:12px;font-weight:900;font-size:20px} .h span{color:#eab308} .p{display:flex;gap:10px;padding:10px} .c{flex:1;border-radius:14px;padding:14px} .g{background:#ffe97a} .s{background:#cbd6e6} .r{font-size:23px;font-weight:900} .n{background:#fff;margin:8px;border-radius:12px;padding:10px;display:flex;gap:10px}</style></head><body>
-<div id="adm" style="display:none;background:#000;color:#fff;padding:10px;text-align:center">ADMIN MODE</div>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gold Price Today</title><style>body{margin:0;font-family:sans-serif;background:#f2f2f2}.h{background:#fff;padding:12px;font-weight:900;font-size:20px}.h span{color:#eab308}.p{display:flex;gap:10px;padding:10px}.c{flex:1;border-radius:14px;padding:14px}.g{background:#ffe97a}.s{background:#cbd6e6}.r{font-size:23px;font-weight:900}.n{background:#fff;margin:8px;border-radius:12px;padding:10px;display:flex;gap:10px}</style></head><body>
 <div style="background:#000;color:#fff;text-align:center;padding:6px;font-size:12px">LIVE • IBJA • 12 Oct 2026</div>
 <div class="h">💰 GOLD PRICE <span>TODAY</span></div>
 <div class="p">
-<div class="c g"><div>🪙 Sona 24K - 10gm</div><div class="r" id="gr">₹1,51,420</div><div style="color:green;font-weight:700">▲ LIVE</div></div>
-<div class="c s"><div>⚪ Chandi - 1kg</div><div class="r" id="sr">₹2,27,137</div><div style="color:green;font-weight:700">▲ LIVE</div></div>
+<div class="c g"><div>🪙 Sona 24K - 10gm</div><div class="r">₹1,51,420</div><div style="color:green;font-weight:700">▲ LIVE</div></div>
+<div class="c s"><div>⚪ Chandi - 1kg</div><div class="r">₹2,27,137</div><div style="color:green;font-weight:700">▲ LIVE</div></div>
 </div>
 <div class="n"><div style="font-size:30px">🪙</div><div><b>MCX Gold ₹1.51 Lakh Paar</b><br><small style="color:red">GOLD NEWS</small></div></div>
-<div class="n"><div style="font-size:30px">⚪</div><div><b>Chandi ₹2.27 Lakh per kg</b><br><small style="color:red">SILVER</small></div></div>
 <script>
-let g=localStorage.getItem('g'),s=localStorage.getItem('s');
-if(g)document.getElementById('gr').innerText='₹'+Number(g).toLocaleString('en-IN');
-if(s)document.getElementById('sr').innerText='₹'+Number(s).toLocaleString('en-IN');
-if(location.search.includes('admin=1')){
- let p=prompt('Password daalo:');
- if(p==='gold123'){
-  document.getElementById('adm').style.display='block';
-  let ng=prompt('Naya GOLD price likho - jaise 151800');
-  if(ng){localStorage.setItem('g',ng);alert('Save ho gaya!');location.href='/';}
-  let ns=prompt('Naya SILVER price likho - jaise 228000');
-  if(ns){localStorage.setItem('s',ns);location.href='/';}
- } else {alert('Galat password!');}
-}
-</script>
-<script>
-if(location.search.includes('admin=1')){
- let p=prompt('Password:');
- if(p==='gold123'){
-  let ng=prompt('Naya GOLD price likho:','151420');
-  if(ng){localStorage.setItem('g',ng);document.querySelectorAll('.r')[0].innerText='₹'+Number(ng).toLocaleString('en-IN');alert('Gold Save Ho Gaya!');}
-  let ns=prompt('Naya SILVER price likho:','227137');
-  if(ns){localStorage.setItem('s',ns);document.querySelectorAll('.r')[1].innerText='₹'+Number(ns).toLocaleString('en-IN');}
- } else {alert('Galat Password');}
-}
 let g=localStorage.getItem('g'),s=localStorage.getItem('s');
 if(g)document.querySelectorAll('.r')[0].innerText='₹'+Number(g).toLocaleString('en-IN');
 if(s)document.querySelectorAll('.r')[1].innerText='₹'+Number(s).toLocaleString('en-IN');
-</script>
-</body></html>
+if(location.search.includes('admin=1')){
+ let p=prompt('Password daalo:');
+ if(p==='gold123'){
+  let ng=prompt('Naya GOLD price:','151420'); if(ng){localStorage.setItem('g',ng);}
+  let ns=prompt('Naya SILVER price:','227137'); if(ns){localStorage.setItem('s',ns);}
+  alert('Save Ho Gaya!'); location.href='/';
+ } else {alert('Galat password!');}
+}
+</script></body></html>
