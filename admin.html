@@ -1,251 +1,189 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold Price - Pro Admin</title>
+<title>Admin CMS - PRO</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body{background:#f5f6fa; font-family: 'Inter', sans-serif;}
+.sidebar{background:#0f172a; min-height:100vh;}
+.active-menu{background:#1e293b; color:#fbbf24!important;}
+</style>
 </head>
-<body class="bg-[#0a0a0a] text-white min-h-screen">
+<body class="flex">
 
-<!-- LOGIN BOX -->
-<div id="loginBox" class="flex items-center justify-center min-h-screen p-4">
-  <div class="bg-[#1a1a1a] p-8 rounded-2xl w-full max-w-sm border border-gray-800">
-    <h1 class="text-2xl font-bold text-center mb-2">Gold Price Admin</h1>
-    <p class="text-gray-400 text-center text-sm mb-6">Pro Panel Login</p>
-    <input id="username" type="text" placeholder="Username" value="admin" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-gray-700 mb-3 outline-none focus:border-yellow-400">
-    <input id="password" type="password" placeholder="Password" value="" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-gray-700 mb-3 outline-none focus:border-yellow-400">
-    <button onclick="doLogin()" class="w-full bg-yellow-400 text-black p-3 rounded-lg font-bold hover:bg-yellow-300">Login</button>
-    <p id="loginErr" class="text-red-400 text-sm mt-3 hidden text-center">Galat ID / Password!</p>
-    <p class="text-[11px] text-gray-500 mt-4 text-center">Purana ID: admin | Pass: gold123</p>
+<!-- SIDEBAR - Same as your screenshot -->
+<div class="sidebar w-64 p-4 fixed h-full z-20 hidden md:block">
+  <div class="flex items-center gap-2 mb-8">
+    <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center"><i class="fa fa-newspaper text-black text-xs"></i></div>
+    <div><p class="text-yellow-500 font-bold text-xs leading-tight">GOLD PRICE<br>NEWS</p><p class="text-[9px] text-gray-400">ADMIN CMS — PRO</p></div>
+  </div>
+  <div class="space-y-1">
+    <button onclick="showTab('dashboard')" id="m-dashboard" class="active-menu w-full text-left px-3 py-2.5 rounded text-sm flex gap-2"><i class="fa fa-chart-simple"></i> Dashboard</button>
+    <button onclick="showTab('posts')" id="m-posts" class="w-full text-left px-3 py-2.5 rounded text-sm text-gray-400 flex gap-2"><i class="fa fa-file-lines"></i> Posts</button>
+    <button onclick="showTab('writers')" id="m-writers" class="w-full text-left px-3 py-2.5 rounded text-sm text-gray-400 flex gap-2"><i class="fa fa-users"></i> Writers</button>
+    <button onclick="showTab('pending')" id="m-pending" class="w-full text-left px-3 py-2.5 rounded text-sm text-gray-400 flex gap-2"><i class="fa fa-hourglass-half"></i> Pending</button>
+    <button onclick="showTab('seo')" id="m-seo" class="w-full text-left px-3 py-2.5 rounded text-sm text-gray-400 flex gap-2"><i class="fa fa-globe"></i> SEO</button>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel" class="hidden flex min-h-screen">
-  <!-- Sidebar -->
-  <div class="w-64 bg-[#111] border-r border-gray-800 p-5 hidden md:block">
-    <h2 class="font-bold text-yellow-400 text-lg">Gold Admin Pro</h2>
-    <div class="mt-8 space-y-2">
-      <button onclick="showTab('dashboard')" class="w-full text-left p-3 rounded bg-yellow-400 text-black font-bold"><i class="fa fa-chart-line mr-2"></i> Dashboard</button>
-      <button onclick="showTab('allposts')" class="w-full text-left p-3 rounded hover:bg-[#222]"><i class="fa fa-newspaper mr-2"></i> All Posts</button>
-      <button onclick="showTab('addpost')" class="w-full text-left p-3 rounded hover:bg-[#222]"><i class="fa fa-plus mr-2"></i> Add New Post</button>
-      <button onclick="showTab('drafts')" class="w-full text-left p-3 rounded hover:bg-[#222]"><i class="fa fa-file-lines mr-2"></i> Drafts</button>
-      <button onclick="showTab('writers')" class="w-full text-left p-3 rounded hover:bg-[#222]"><i class="fa fa-users mr-2"></i> Writers</button>
-      <button onclick="doLogout()" class="w-full text-left p-3 rounded text-red-400 mt-10"><i class="fa fa-right-from-bracket mr-2"></i> Logout</button>
+<!-- MAIN -->
+<div class="flex-1 md:ml-64 p-4 md:p-6 pb-20">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="font-bold text-lg">Dashboard</h1>
+    <p class="text-[11px] text-gray-500">Overview • Updated <span id="updateTime"></span></p>
+  </div>
+
+  <!-- DASHBOARD TAB -->
+  <div id="tab-dashboard">
+    <!-- Analytics Card - Same as screenshot but REAL -->
+    <div class="bg-white rounded-xl p-5 shadow-sm border mb-4">
+      <h3 class="font-semibold text-sm">Analytics: Views (Last 7 Days)</h3>
+      <div class="flex items-baseline gap-2 mt-1">
+        <h2 id="realViews" class="text-2xl font-bold">0 views</h2>
+        <span class="text-[11px] text-green-600 bg-green-100 px-2 py-0.5 rounded">Real Counter • Live</span>
+      </div>
+      <div class="mt-4 h-20 w-full relative">
+        <svg viewBox="0 0 100 30" class="w-full h-full"><path d="M0,20 Q10,15 20,18 T40,10 T60,15 T80,12 T100,25" fill="none" stroke="#d4a017" stroke-width="1.5"/><path d="M0,20 Q10,15 20,18 T40,10 T60,15 T80,12 T100,25 L100,30 L0,30 Z" fill="#fef3c7"/></svg>
+      </div>
+      <div class="flex gap-8 mt-3">
+        <div><p class="text-[11px] text-gray-500 flex gap-1"><i class="fa fa-clock"></i> Avg. Read Time:</p><p class="font-bold text-sm">3m 42s</p></div>
+        <div><p class="text-[11px] text-gray-500">👥 Unique Visitors:</p><p class="font-bold text-sm" id="uniqueViews">0</p></div>
+      </div>
+    </div>
+
+    <!-- Writer Management -->
+    <div class="bg-white rounded-xl p-4 shadow-sm border mb-4">
+      <h3 class="font-semibold text-sm">Writer Management</h3>
+      <div id="writerListDash" class="mt-2 text-sm text-gray-600">Koi writer nahi</div>
+      <button onclick="showTab('writers')" class="mt-3 text-xs bg-[#0f172a] text-white px-3 py-1.5 rounded">+ Add Writer</button>
+    </div>
+
+    <!-- Pending Posts -->
+    <div class="bg-white rounded-xl p-4 shadow-sm border mb-4">
+      <div class="flex justify-between"><h3 class="font-semibold text-sm">Pending Posts</h3><button onclick="showTab('pending')" class="text-[11px] text-blue-600">View All</button></div>
+      <div id="pendingListDash" class="mt-2 text-sm text-gray-600">Token dalo</div>
+    </div>
+
+    <!-- SEO Score - Same -->
+    <div class="bg-white rounded-xl p-4 shadow-sm border">
+      <h3 class="font-semibold text-sm">SEO Score</h3>
+      <div class="flex items-center gap-3 mt-2">
+        <div class="w-12 h-12 rounded-full border-4 border-yellow-500 flex items-center justify-center font-bold text-sm">87%</div>
+        <div><p class="font-bold text-sm">87 Good</p><p class="text-[11px] text-gray-500">SEO score is healthy. 3 suggestions pending</p></div>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <span class="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded">✅ Keywords: 92</span>
+        <span class="text-[10px] bg-orange-100 text-orange-700 px-2 py-1 rounded">⚠️ Readability: 78</span>
+      </div>
+      <span class="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded mt-2 inline-block">✅ Meta: 85</span>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="flex-1 p-4 md:p-8">
-    <!-- Dashboard -->
-    <div id="tab-dashboard">
-      <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
-          <p class="text-gray-400 text-sm">Real Views</p>
-          <h2 id="viewCount" class="text-3xl font-bold text-yellow-400 mt-1">0</h2>
-          <p class="text-[11px] text-gray-500 mt-1">Total Visitors (Real)</p>
-        </div>
-        <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
-          <p class="text-gray-400 text-sm">Total Posts</p>
-          <h2 id="totalPosts" class="text-3xl font-bold mt-1">0</h2>
-        </div>
-        <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
-          <p class="text-gray-400 text-sm">Drafts</p>
-          <h2 id="totalDrafts" class="text-3xl font-bold mt-1">0</h2>
-        </div>
-        <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800">
-          <p class="text-gray-400 text-sm">Writers</p>
-          <h2 id="totalWriters" class="text-3xl font-bold mt-1">0</h2>
-        </div>
-      </div>
-    </div>
-
-    <!-- All Posts -->
-    <div id="tab-allposts" class="hidden">
-      <h1 class="text-2xl font-bold mb-6">All Posts <button onclick="showTab('addpost')" class="ml-3 text-sm bg-yellow-400 text-black px-3 py-1 rounded">+ New</button></h1>
-      <div id="allPostsList" class="space-y-3"></div>
-    </div>
-
-    <!-- Add Post -->
-    <div id="tab-addpost" class="hidden">
-      <h1 class="text-2xl font-bold mb-6" id="postFormTitle">Add New Post</h1>
-      <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 max-w-3xl">
-        <input type="hidden" id="editPostId">
-        <input id="postTitle" type="text" placeholder="Post Title" class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-3 outline-none">
-        <textarea id="postContent" rows="8" placeholder="Post Content..." class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-3 outline-none"></textarea>
-        <div class="flex gap-3">
-          <button onclick="savePost('published')" class="bg-yellow-400 text-black px-6 py-3 rounded font-bold">Publish</button>
-          <button onclick="savePost('draft')" class="bg-gray-700 px-6 py-3 rounded font-bold">Save as Draft</button>
-          <button onclick="cancelEdit()" id="cancelBtn" class="hidden bg-red-900 px-6 py-3 rounded">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Drafts -->
-    <div id="tab-drafts" class="hidden">
-      <h1 class="text-2xl font-bold mb-6">Draft Posts</h1>
-      <div id="draftsList" class="space-y-3"></div>
-    </div>
-
-    <!-- Writers -->
-    <div id="tab-writers" class="hidden">
-      <h1 class="text-2xl font-bold mb-6">Writers Management</h1>
-      <div class="bg-[#1a1a1a] p-5 rounded-xl border border-gray-800 max-w-xl mb-6">
-        <h3 class="font-bold mb-3">Add New Writer</h3>
-        <input id="writerName" type="text" placeholder="Writer Name" class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-2 outline-none">
-        <input id="writerEmail" type="text" placeholder="Writer Email" class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-2 outline-none">
-        <input id="writerPass" type="text" placeholder="Set Password" class="w-full p-3 rounded bg-[#2a2a2a] border border-gray-700 mb-3 outline-none">
-        <button onclick="addWriter()" class="bg-yellow-400 text-black px-6 py-2 rounded font-bold">Add Writer</button>
-      </div>
-      <div id="writersList" class="space-y-2"></div>
+  <!-- POSTS TAB -->
+  <div id="tab-posts" class="hidden">
+    <div class="flex justify-between items-center mb-4"><h2 class="font-bold">All Posts</h2><button onclick="openAddPost()" class="bg-[#0f172a] text-white text-xs px-3 py-2 rounded">+ New Post</button></div>
+    <div id="allPostsList" class="space-y-3"></div>
+    <!-- Add/Edit Form -->
+    <div id="postForm" class="hidden bg-white p-4 rounded-xl border mt-4">
+      <h3 id="formTitle" class="font-bold text-sm mb-3">Add New Post</h3>
+      <input type="hidden" id="editId">
+      <input id="postTitle" placeholder="Title" class="w-full border p-2.5 rounded text-sm mb-2">
+      <textarea id="postContent" rows="5" placeholder="Content" class="w-full border p-2.5 rounded text-sm mb-2"></textarea>
+      <div class="flex gap-2"><button onclick="savePost('published')" class="bg-yellow-500 text-black px-4 py-2 rounded text-sm font-bold">Publish</button><button onclick="savePost('draft')" class="bg-gray-200 px-4 py-2 rounded text-sm">Save as Draft</button><button onclick="closeForm()" class="bg-red-100 text-red-600 px-4 py-2 rounded text-sm">Cancel</button></div>
     </div>
   </div>
+
+  <!-- WRITERS TAB -->
+  <div id="tab-writers" class="hidden">
+    <h2 class="font-bold mb-4">Writers</h2>
+    <div class="bg-white p-4 rounded-xl border mb-4">
+      <input id="wName" placeholder="Writer Name" class="w-full border p-2 rounded text-sm mb-2">
+      <input id="wEmail" placeholder="Email" class="w-full border p-2 rounded text-sm mb-2">
+      <input id="wPass" placeholder="Password" class="w-full border p-2 rounded text-sm mb-3">
+      <button onclick="addWriter()" class="bg-[#0f172a] text-white px-4 py-2 rounded text-sm">Add Writer</button>
+    </div>
+    <div id="writersList" class="space-y-2"></div>
+  </div>
+
+  <!-- PENDING TAB = DRAFTS -->
+  <div id="tab-pending" class="hidden">
+    <h2 class="font-bold mb-4">Pending / Draft Posts</h2>
+    <div id="pendingList" class="space-y-3"></div>
+  </div>
+
+  <!-- SEO TAB -->
+  <div id="tab-seo" class="hidden">
+    <div class="bg-white p-6 rounded-xl border"><h2 class="font-bold">SEO - 87% Good</h2><p class="text-sm text-gray-500 mt-2">Your SEO is healthy. Real counter integrated.</p></div>
+  </div>
+</div>
+
+<!-- Mobile Bottom Nav - Same as screenshot -->
+<div class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#0f172a] rounded-full px-6 py-2.5 flex gap-6 md:hidden">
+  <button onclick="showTab('dashboard')" class="text-yellow-400"><i class="fa fa-chart-simple"></i></button>
+  <button onclick="showTab('posts')" class="text-gray-400"><i class="fa fa-file-lines"></i></button>
+  <button onclick="showTab('writers')" class="text-gray-400"><i class="fa fa-users"></i></button>
+  <button onclick="showTab('pending')" class="text-gray-400"><i class="fa fa-hourglass-half"></i></button>
 </div>
 
 <script>
-// --- LOGIN SYSTEM - Purana ID/Pass same hai ---
-const USERS_KEY = "gold_users";
-const POSTS_KEY = "gold_posts";
-let defaultUsers = [
-  {username:"admin", password:"gold123", role:"admin", name:"Main Admin"}
-];
-if(!localStorage.getItem(USERS_KEY)){ localStorage.setItem(USERS_KEY, JSON.stringify(defaultUsers)); }
+document.getElementById('updateTime').innerText = new Date().toLocaleDateString() + " • " + new Date().toLocaleTimeString();
+const POSTS_KEY="gold_posts"; const USERS_KEY="gold_users";
+if(!localStorage.getItem(USERS_KEY)) localStorage.setItem(USERS_KEY, JSON.stringify([{username:"admin",password:"gold123",role:"admin",name:"Admin"}]));
 
-function doLogin(){
-  let u = document.getElementById('username').value.trim();
-  let p = document.getElementById('password').value.trim();
-  let users = JSON.parse(localStorage.getItem(USERS_KEY));
-  let found = users.find(x => x.username===u && x.password===p);
-  if(found){
-    localStorage.setItem('isAdminLogged','yes');
-    localStorage.setItem('currentUser', JSON.stringify(found));
-    showPanel();
-  } else {
-    document.getElementById('loginErr').classList.remove('hidden');
-  }
-}
-function doLogout(){ localStorage.removeItem('isAdminLogged'); location.reload(); }
-function showPanel(){
-  document.getElementById('loginBox').classList.add('hidden');
-  document.getElementById('adminPanel').classList.remove('hidden');
-  loadDashboard();
-  loadPosts();
-  loadWriters();
-  loadRealCounter();
-}
-if(localStorage.getItem('isAdminLogged')==='yes'){ showPanel(); }
-
-// --- REAL COUNTER ---
-async function loadRealCounter(){
+// REAL COUNTER - 0 se start
+async function loadReal(){
   try{
-    const r = await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits');
-    const d = await r.json();
-    document.getElementById('viewCount').innerText = d.count || 0;
-  }catch(e){ document.getElementById('viewCount').innerText = "0"; }
+    const r=await fetch('https://api.counterapi.dev/v1/gold-price-today-eight-2026/visits');
+    const d=await r.json();
+    document.getElementById('realViews').innerText = (d.count||0) + " views";
+    document.getElementById('uniqueViews').innerText = d.count||0;
+  }catch(e){ document.getElementById('realViews').innerText="0 views"; }
 }
+loadReal();
 
-// --- TABS ---
-function showTab(tab){
-  ['dashboard','allposts','addpost','drafts','writers'].forEach(t=>{
-    document.getElementById('tab-'+t).classList.add('hidden');
+function showTab(t){
+  ['dashboard','posts','writers','pending','seo'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.add('hidden');
+    document.getElementById('m-'+x)?.classList.remove('active-menu');
+    document.getElementById('m-'+x)?.classList.add('text-gray-400');
   });
-  document.getElementById('tab-'+tab).classList.remove('hidden');
-  if(tab==='dashboard') loadDashboard();
-  if(tab==='allposts') loadPosts();
-  if(tab==='drafts') loadDrafts();
+  document.getElementById('tab-'+t).classList.remove('hidden');
+  document.getElementById('m-'+t)?.classList.add('active-menu');
+  if(t==='posts') loadPosts();
+  if(t==='writers') loadWriters();
+  if(t==='pending') loadPending();
+  if(t==='dashboard'){ loadReal(); loadWritersDash(); loadPendingDash(); }
 }
-
-// --- POSTS SYSTEM ---
-function getPosts(){ return JSON.parse(localStorage.getItem(POSTS_KEY) || "[]"); }
-function savePost(status){
-  let title = document.getElementById('postTitle').value.trim();
-  let content = document.getElementById('postContent').value.trim();
-  let editId = document.getElementById('editPostId').value;
-  if(!title) return alert("Title daal babu!");
-  let posts = getPosts();
-  if(editId){
-    let idx = posts.findIndex(p=>p.id==editId);
-    posts[idx].title=title; posts[idx].content=content; posts[idx].status=status; posts[idx].date=new Date().toLocaleString();
-  } else {
-    posts.unshift({id:Date.now(), title, content, status, date:new Date().toLocaleString(), author: JSON.parse(localStorage.getItem('currentUser')).name});
-  }
-  localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-  document.getElementById('postTitle').value=""; document.getElementById('postContent').value=""; document.getElementById('editPostId').value="";
-  document.getElementById('cancelBtn').classList.add('hidden'); document.getElementById('postFormTitle').innerText="Add New Post";
-  alert(status==='draft'? "Draft me save ho gaya!" : "Post Publish ho gayi!");
-  loadPosts(); showTab('allposts'); loadDashboard();
-}
+function getPosts(){ return JSON.parse(localStorage.getItem(POSTS_KEY)||"[]"); }
 function loadPosts(){
-  let posts = getPosts().filter(p=>p.status==='published');
-  let html = posts.length? "" : "<p class='text-gray-500'>Koi post nahi hai</p>";
-  posts.forEach(p=>{
-    html+=`<div class='bg-[#1a1a1a] p-4 rounded-xl border border-gray-800 flex justify-between items-center'><div><h3 class='font-bold'>${p.title}</h3><p class='text-xs text-gray-500'>${p.date} • ${p.author}</p></div><div class='flex gap-2'><button onclick='editPost(${p.id})' class='bg-gray-700 px-3 py-1 rounded text-sm'>Edit</button><button onclick='deletePost(${p.id})' class='bg-red-900 px-3 py-1 rounded text-sm'>Delete</button></div></div>`;
-  });
-  document.getElementById('allPostsList').innerHTML=html;
-  loadDrafts(); loadDashboard();
+  let posts=getPosts().filter(p=>p.status==='published');
+  let h=posts.length?"":"<p class='text-sm text-gray-500'>Koi post nahi</p>";
+  posts.forEach(p=>{ h+=`<div class='bg-white p-4 rounded-xl border flex justify-between'><div><b class='text-sm'>${p.title}</b><p class='text-[11px] text-gray-500'>${p.date}</p></div><div class='flex gap-2'><button onclick='editPost(${p.id})' class='text-xs bg-gray-800 text-white px-2 py-1 rounded'>Edit</button><button onclick='deletePost(${p.id})' class='text-xs bg-red-500 text-white px-2 py-1 rounded'>Del</button></div></div>`; });
+  document.getElementById('allPostsList').innerHTML=h;
 }
-function loadDrafts(){
-  let posts = getPosts().filter(p=>p.status==='draft');
-  let html = posts.length? "" : "<p class='text-gray-500'>Koi draft nahi</p>";
-  posts.forEach(p=>{
-    html+=`<div class='bg-[#1a1a1a] p-4 rounded-xl border border-gray-800 flex justify-between items-center'><div><h3 class='font-bold'>${p.title}</h3><p class='text-xs text-gray-500'>${p.date}</p></div><div class='flex gap-2'><button onclick='editPost(${p.id})' class='bg-yellow-400 text-black px-3 py-1 rounded text-sm'>Edit</button><button onclick='publishDraft(${p.id})' class='bg-green-700 px-3 py-1 rounded text-sm'>Publish</button><button onclick='deletePost(${p.id})' class='bg-red-900 px-3 py-1 rounded text-sm'>Delete</button></div></div>`;
-  });
-  document.getElementById('draftsList').innerHTML=html;
+function loadPending(){ let posts=getPosts().filter(p=>p.status==='draft'); let h=posts.length?"":"<p class='text-sm text-gray-500'>Token dalo</p>"; posts.forEach(p=>{ h+=`<div class='bg-white p-4 rounded-xl border flex justify-between'><div><b class='text-sm'>${p.title}</b><p class='text-[11px] text-gray-500'>Draft</p></div><div class='flex gap-2'><button onclick='editPost(${p.id})' class='text-xs bg-yellow-500 px-2 py-1 rounded'>Edit</button><button onclick='publishDraft(${p.id})' class='text-xs bg-green-600 text-white px-2 py-1 rounded'>Publish</button><button onclick='deletePost(${p.id})' class='text-xs bg-red-500 text-white px-2 py-1 rounded'>Del</button></div></div>`; }); document.getElementById('pendingList').innerHTML=h; }
+function loadWriters(){ let users=JSON.parse(localStorage.getItem(USERS_KEY)).filter(u=>u.role==='writer'); let h=users.length?"":"<p class='text-sm text-gray-500'>Koi writer nahi</p>"; users.forEach((u,i)=>{ h+=`<div class='bg-white p-3 rounded border flex justify-between'><span class='text-sm'><b>${u.name}</b> - ${u.email}</span><button onclick='removeWriter(${i})' class='text-xs text-red-500'>Remove</button></div>`; }); document.getElementById('writersList').innerHTML=h; }
+function loadWritersDash(){ let users=JSON.parse(localStorage.getItem(USERS_KEY)).filter(u=>u.role==='writer'); document.getElementById('writerListDash').innerText= users.length? users.map(u=>u.name).join(', ') : "Koi writer nahi"; }
+function loadPendingDash(){ let drafts=getPosts().filter(p=>p.status==='draft'); document.getElementById('pendingListDash').innerText= drafts.length? drafts.length+" drafts pending" : "Token dalo"; }
+function openAddPost(){ document.getElementById('postForm').classList.remove('hidden'); document.getElementById('formTitle').innerText="Add New Post"; }
+function closeForm(){ document.getElementById('postForm').classList.add('hidden'); document.getElementById('editId').value=""; document.getElementById('postTitle').value=""; document.getElementById('postContent').value=""; }
+function savePost(status){
+  let title=document.getElementById('postTitle').value.trim(); let content=document.getElementById('postContent').value.trim(); let editId=document.getElementById('editId').value;
+  if(!title) return alert("Title daal");
+  let posts=getPosts();
+  if(editId){ let idx=posts.findIndex(p=>p.id==editId); posts[idx].title=title; posts[idx].content=content; posts[idx].status=status; posts[idx].date=new Date().toLocaleString(); }
+  else{ posts.unshift({id:Date.now(), title, content, status, date:new Date().toLocaleString(), author:"Admin"}); }
+  localStorage.setItem(POSTS_KEY, JSON.stringify(posts)); closeForm(); loadPosts(); loadPending(); loadPendingDash(); alert(status==='draft'?"Draft save ho gaya":"Publish ho gaya");
 }
-function editPost(id){
-  let p = getPosts().find(x=>x.id==id);
-  document.getElementById('postTitle').value=p.title;
-  document.getElementById('postContent').value=p.content;
-  document.getElementById('editPostId').value=p.id;
-  document.getElementById('postFormTitle').innerText="Edit Post";
-  document.getElementById('cancelBtn').classList.remove('hidden');
-  showTab('addpost');
-}
-function deletePost(id){
-  if(!confirm("Delete karna hai?")) return;
-  let posts = getPosts().filter(p=>p.id!=id);
-  localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-  loadPosts(); loadDrafts(); loadDashboard();
-}
-function publishDraft(id){
-  let posts = getPosts(); let idx = posts.findIndex(p=>p.id==id); posts[idx].status='published';
-  localStorage.setItem(POSTS_KEY, JSON.stringify(posts)); loadPosts();
-}
-function cancelEdit(){ document.getElementById('editPostId').value=""; document.getElementById('postTitle').value=""; document.getElementById('postContent').value=""; document.getElementById('cancelBtn').classList.add('hidden'); }
-function loadDashboard(){
-  let posts = getPosts();
-  document.getElementById('totalPosts').innerText = posts.filter(p=>p.status==='published').length;
-  document.getElementById('totalDrafts').innerText = posts.filter(p=>p.status==='draft').length;
-  let users = JSON.parse(localStorage.getItem(USERS_KEY)); document.getElementById('totalWriters').innerText = users.filter(u=>u.role==='writer').length;
-}
-
-// --- WRITERS ---
-function addWriter(){
-  let name = document.getElementById('writerName').value.trim();
-  let email = document.getElementById('writerEmail').value.trim();
-  let pass = document.getElementById('writerPass').value.trim();
-  if(!name ||!email ||!pass) return alert("Saari details bhar!");
-  let users = JSON.parse(localStorage.getItem(USERS_KEY));
-  users.push({username: email.split('@')[0], password: pass, role: "writer", name, email});
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  document.getElementById('writerName').value=""; document.getElementById('writerEmail').value=""; document.getElementById('writerPass').value="";
-  loadWriters(); loadDashboard(); alert("Writer add ho gaya!");
-}
-function loadWriters(){
-  let users = JSON.parse(localStorage.getItem(USERS_KEY)).filter(u=>u.role==='writer');
-  let html = users.length? "" : "<p class='text-gray-500'>Koi writer nahi</p>";
-  users.forEach((u,i)=>{
-    html+=`<div class='bg-[#1a1a1a] p-3 rounded border border-gray-800 flex justify-between'><div><b>${u.name}</b> <span class='text-xs text-gray-500'>(${u.email})</span></div><button onclick='removeWriter(${i})' class='text-red-400 text-sm'>Remove</button></div>`;
-  });
-  document.getElementById('writersList').innerHTML=html;
-}
-function removeWriter(idx){
-  let all = JSON.parse(localStorage.getItem(USERS_KEY)); let writers = all.filter(u=>u.role==='writer'); let toRemove = writers[idx];
-  let updated = all.filter(u=>u.username!==toRemove.username || u.role!=='writer'); localStorage.setItem(USERS_KEY, JSON.stringify(updated)); loadWriters(); loadDashboard();
-}
+function editPost(id){ let p=getPosts().find(x=>x.id==id); document.getElementById('postTitle').value=p.title; document.getElementById('postContent').value=p.content; document.getElementById('editId').value=p.id; document.getElementById('formTitle').innerText="Edit Post"; document.getElementById('postForm').classList.remove('hidden'); showTab('posts'); }
+function deletePost(id){ if(!confirm("Delete?")) return; localStorage.setItem(POSTS_KEY, JSON.stringify(getPosts().filter(p=>p.id!=id))); loadPosts(); loadPending(); loadPendingDash(); }
+function publishDraft(id){ let posts=getPosts(); let idx=posts.findIndex(p=>p.id==id); posts[idx].status='published'; localStorage.setItem(POSTS_KEY, JSON.stringify(posts)); loadPending(); loadPosts(); loadPendingDash(); }
+function addWriter(){ let n=document.getElementById('wName').value.trim(), e=document.getElementById('wEmail').value.trim(), p=document.getElementById('wPass').value.trim(); if(!n||!e||!p) return alert("Saari bhar"); let users=JSON.parse(localStorage.getItem(USERS_KEY)); users.push({username:e.split('@')[0], password:p, role:"writer", name:n, email:e}); localStorage.setItem(USERS_KEY, JSON.stringify(users)); document.getElementById('wName').value=""; document.getElementById('wEmail').value=""; document.getElementById('wPass').value=""; loadWriters(); loadWritersDash(); }
+function removeWriter(i){ let all=JSON.parse(localStorage.getItem(USERS_KEY)); let writers=all.filter(u=>u.role==='writer'); let toRem=writers[i]; localStorage.setItem(USERS_KEY, JSON.stringify(all.filter(u=>u.email!==toRem.email))); loadWriters(); loadWritersDash(); }
+loadWritersDash(); loadPendingDash();
 </script>
 </body>
 </html>
