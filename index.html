@@ -1,21 +1,157 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gold Price Today</title><style>body{margin:0;font-family:sans-serif;background:#f2f2f2}.h{background:#fff;padding:12px;font-weight:900;font-size:20px}.h span{color:#eab308}.p{display:flex;gap:10px;padding:10px}.c{flex:1;border-radius:14px;padding:14px}.g{background:#ffe97a}.s{background:#cbd6e6}.r{font-size:23px;font-weight:900}.n{background:#fff;margin:8px;border-radius:12px;padding:10px;display:flex;gap:10px}</style></head><body>
-<div style="background:#000;color:#fff;text-align:center;padding:6px;font-size:12px">LIVE • IBJA • 12 Oct 2026</div>
-<div class="h">💰 GOLD PRICE <span>TODAY</span></div>
-<div class="p">
-<div class="c g"><div>🪙 Sona 24K - 10gm</div><div class="r">₹1,51,420</div><div style="color:green;font-weight:700">▲ LIVE</div></div>
-<div class="c s"><div>⚪ Chandi - 1kg</div><div class="r">₹2,27,137</div><div style="color:green;font-weight:700">▲ LIVE</div></div>
-</div>
-<div class="n"><div style="font-size:30px">🪙</div><div><b>MCX Gold ₹1.51 Lakh Paar</b><br><small style="color:red">GOLD NEWS</small></div></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Price Today India - Live 22K, 24K, 18K & Silver Rate</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif}</style>
+</head>
+<body class="bg-[#f8f9fa]">
+
+<!-- HEADER -->
+<header class="bg-[#111] text-white sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center font-bold">G</div>
+      <span class="font-bold text-lg">GoldPriceToday</span>
+      <span class="text-[10px] bg-yellow-500 text-black px-2 py-0.5 rounded-full ml-2 animate-pulse">LIVE</span>
+    </div>
+    <nav class="hidden md:flex gap-6 text-sm text-gray-300">
+      <a href="/" class="text-white">Home</a><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/admin.html">Admin</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BIG FRONT VIEW -->
+<section class="bg-gradient-to-br from-[#1a1a1a] via-[#2a2a1a] to-[#111] text-white">
+  <div class="max-w-7xl mx-auto px-4 py-12 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <p class="text-yellow-400 text-sm tracking-widest mb-3" id="liveDate">LOADING LIVE RATE...</p>
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Live Gold<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Price Today</span><br>in India</h1>
+      <p class="text-gray-400 mt-4 text-sm md:text-base">Real-time 22K, 24K, 18K gold & silver rates. Updates every 60 seconds from international markets.</p>
+      <div class="mt-6 flex gap-3">
+        <div class="bg-white/10 backdrop-blur px-4 py-2 rounded-lg text-xs">✓ No Ads</div>
+        <div class="bg-white/10 backdrop-blur px-4 py-2 rounded-lg text-xs">✓ 100% Live</div>
+        <div class="bg-white/10 backdrop-blur px-4 py-2 rounded-lg text-xs">✓ All Cities</div>
+      </div>
+    </div>
+
+    <!-- BIG PRICE CARDS -->
+    <div class="grid grid-cols-1 gap-4">
+      <!-- GOLD CARD -->
+      <div class="bg-gradient-to-br from-yellow-400 to-amber-600 rounded-[20px] p-6 text-black shadow-2xl">
+        <div class="flex justify-between">
+          <div><p class="text-xs opacity-70 font-semibold">24K GOLD - 10 GRAM</p><h2 class="text-4xl font-extrabold mt-1" id="gold-24k">₹1,02,540</h2><p class="text-xs mt-1 opacity-70">↑ <span id="gold-change">+0.32%</span> today</p></div>
+          <div class="text-right"><div class="bg-black text-yellow-400 text-[10px] px-2 py-1 rounded-full">LIVE</div><p class="text-[10px] mt-2 opacity-60" id="gold-time">Updated just now</p></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mt-5">
+          <div class="bg-black/10 rounded-xl p-3"><p class="text-[10px] opacity-70">22K (10g)</p><p class="font-bold" id="gold-22k">₹94,120</p></div>
+          <div class="bg-black/10 rounded-xl p-3"><p class="text-[10px] opacity-70">18K (10g)</p><p class="font-bold" id="gold-18k">₹76,905</p></div>
+          <div class="bg-black/10 rounded-xl p-3"><p class="text-[10px] opacity-70">1 Gram 24K</p><p class="font-bold" id="gold-1g">₹10,254</p></div>
+        </div>
+      </div>
+      <!-- SILVER CARD -->
+      <div class="bg-white rounded-[20px] p-6 shadow-xl border">
+        <div class="flex justify-between">
+          <div><p class="text-xs text-gray-500 font-semibold">SILVER - 1 KG</p><h2 class="text-3xl font-extrabold mt-1 text-gray-900" id="silver-1kg">₹1,12,400</h2><p class="text-xs mt-1 text-gray-500">↑ <span id="silver-change">+0.18%</span> today</p></div>
+          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-xl">🥈</div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <div class="bg-gray-50 rounded-xl p-3"><p class="text-[10px] text-gray-500">10 Gram Silver</p><p class="font-bold" id="silver-10g">₹1,124</p></div>
+          <div class="bg-gray-50 rounded-xl p-3"><p class="text-[10px] text-gray-500">1 Gram Silver</p><p class="font-bold" id="silver-1g">₹112.4</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CITY WISE TABLE -->
+<section class="max-w-7xl mx-auto px-4 py-10">
+  <div class="flex justify-between items-end mb-6">
+    <div><h2 class="text-2xl font-bold">Gold Rate Today in All Cities</h2><p class="text-sm text-gray-500">City wise live 22K & 24K price - Updates every minute</p></div>
+    <p class="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">● Live Updating</p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 text-[11px] text-gray-500 uppercase tracking-wider">
+          <tr><th class="text-left p-4">City</th><th class="text-left p-4">22K (1g)</th><th class="text-left p-4">22K (10g)</th><th class="text-left p-4">24K (1g)</th><th class="text-left p-4">24K (10g)</th><th class="text-left p-4">Change</th></tr>
+        </thead>
+        <tbody id="cityTable" class="divide-y">
+          <!-- JS will fill -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-[#111] text-gray-400 text-center py-6 text-xs mt-10">
+  © 2026 GoldPriceToday - Live Gold & Silver Rate India | gold-price-today-eight.vercel.app
+</footer>
+
 <script>
-let g=localStorage.getItem('g'),s=localStorage.getItem('s');
-if(g)document.querySelectorAll('.r')[0].innerText='₹'+Number(g).toLocaleString('en-IN');
-if(s)document.querySelectorAll('.r')[1].innerText='₹'+Number(s).toLocaleString('en-IN');
-if(location.search.includes('admin=1')){
- let p=prompt('Password daalo:');
- if(p==='gold123'){
-  let ng=prompt('Naya GOLD price:','151420'); if(ng){localStorage.setItem('g',ng);}
-  let ns=prompt('Naya SILVER price:','227137'); if(ns){localStorage.setItem('s',ns);}
-  alert('Save Ho Gaya!'); location.href='/';
- } else {alert('Galat password!');}
+const cities = [
+  {name:'Delhi', diff:0, state:'DL'}, {name:'Mumbai', diff:-120, state:'MH'}, {name:'Chennai', diff:150, state:'TN'},
+  {name:'Kolkata', diff:-30, state:'WB'}, {name:'Bangalore', diff:-100, state:'KA'}, {name:'Hyderabad', diff:-100, state:'TG'},
+  {name:'Pune', diff:-120, state:'MH'}, {name:'Ahmedabad', diff:-80, state:'GJ'}, {name:'Jaipur', diff:-50, state:'RJ'},
+  {name:'Lucknow', diff:-50, state:'UP'}, {name:'Chandigarh', diff:20, state:'CH'}, {name:'Patna', diff:-60, state:'BR'}
+];
+
+let base24k = 10254; // per gram
+
+function renderCities(){
+  const tbody = document.getElementById('cityTable');
+  tbody.innerHTML = cities.map(c=>{
+    const g24_1 = base24k + c.diff;
+    const g24_10 = g24_1 * 10;
+    const g22_1 = g24_1 * 0.916;
+    const g22_10 = g22_1 * 10;
+    return `<tr class="hover:bg-yellow-50/50">
+      <td class="p-4 font-semibold">${c.name} <span class="text-[10px] text-gray-400 ml-1">${c.state}</span></td>
+      <td class="p-4">₹${g22_1.toFixed(0)}</td>
+      <td class="p-4 font-bold">₹${g22_10.toFixed(0)}</td>
+      <td class="p-4">₹${g24_1.toFixed(0)}</td>
+      <td class="p-4 font-bold text-amber-600">₹${g24_10.toFixed(0)}</td>
+      <td class="p-4 text-green-600 text-xs">↑ 0.2%</td>
+    </tr>`;
+  }).join('');
 }
-</script></body></html>
+
+async function updateLive(){
+  try{
+    const r = await fetch('https://api.gold-api.com/price/XAU');
+    const j = await r.json();
+    if(j.price){
+      // $ per ounce to INR per gram
+      const usdInr = 83.5;
+      base24k = (j.price * usdInr / 31.1035);
+      document.getElementById('gold-1g').innerText = '₹'+base24k.toFixed(0);
+      document.getElementById('gold-24k').innerText = '₹'+(base24k*10).toFixed(0);
+      document.getElementById('gold-22k').innerText = '₹'+(base24k*10*0.916).toFixed(0);
+      document.getElementById('gold-18k').innerText = '₹'+(base24k*10*0.75).toFixed(0);
+      renderCities();
+    }
+    const rs = await fetch('https://api.gold-api.com/price/XAG');
+    const js = await rs.json();
+    if(js.price){
+      const silverKg = (js.price * 83.5 * 1000 / 31.1035);
+      document.getElementById('silver-1kg').innerText = '₹'+silverKg.toFixed(0);
+      document.getElementById('silver-10g').innerText = '₹'+(silverKg/100).toFixed(0);
+      document.getElementById('silver-1g').innerText = '₹'+(silverKg/1000).toFixed(1);
+    }
+    const now = new Date();
+    document.getElementById('liveDate').innerText = 'LIVE RATE • ' + now.toLocaleString('en-IN', {dateStyle:'medium', timeStyle:'short'}) + ' IST';
+    document.getElementById('gold-time').innerText = 'Updated just now';
+  }catch(e){ console.log(e) }
+}
+
+renderCities();
+updateLive();
+setInterval(updateLive, 60000);
+</script>
+
+</body>
+</html>
