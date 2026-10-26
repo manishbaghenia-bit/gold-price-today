@@ -135,13 +135,13 @@ async function updateLive(){
     }
     const now = new Date();
     document.getElementById('liveDate').innerText = 'LIVE RATE • ' + now.toLocaleString('en-IN', {dateStyle:'medium', timeStyle:'short'}) + ' IST - Real India Rate';
-    document.getElementById('gold-time').innerText = 'Updated just now - Real India Rate';
+    document.getElementById('gold-time').innerText = 'Updated just now - ' + now.toLocaleTimeString('en-IN');
   }catch(e){ console.log(e) }
 }
 
 renderCities();
 updateLive();
-setInterval(updateLive, 60000);
+setInterval(updateLive, 10000);
 </script>
 
 </body>
