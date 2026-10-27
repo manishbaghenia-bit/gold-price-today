@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /admin.html
-Disallow: /admin/
-
 Sitemap: https://gold-price-today-eight.vercel.app/sitemap.xml
