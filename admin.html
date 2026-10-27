@@ -2,103 +2,70 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Reading Settings - Gold Price Today Admin</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GoldPriceToday - Premium Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
 <style>
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f0f0f1;}
-  .header{background:#1d2327;color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-  .header a{color:#fff;text-decoration:none;font-size:14px;border:1px solid #555;padding:4px 10px;border-radius:3px}
-  .wrap{display:flex}
-  .sidebar{width:200px;background:#1d2327;min-height:100vh;color:#eee;padding-top:10px;position:sticky;top:46px}
-  .sidebar a{display:block;padding:12px 15px;font-size:14px;color:#eee;text-decoration:none;border-left:3px solid transparent}
-  .sidebar a:hover{background:#2c3338}
-  .sidebar a.active{background:#3858e9;color:#fff;border-left-color:#fff}
-  .main{flex:1;background:#fff;margin:20px;padding:25px;border-radius:2px}
-  .main h1{font-size:23px;font-weight:400;margin-bottom:20px}
-  .form-table{width:100%;max-width:800px;border-collapse:collapse}
-  .form-table th{width:200px;text-align:left;padding:18px 0;font-size:14px;vertical-align:top;font-weight:600}
-  .form-table td{padding:18px 0;font-size:14px}
-  .form-table tr{border-bottom:1px solid #eee}
-  select, input[type="number"]{border:1px solid #8c8f94;border-radius:3px;height:34px;padding:0 10px;min-width:200px;background:#fff}
-  input[type="number"]{min-width:70px;width:80px}
-  .btn{background:#2271b1;color:#fff;border:none;padding:9px 18px;border-radius:3px;cursor:pointer;margin-top:20px;font-size:14px}
-  .btn:hover{background:#135e96}
-  #toast{display:none;position:fixed;bottom:20px;right:20px;background:#1d2327;color:#fff;padding:10px 18px;border-radius:4px;font-size:13px}
+body{font-family:system-ui;background:#080808;color:#fff}
+.gold{background:linear-gradient(135deg,#D4AF37,#F9E27A,#B8941F)}
+.gold-text{background:linear-gradient(135deg,#D4AF37,#F9E27A);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.glass{background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.15);backdrop-filter:blur(20px)}
 </style>
 </head>
 <body>
-<div class="header">
-  <span>Gold Price Today Admin</span>
-  <a href="/index.html">View Site</a>
-</div>
-<div class="wrap">
-  <div class="sidebar">
-    <a href="/index.html">Dashboard</a>
-    <a href="/index.html">Gold Rates</a>
-    <a href="/about.html">Pages</a>
-    <a href="/blog/">Blog</a>
-    <a href="/admin.html" class="active">Reading Settings</a>
-    <a href="/sitemap.xml">SEO Settings</a>
-  </div>
-  <div class="main">
-    <h1>Reading Settings - Gold Price Website</h1>
-    <table class="form-table">
-      <tr>
-        <th>Your homepage displays</th>
-        <td>
-          <label style="display:block;margin-bottom:10px"><input type="radio" name="home" value="posts" checked onchange="toggleHome()"> Your latest gold rates</label>
-          <label style="display:block"><input type="radio" name="home" value="static" onchange="toggleHome()"> A static page</label>
-          <div id="staticOptions" style="margin-left:20px;margin-top:15px;display:none">
-            Homepage: <select id="homepageSelect"><option>Live gold price today India</option><option>Home</option></select><br><br>
-            Posts page: <select id="postsPageSelect"><option>Gold News</option><option>Blog</option></select>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th>Gold price pages show at most</th>
-        <td><input type="number" id="cityCount" value="10"> cities</td>
-      </tr>
-      <tr>
-        <th>Syndication feeds</th>
-        <td>
-          <label style="display:block;margin-bottom:8px"><input type="radio" name="feed" value="full" checked> Full text</label>
-          <label style="display:block"><input type="radio" name="feed" value="summary"> Summary (Best for Gold Site)</label>
-        </td>
-      </tr>
-      <tr>
-        <th>Search engine visibility</th>
-        <td><label><input type="checkbox" id="seoDiscourage"> Discourage search engines</label></td>
-      </tr>
-    </table>
-    <button class="btn" onclick="saveSettings()">Save Changes</button>
-    <p style="font-size:12px;color:#666;margin-top:15px;">For: https://gold-price-today-eight.vercel.app</p>
-  </div>
-</div>
-
-<div id="toast">Settings Saved!</div>
-
 <script>
-function toggleHome(){
-  const val = document.querySelector('input[name="home"]:checked').value;
-  document.getElementById('staticOptions').style.display = val === 'static' ? 'block' : 'none';
+const ADMIN_KEY="mannu@123";
+if(sessionStorage.getItem('gold_admin_ok')!=='yes'){
+  let p=prompt("🔐 GoldPriceToday Premium Admin\n\nEnter Secret Key:");
+  if(p!==ADMIN_KEY){
+    alert("❌ Access Denied!");
+    window.location.href="/index.html";
+  } else {
+    sessionStorage.setItem('gold_admin_ok','yes');
+  }
 }
-
-function saveSettings(){
-  const data = {
-    home: document.querySelector('input[name="home"]:checked').value,
-    cities: document.getElementById('cityCount').value,
-    feed: document.querySelector('input[name="feed"]:checked').value
-  };
-  localStorage.setItem('goldReadingSettings', JSON.stringify(data));
-  const toast = document.getElementById('toast');
-  toast.style.display='block';
-  setTimeout(()=>toast.style.display='none',2000);
-}
-
-// Load saved
-const saved = JSON.parse(localStorage.getItem('goldReadingSettings')||'{}');
-if(saved.cities) document.getElementById('cityCount').value = saved.cities;
 </script>
-
+<div class="flex min-h-screen">
+  <div class="w-[280px] bg-[#0F0F0F] border-r border-[#D4AF37]/20 p-6 hidden md:flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-3 mb-10">
+        <div class="w-11 h-11 gold rounded-2xl flex items-center justify-center text-black font-bold">G</div>
+        <div><h1 class="font-bold">GoldPriceToday</h1><p class="text-[10px] text-[#D4AF37] tracking-widest">PREMIUM ADMIN</p></div>
+      </div>
+      <nav class="space-y-2">
+        <a class="flex gap-3 px-4 py-3 rounded-xl gold text-black font-bold">⚙️ Reading Settings</a>
+        <a href="/index.html" class="flex gap-3 px-4 py-3 rounded-xl text-gray-400">🌐 View Site</a>
+      </nav>
+    </div>
+    <div class="text-[11px] text-gray-500">© 2026 Manish • mannu@123</div>
+  </div>
+  <div class="flex-1">
+    <div class="h-[76px] bg-[#0F0F0F]/80 border-b border-[#D4AF37]/10 flex justify-between items-center px-8 sticky top-0">
+      <h2 class="text-2xl font-semibold">Reading Settings</h2>
+      <button onclick="saveSettings()" class="gold text-black font-bold px-6 py-2.5 rounded-full">💾 Save</button>
+    </div>
+    <div class="p-8 grid grid-cols-12 gap-6">
+      <div class="col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="glass rounded-[20px] p-5"><p class="text-[10px] text-gray-400">24K LIVE</p><p class="text-xl font-bold gold-text mt-2">₹7,185 / g</p></div>
+        <div class="glass rounded-[20px] p-5"><p class="text-[10px] text-gray-400">CITIES</p><p class="text-xl font-bold mt-2" id="cityDisplay">10 Cities</p></div>
+        <div class="glass rounded-[20px] p-5"><p class="text-[10px] text-gray-400">SEO</p><p class="text-xl font-bold mt-2">Indexed ✓</p></div>
+        <div class="glass rounded-[20px] p-5"><p class="text-[10px] text-gray-400">SECURITY</p><p class="text-xl font-bold mt-2">mannu@123 🔒</p></div>
+      </div>
+      <div class="col-span-12 lg:col-span-8 glass rounded-[24px] p-8">
+        <h3 class="font-semibold mb-6">Homepage Configuration</h3>
+        <div class="space-y-6">
+          <label class="flex gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/10"><input type="radio" name="home" value="posts" checked> <span><b>Your latest gold rates</b></span></label>
+          <div class="flex justify-between p-5 rounded-2xl bg-white/[0.03] border border-white/10"><p>Show at most</p><div class="flex gap-2 items-center"><input id="cityCount" type="number" value="10" class="bg-[#1A1A1A] border border-white/10 rounded-xl h-11 w-20 text-center font-bold text-[#D4AF37]"> cities</div></div>
+          <button onclick="saveSettings()" class="w-full gold text-black font-bold h-12 rounded-full">Save Changes - mannu@123 Protected</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast" class="fixed bottom-6 right-6 bg-[#1A1A1A] border border-[#D4AF37]/30 px-6 py-3 rounded-full text-sm hidden">✅ Saved!</div>
+<script>
+function saveSettings(){const c=document.getElementById('cityCount').value;localStorage.setItem('goldReadingSettings',JSON.stringify({cities:c}));document.getElementById('cityDisplay').innerText=c+' Cities';const t=document.getElementById('toast');t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),2000)}
+</script>
 </body>
 </html>
