@@ -2,70 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GoldPriceToday - Premium Admin</title>
+<title>GoldPriceToday - Premium Dashboard</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{font-family:system-ui;background:#080808;color:#fff}
-.gold{background:linear-gradient(135deg,#D4AF37,#F9E27A,#B8941F)}
-.gold-text{background:linear-gradient(135deg,#D4AF37,#F9E27A);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.glass{background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.15);backdrop-filter:blur(20px)}
+*{font-family:'Plus Jakarta Sans',sans-serif}
+body{background:#060606;color:#fff}
+.bg-radial{background:radial-gradient(80% 120% at 20% 0%,rgba(212,175,55,0.18),transparent),radial-gradient(60% 80% at 100% 100%,rgba(212,175,55,0.12),transparent),#060606}
+.gold-glow{box-shadow:0 0 0 1px rgba(212,175,55,0.25),0 0 25px rgba(212,175,55,0.12),inset 0 1px 0 rgba(255,255,255,0.08)}
+.gold-btn{background:linear-gradient(180deg,#F9E27A,#D4AF37)}
+.glass-panel{background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border:1px solid rgba(212,175,55,0.18);backdrop-filter:blur(20px)}
+.menu-active{background:linear-gradient(90deg,#D4AF37,#B8941F);color:#000!important}
+.toggle{width:44px;height:24px;background:#2A2A2A;border-radius:999px;position:relative}
+.toggle.on{background:linear-gradient(90deg,#D4AF37,#B8941F)}
+.toggle:after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%}
+.toggle.on:after{transform:translateX(20px)}
 </style>
 </head>
-<body>
+<body class="bg-radial min-h-screen">
 <script>
-const ADMIN_KEY="mannu@123";
-if(sessionStorage.getItem('gold_admin_ok')!=='yes'){
-  let p=prompt("🔐 GoldPriceToday Premium Admin\n\nEnter Secret Key:");
-  if(p!==ADMIN_KEY){
-    alert("❌ Access Denied!");
-    window.location.href="/index.html";
-  } else {
-    sessionStorage.setItem('gold_admin_ok','yes');
-  }
+const KEY="mannu@123";
+if(sessionStorage.getItem('gold_admin')!=='ok'){
+ let p=prompt("🔐 GoldPriceToday Premium Dashboard\nEnter Password:");
+ if(p!==KEY){location.href="/";} else sessionStorage.setItem('gold_admin','ok')
 }
 </script>
-<div class="flex min-h-screen">
-  <div class="w-[280px] bg-[#0F0F0F] border-r border-[#D4AF37]/20 p-6 hidden md:flex flex-col justify-between">
-    <div>
-      <div class="flex items-center gap-3 mb-10">
-        <div class="w-11 h-11 gold rounded-2xl flex items-center justify-center text-black font-bold">G</div>
-        <div><h1 class="font-bold">GoldPriceToday</h1><p class="text-[10px] text-[#D4AF37] tracking-widest">PREMIUM ADMIN</p></div>
-      </div>
-      <nav class="space-y-2">
-        <a class="flex gap-3 px-4 py-3 rounded-xl gold text-black font-bold">⚙️ Reading Settings</a>
-        <a href="/index.html" class="flex gap-3 px-4 py-3 rounded-xl text-gray-400">🌐 View Site</a>
-      </nav>
-    </div>
-    <div class="text-[11px] text-gray-500">© 2026 Manish • mannu@123</div>
-  </div>
-  <div class="flex-1">
-    <div class="h-[76px] bg-[#0F0F0F]/80 border-b border-[#D4AF37]/10 flex justify-between items-center px-8 sticky top-0">
-      <h2 class="text-2xl font-semibold">Reading Settings</h2>
-      <button onclick="saveSettings()" class="gold text-black font-bold px-6 py-2.5 rounded-full">💾 Save</button>
-    </div>
-    <div class="p-8 grid grid-cols-12 gap-6">
-      <div class="col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="glass rounded-[20px] p-5"><p class="text-[10px] text-gray-400">24K LIVE</p><p class="text-xl font-bold gold-text mt-2">₹7,185 / g</p></div>
-        <div class="glass rounded-[20px] p-5"><p class="text-[10px] text-gray-400">CITIES</p><p class="text-xl font-bold mt-2" id="cityDisplay">10 Cities</p></div>
-        <div class="glass rounded-[20px] p-5"><p class="text-[10px] text-gray-400">SEO</p><p class="text-xl font-bold mt-2">Indexed ✓</p></div>
-        <div class="glass rounded-[20px] p-5"><p class="text-[10px] text-gray-400">SECURITY</p><p class="text-xl font-bold mt-2">mannu@123 🔒</p></div>
-      </div>
-      <div class="col-span-12 lg:col-span-8 glass rounded-[24px] p-8">
-        <h3 class="font-semibold mb-6">Homepage Configuration</h3>
-        <div class="space-y-6">
-          <label class="flex gap-4 p-4 rounded-2xl bg-white/[0.03] border border-white/10"><input type="radio" name="home" value="posts" checked> <span><b>Your latest gold rates</b></span></label>
-          <div class="flex justify-between p-5 rounded-2xl bg-white/[0.03] border border-white/10"><p>Show at most</p><div class="flex gap-2 items-center"><input id="cityCount" type="number" value="10" class="bg-[#1A1A1A] border border-white/10 rounded-xl h-11 w-20 text-center font-bold text-[#D4AF37]"> cities</div></div>
-          <button onclick="saveSettings()" class="w-full gold text-black font-bold h-12 rounded-full">Save Changes - mannu@123 Protected</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
+<div class="mx-4 md:mx-6 mt-4 h-[62px] glass-panel rounded-[16px] px-6 flex items-center justify-between">
+ <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full border border-[#D4AF37]/30 flex items-center justify-center">🪙</div><div><div class="font-bold text-[18px]">GoldPriceToday</div><div class="text-[12px] text-white/60">Admin - Premium Dashboard</div></div></div>
+ <div class="hidden md:flex items-center gap-3"><div class="h-9 bg-black/40 border border-white/10 rounded-full px-4 flex items-center text-xs text-white/40">Search users, cities, transactions...</div><div class="w-9 h-9 rounded-full gold-glow bg-gradient-to-br from-[#F9E27A] to-[#D4AF37] flex items-center justify-center text-black font-bold">A</div></div>
 </div>
-<div id="toast" class="fixed bottom-6 right-6 bg-[#1A1A1A] border border-[#D4AF37]/30 px-6 py-3 rounded-full text-sm hidden">✅ Saved!</div>
+
+<div class="flex gap-6 p-4 md:p-6">
+ <aside class="w-[220px] hidden md:flex flex-col"><div class="glass-panel rounded-[18px] p-3">
+   <div class="px-3 py-2 text-xs text-[#D4AF37]">☰ MENU</div>
+   <nav class="mt-2 space-y-1">
+    <a class="menu-active flex gap-3 px-4 py-2.5 rounded-xl text-sm font-bold">💎 Dashboard</a>
+    <a class="flex gap-3 px-4 py-2.5 rounded-xl text-sm text-white/70">📊 Price Management</a>
+    <a class="flex gap-3 px-4 py-2.5 rounded-xl text-sm text-white/70">📍 Cities & Pricing</a>
+    <a class="flex gap-3 px-4 py-2.5 rounded-xl text-sm text-white/70">👥 Users</a>
+    <a class="flex gap-3 px-4 py-2.5 rounded-xl text-sm text-white/70">📈 Analytics</a>
+    <a class="flex gap-3 px-4 py-2.5 rounded-xl text-sm text-white/70">💳 Transactions</a>
+    <a class="flex gap-3 px-4 py-2.5 rounded-xl text-sm text-white/70">📄 Reports</a>
+    <a class="flex gap-3 px-4 py-2.5 rounded-xl text-sm text-white/70">⚙️ Settings</a>
+   </nav>
+   <div class="mt-6 p-4 rounded-xl bg-black/40 border border-[#D4AF37]/20"><div class="text-xs font-semibold">Premium Plan</div><div class="text-[11px] text-white/50">Active • Pro Subscription</div></div>
+  </div></aside>
+
+ <main class="flex-1">
+  <div class="flex flex-col md:flex-row justify-between gap-4 mb-6">
+   <div><h1 class="text-[28px] font-extrabold">Dashboard Overview</h1><p class="text-sm text-white/50">Monitor live gold rates and manage city prices in real time</p></div>
+   <div class="flex gap-2"><button class="h-9 px-4 rounded-full border border-white/10 text-xs bg-black/30">🔄 Refresh Data</button><button class="h-9 px-4 rounded-full border border-white/10 text-xs bg-black/30">⬇ Export CSV</button><button onclick="updateRate()" class="h-9 px-5 rounded-full gold-btn text-black text-xs font-bold">Update Live Rate</button></div>
+  </div>
+
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+   <div class="glass-panel gold-glow rounded-[18px] p-5 text-center"><div class="text-3xl">🪙</div><div class="text-xs text-white/50 mt-2">24K Gold Live</div><div class="text-[22px] font-extrabold text-[#F9E27A] mt-1">₹7185 / gram</div><div class="text-[11px] text-emerald-300 mt-1">+0.82% ↑ Today</div></div>
+   <div class="glass-panel gold-glow rounded-[18px] p-5 text-center"><div class="text-sm font-bold">22K<br>22K</div><div class="text-xs text-white/50 mt-2">22K Gold Live</div><div class="text-[22px] font-extrabold text-[#F9E27A] mt-1">₹6587 / gram</div><div class="text-[11px] text-emerald-300 mt-1">+0.64% ↑ Today</div></div>
+   <div class="glass-panel gold-glow rounded-[18px] p-5 text-center"><div class="text-2xl">👥</div><div class="text-xs text-white/50 mt-2">Total Users</div><div class="text-[28px] font-extrabold mt-1">24,892</div><div class="text-[11px] text-blue-300 mt-1">↑ 312 New Today</div></div>
+   <div class="glass-panel gold-glow rounded-[18px] p-5 text-center"><div class="text-2xl">📈</div><div class="text-xs text-white/50 mt-2">Active Now</div><div class="text-[28px] font-extrabold mt-1">1,428</div><div class="text-[11px] text-emerald-400 mt-1">Online now • +8.2%</div></div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+   <div class="glass-panel rounded-[18px] p-5"><div class="flex justify-between"><h3 class="font-semibold text-[#F9E27A]">Live Gold Rate Controls</h3><div class="toggle on"></div></div><div class="text-xs text-white/50 mt-2">Market Status: ● LIVE - Updated just now</div>
+    <div class="mt-4 p-4 rounded-xl bg-black/50 border border-white/5 space-y-3"><div class="flex justify-between text-sm"><span>24K Gold Rate ₹/gram<br><b>7185</b></span><span class="text-emerald-400 text-xs">(+0.82%)</span></div><div class="flex justify-between text-sm"><span>22K Gold Rate<br><b>6587</b></span><span class="text-emerald-400 text-xs">(+0.64%)</span></div><div class="flex gap-2 pt-2"><button onclick="saveRates()" class="flex-1 h-9 rounded-full gold-btn text-black font-bold text-sm">Save Changes</button><button class="flex-1 h-9 rounded-full border border-white/10 text-sm">Reset</button></div></div>
+   </div>
+   <div class="glass-panel rounded-[18px] p-5"><h3 class="font-semibold text-[#F9E27A]">Analytics • 7-Day Gold Price Trend</h3><div class="mt-4 h-[200px] bg-black/30 rounded-xl border border-white/5 p-4"><canvas id="chart" class="w-full h-full"></canvas></div><div class="mt-3 text-[11px] text-[#F9E27A]">↗ Weekly Change: +1.24% &nbsp; Highest: ₹7,185 on 27 Oct</div></div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+   <div class="lg:col-span-7 glass-panel rounded-[18px] p-5"><h3 class="font-semibold text-[#F9E27A] mb-4">City-wise Price Editor</h3><table class="w-full text-xs"><thead class="text-white/40"><tr class="border-b border-white/10"><th class="text-left py-2">City</th><th>24K</th><th>22K</th><th>18K</th><th>Status</th></tr></thead><tbody class="text-[12px]"><tr class="border-b border-white/5"><td class="py-3">Mumbai •</td><td>7185</td><td>6587</td><td>5,388</td><td><span class="px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]">Active</span></td></tr><tr class="border-b border-white/5"><td class="py-3">Delhi</td><td>7210</td><td>6608</td><td>5,407</td><td><span class="px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]">Active</span></td></tr><tr class="border-b border-white/5"><td class="py-3">Bangalore</td><td>7175</td><td>6578</td><td>5,380</td><td><span class="px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]">Active</span></td></tr><tr class="border-b border-white/5"><td class="py-3">Chennai</td><td>7165</td><td>6569</td><td>5,372</td><td><span class="px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]">Active</span></td></tr><tr><td class="py-3">Kolkata</td><td>7190</td><td>6592</td><td>5,392</td><td><span class="px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-[10px]">Paused</span></td></tr></tbody></table></div>
+   <div class="lg:col-span-5 grid grid-cols-2 gap-4"><div class="glass-panel rounded-[18px] p-5 col-span-1"><h3 class="text-sm font-semibold">User Stats</h3><div class="mt-4 space-y-3 text-xs"><div>Premium Users 2,184</div><div>New Signups 312</div><div>Churn 1.8%</div></div></div><div class="glass-panel rounded-[18px] p-5 col-span-1"><h3 class="text-sm font-semibold">🏆 Top City</h3><div class="mt-2 font-bold">Mumbai – 32.4%</div><div class="mt-3 text-[11px]">Mumbai 32%<br>Delhi 24%<br>Bangalore 18%<br>Chennai 15%</div></div></div>
+  </div>
+ </main>
+</div>
+
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-3 rounded-full font-bold text-sm hidden">✅ Saved!</div>
 <script>
-function saveSettings(){const c=document.getElementById('cityCount').value;localStorage.setItem('goldReadingSettings',JSON.stringify({cities:c}));document.getElementById('cityDisplay').innerText=c+' Cities';const t=document.getElementById('toast');t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),2000)}
+function saveRates(){const t=document.getElementById('toast');t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),2000)}
+function updateRate(){saveRates()}
+const c=document.getElementById('chart');if(c){const ctx=c.getContext('2d');c.width=c.offsetWidth*2;c.height=c.offsetHeight*2;ctx.scale(2,2);const w=c.offsetWidth,h=c.offsetHeight;ctx.strokeStyle='#F9E27A';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(20,140);ctx.lineTo(80,90);ctx.lineTo(140,100);ctx.lineTo(200,110);ctx.lineTo(260,70);ctx.lineTo(320,85);ctx.lineTo(380,40);ctx.stroke()}
 </script>
 </body>
 </html>
