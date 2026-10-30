@@ -5,85 +5,95 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gold CMS Ultimate - Post Dalo</title>
 <style>
-:root{--gold:#FFD700;--bg:#0a0a0a;--card:#171717;--border:#2a2a2a}
-body{font-family:system-ui;background:var(--bg);color:#fff;padding:12px;max-width:1000px;margin:auto}
-h1{color:var(--gold);text-align:center}h2{color:var(--gold);font-size:15px}
-.card{background:var(--card);border:1px solid var(--border);padding:14px;border-radius:14px;margin-bottom:12px}
-label{font-size:12px;color:var(--gold);font-weight:bold;display:block;margin:8px 0 4px}
-input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#222;color:#fff;box-sizing:border-box}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-@media(max-width:600px){.grid3,.grid2{grid-template-columns:1fr}}
-.btn{background:var(--gold);color:#000;padding:14px;border:none;border-radius:10px;font-weight:bold;width:100%;cursor:pointer;margin-top:8px}
-.btn2{background:transparent;border:1px solid var(--gold);color:var(--gold)}
-#editor{min-height:200px;background:#fff;color:#000;padding:10px;border-radius:8px}
-.lock{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999}
-.lock-box{background:#171717;padding:25px;border-radius:15px;border:1px solid var(--gold);width:90%;max-width:350px;text-align:center}
-.hidden{display:none}.preview{white-space:pre-wrap;word-break:break-all;background:#111;padding:8px;border-radius:8px;font-size:10px;max-height:300px;overflow:auto;border:1px dashed var(--gold)}
-canvas{width:100%;border-radius:10px;border:1px solid var(--gold)}
-.bigbox{text-align:center;padding:20px;background:#111;border:2px solid gold;border-radius:15px;margin:20px 0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f0f0f;color:#fff;font-family:Inter,sans-serif;padding:20px}
+.card{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:20px;margin-bottom:20px}
+h2{color:#f5c542;margin-bottom:15px}
+label{display:block;margin:10px 0 5px;color:#aaa;font-size:14px}
+input,textarea,select{width:100%;background:#222;border:1px solid #444;color:#fff;padding:12px;border-radius:8px}
+button{background:linear-gradient(135deg,#f5c542,#ff9800);color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:10px;width:100%}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.price-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.small{font-size:12px;color:#888;margin-top:8px}
 </style>
 </head>
 <body>
-<div id="lock" class="lock"><div class="lock-box"><h2>🔒 Login</h2><input id="pass" type="password" placeholder="gold123"><button class="btn" onclick="if(document.getElementById('pass').value===(localStorage.getItem('adminPass')||'gold123')){document.getElementById('lock').style.display='none'}else alert('Wrong')">Login</button></div></div>
+<h1 style="text-align:center;margin-bottom:20px">🪙 Gold CMS Ultimate</h1>
 
-<h1>👑 Gold Price CMS - Post Dalo</h1>
-
-<div class="card"><h2>📊 Dashboard</h2><div class="grid3"><div style="background:#111;padding:10px;border-radius:8px;text-align:center"><b id="totalPosts">0</b><br><small>Posts</small></div><div style="background:#111;padding:10px;border-radius:8px;text-align:center"><b>Live</b><br><small>API On</small></div><div style="background:#111;padding:10px;border-radius:8px;text-align:center"><b>100%</b><br><small>Working</small></div></div></div>
-
-<div class="card"><h2>📈 STEP 1 - Price Bharo (Auto)</h2><div class="grid3"><button class="btn2 btn" onclick="fetchLivePrice()">🔄 Live Price Lao</button><input id="apiStatus" readonly placeholder="Status"><select id="apiCity"><option>Delhi</option><option>Mumbai</option><option>Palwal</option></select></div><div class="grid3" style="margin-top:10px"><div><label>22K - 10gm</label><input id="p22" placeholder="₹58000"></div><div><label>24K - 10gm</label><input id="p24" placeholder="₹63000"></div><div><label>18K - 10gm</label><input id="p18" placeholder="₹47000"></div></div></div>
-
-<div class="card"><h2>📝 STEP 2 - Post Details Bharo</h2><div class="grid3"><div><label>Date</label><input id="postDate" type="date"></div><div><label>City</label><select id="city"><option>Delhi Mumbai Palwal</option><option>Delhi</option><option>Mumbai</option><option>Palwal</option></select></div><div><label>Title</label><input id="title" value="Delhi me Aaj Sone Ka Bhav"></div></div><label>Meta Description (SEO)</label><input id="metaDesc" placeholder="Aaj delhi me sone ka bhav..."><label>Image Upload - Post ke liye</label><input id="imgFile" type="file" accept="image/*"><input id="imgUrl" placeholder="Image auto link" style="margin-top:6px"><label>Content - AI se likhwao</label><div style="display:flex;gap:6px;margin-bottom:6px"><button class="btn2 btn" style="width:auto;padding:6px 12px" onclick="generateAI()">✨ AI Writer se Likho</button><button class="btn2 btn" style="width:auto;padding:6px 12px" onclick="document.getElementById('editor').innerHTML=''">Clear</button></div><div id="editor" contenteditable="true"><p>Aaj ka sone ka bhav niche diya gaya hai...</p></div></div>
-
-<div class="card"><h2>🎨 STEP 3 - Thumbnail Banao (Optional)</h2><div class="grid2"><div><input id="thumbText" value="Aaj Ka Sone Ka Bhav"><button class="btn2 btn" onclick="makeThumb()">Generate</button><button class="btn2 btn" onclick="downloadThumb()">Download</button></div><div><canvas id="thumbCanvas" width="800" height="450"></canvas></div></div></div>
-
-<div class="bigbox">
-<h2 style="font-size:20px;margin:0">👇 YAHAN SE POST DALO 👇</h2>
-<p style="color:#888;font-size:12px">Upar sab bharne ke baad is button ko dabao</p>
-<button onclick="generateUltimate()" style="background:gold;color:#000;padding:18px 30px;font-size:20px;font-weight:bold;border:none;border-radius:12px;width:100%;margin-top:10px;cursor:pointer">🚀 POST DALO / PUBLISH KARO</button>
-<p style="font-size:11px;color:#aaa;margin-top:8px">Dabate hi file download hogi, use /blog/ folder me daal do</p>
+<div class="card">
+<h2>STEP 1: Live Price (Fixed)</h2>
+<div class="price-row">
+<div><label>24K (10g)</label><input id="p24" placeholder="₹62,000"></div>
+<div><label>22K (10g)</label><input id="p22" placeholder="₹58,500"></div>
+<div><label>18K (10g)</label><input id="p18" placeholder="₹46,500"></div>
+</div>
+<label>Status</label><input id="apiStatus" readonly placeholder="Manual bhi bhar sakte ho">
+<button onclick="fetchLivePrice()">🔴 Live Price Lao (Naya API)</button>
+<p class="small">Tip: Agar live thoda upar-neeche lage to Google pe "Gold price Delhi today" dekh ke manual edit kar sakta hai.</p>
 </div>
 
-<div id="output" class="hidden"><div class="card"><h2>✅ Post Ready - Ab Kya Karna Hai?</h2><label>File Name</label><input id="fName" readonly><div class="grid2"><button class="btn" onclick="downloadBlog()">📥 1. File Download Karo</button><button class="btn btn2" onclick="navigator.clipboard.writeText(document.getElementById('idxLink').textContent);alert('Link Copied! Ab index.html me paste karo')">📋 2. Index Link Copy Karo</button></div><label>Blog HTML Preview</label><div id="blogPreview" class="preview"></div><label>Index.html ke liye Link (is ko home page pe dalna hai)</label><div id="idxLink" class="preview" style="color:gold;font-size:12px"></div><label>Social Share Links</label><div id="finalShare" class="preview"></div><div style="background:#222;padding:10px;border-radius:8px;margin-top:10px;font-size:12px;color:#ccc">👉 GitHub pe jaake: 1) /blog/ folder me ye downloaded file upload karo 2) index.html me upar wala link paste karo 3) Commit - Post Live!</div></div></div>
+<div class="card">
+<h2>STEP 2: Post Details</h2>
+<label>Date</label><input id="postDate" type="date">
+<label>Title</label><input id="postTitle" placeholder="Gold Price in Delhi Today - 22K, 24K...">
+<label>Meta Description</label><textarea id="metaDesc" rows="2"></textarea>
+<label>Slug (file name)</label><input id="slug" placeholder="gold-price-delhi-today">
+</div>
+
+<div class="card">
+<h2>STEP 3: Content Editor</h2>
+<textarea id="editor" rows="15" placeholder="<h2>Aaj ka bhav...</h2>"></textarea>
+<button onclick="generateAI()">🤖 AI Writer</button>
+</div>
+
+<div class="card">
+<button onclick="publishPost()" style="font-size:18px;padding:18px;background:linear-gradient(135deg,#00e676,#00c853)">🚀 POST DALO / PUBLISH KARO</button>
+</div>
 
 <script>
-if(!localStorage.getItem('adminPass')) localStorage.setItem('adminPass','gold123');
-document.getElementById('postDate').valueAsDate=new Date();
-document.getElementById('imgFile').addEventListener('change',e=>{
-  const f=e.target.files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=ev=>{document.getElementById('imgUrl').value=ev.target.result; document.getElementById('editor').innerHTML+=`<br><img src="${ev.target.result}" style="width:100%;border-radius:10px"><br>`;};
-  r.readAsDataURL(f);
-});
+document.getElementById('postDate').valueAsDate = new Date();
 async function fetchLivePrice(){
-  document.getElementById('apiStatus').value='Fetching...';
+  const status = document.getElementById('apiStatus');
+  status.value='Fetching...';
   try{
-    let res=await fetch('https://api.gold-api.com/price/XAU'); let data=await res.json();
-    let usd=data.price; let inr=83.5; let perGram=(usd*inr)/31.1035;
-    document.getElementById('p24').value='₹'+Math.round(perGram*10);
-    document.getElementById('p22').value='₹'+Math.round(perGram*10*0.916);
-    document.getElementById('p18').value='₹'+Math.round(perGram*10*0.75);
-    document.getElementById('apiStatus').value='Live ✅ $'+usd;
-  }catch(e){let r=57000+Math.floor(Math.random()*1000); document.getElementById('p22').value='₹'+r; document.getElementById('p24').value='₹'+(r+5000); document.getElementById('p18').value='₹'+(r-10000); document.getElementById('apiStatus').value='Demo ✅';}
+    let goldRes = await fetch('https://api.gold-api.com/price/XAU');
+    let goldData = await goldRes.json();
+    let xauPrice = goldData.price;
+    let fxRes = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    let fxData = await fxRes.json();
+    let inrRate = fxData.rates.INR;
+    if(!xauPrice || !inrRate) throw new Error('fail');
+    let perGramINR = (xauPrice * inrRate) / 31.1035;
+    let price24 = Math.round(perGramINR * 10);
+    let price22 = Math.round(price24 * 0.916);
+    let price18 = Math.round(price24 * 0.75);
+    document.getElementById('p24').value = '₹' + price24.toLocaleString('en-IN');
+    document.getElementById('p22').value = '₹' + price22.toLocaleString('en-IN');
+    document.getElementById('p18').value = '₹' + price18.toLocaleString('en-IN');
+    status.value = 'Live ✅ 1oz=$' + xauPrice.toFixed(2) + ' | $1=₹' + inrRate.toFixed(2);
+  }catch(e){
+    status.value='API fail - Manual bharo';
+    alert('Live API fail. Google se dekh ke manual bhar do.');
+  }
 }
 function generateAI(){
-  let city=document.getElementById('city').value; let p22=document.getElementById('p22').value||'₹58000'; let p24=document.getElementById('p24').value||'₹63000';
-  let txt=`<p><b>${city} me aaj sone ka bhav me halki tezi dekhi gayi.</b> 22K sone ka bhav ${p22} aur 24K ka bhav ${p24} raha. Sarafa bazaar experts ke mutabik international market ke karan ye badlaav hai.</p><p>Palwal aur Mumbai me bhi same trend raha. Shaadi season ke karan demand badhne ki umeed hai. Nivesh se pehle jeweller se confirm kare.</p>`;
-  document.getElementById('editor').innerHTML+=txt;
+  let p22 = document.getElementById('p22').value || '₹58,500';
+  let p24 = document.getElementById('p24').value || '₹62,000';
+  let date = document.getElementById('postDate').value;
+  let title = document.getElementById('postTitle').value || 'Gold Price in Delhi Today';
+  document.getElementById('editor').value = `<h2>${title} - ${date}</h2><p>Delhi me aaj <strong>24K ${p24}/10g</strong> aur <strong>22K ${p22}/10g</strong>.</p><h3>Chart</h3><ul><li>24K: ${p24}</li><li>22K: ${p22}</li><li>18K: ${document.getElementById('p18').value}</li></ul>`;
 }
-function makeThumb(){const c=document.getElementById('thumbCanvas'); const ctx=c.getContext('2d'); ctx.fillStyle='#0f0f0f'; ctx.fillRect(0,0,800,450); ctx.fillStyle='#FFD700'; ctx.fillRect(0,0,800,80); ctx.fillStyle='#000'; ctx.font='bold 32px system-ui'; ctx.fillText(document.getElementById('thumbText').value,20,50); ctx.fillStyle='#FFD700'; ctx.font='bold 58px system-ui'; ctx.fillText(document.getElementById('p22').value||'₹58k',40,180); ctx.fillStyle='#fff'; ctx.font='24px system-ui'; ctx.fillText('22K Gold',40,210); ctx.fillStyle='#FFD700'; ctx.font='bold 58px system-ui'; ctx.fillText(document.getElementById('p24').value||'₹63k',40,300); ctx.fillStyle='#fff'; ctx.font='24px system-ui'; ctx.fillText('24K Gold',40,330);}
-function downloadThumb(){const c=document.getElementById('thumbCanvas'); const a=document.createElement('a'); a.download='thumb-'+Date.now()+'.png'; a.href=c.toDataURL(); a.click();}
-makeThumb();
-function generateUltimate(){
-  const title=document.getElementById('title').value; const dateVal=document.getElementById('postDate').value; const city=document.getElementById('city').value;
-  const p22=document.getElementById('p22').value; const p24=document.getElementById('p24').value; const p18=document.getElementById('p18').value;
-  const meta=document.getElementById('metaDesc').value||title; const content=document.getElementById('editor').innerHTML; const img=document.getElementById('imgUrl').value;
-  const d=new Date(dateVal); const dd=String(d.getDate()).padStart(2,'0'); const mm=String(d.getMonth()+1).padStart(2,'0'); const yyyy=d.getFullYear();
-  const fileName=`${yyyy}-${mm}-${dd}-gold-price-today-delhi-mumbai-palwal.html`;
-  const priceBox=`<div style="background:#1e1e1e;border:1px solid gold;border-radius:12px;padding:15px;margin:15px 0"><h3 style="color:gold;margin:0">📊 ${dd}/${mm}/${yyyy} - ${city}</h3><table style="width:100%;border-collapse:collapse;margin-top:10px;color:#fff"><tr style="background:#222"><th style="padding:8px;border:1px solid #333">Type</th><th style="padding:8px;border:1px solid #333">Price</th></tr><tr><td style="padding:8px;border:1px solid #333">22K</td><td style="padding:8px;border:1px solid #333;color:gold;font-weight:bold">${p22}</td></tr><tr><td style="padding:8px;border:1px solid #333">24K</td><td style="padding:8px;border:1px solid #333;color:gold;font-weight:bold">${p24}</td></tr><tr><td style="padding:8px;border:1px solid #333">18K</td><td style="padding:8px;border:1px solid #333">${p18}</td></tr></table></div>`;
-  const fullHtml=`<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>${title}</title><meta name="description" content="${meta}"><style>body{font-family:system-ui;background:#111;color:#eee;padding:15px;max-width:800px;margin:auto}h1{color:gold}img{max-width:100%;border-radius:12px}a{color:gold}</style></head><body><h1>${title}</h1><p><small>${dd}/${mm}/${yyyy} - ${city}</small></p>${img?`<img src="${img}" style="width:100%;border-radius:12px">`:''}${priceBox}<div>${content}</div><p><a href="/">← Back</a></p></body></html>`;
-  document.getElementById('fName').value=fileName; document.getElementById('blogPreview').textContent=fullHtml; document.getElementById('idxLink').textContent=`<a href="/blog/${fileName}" style="color:#FFD700">👉 ${title}</a>`; const shareUrl=`https://gold-price-today-eight.vercel.app/blog/${fileName}`; document.getElementById('finalShare').textContent=`WhatsApp: https://wa.me/?text=${encodeURIComponent(title+' '+shareUrl)}`; document.getElementById('output').classList.remove('hidden'); window._html=fullHtml; window._fName=fileName; let posts=JSON.parse(localStorage.getItem('posts')||'[]'); posts.push(fileName); localStorage.setItem('posts',JSON.stringify(posts)); document.getElementById('totalPosts').innerText=posts.length; window.scrollTo(0,document.body.scrollHeight);
+function publishPost(){
+  let date=document.getElementById('postDate').value;
+  let title=document.getElementById('postTitle').value;
+  let meta=document.getElementById('metaDesc').value;
+  let slug=document.getElementById('slug').value || 'gold-price-'+date;
+  let content=document.getElementById('editor').value;
+  if(!title||!content){alert('Title/Content bharo');return;}
+  let html=`<!DOCTYPE html><html><head><title>${title}</title><meta name="description" content="${meta}"></head><body><h1>${title}</h1>${content}</body></html>`;
+  let blob=new Blob([html],{type:'text/html'});
+  let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=slug+'.html';a.click();
 }
-function downloadBlog(){const b=new Blob([window._html],{type:'text/html'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=window._fName; a.click();}
 </script>
 </body>
 </html>
